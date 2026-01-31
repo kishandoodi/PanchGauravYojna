@@ -88,7 +88,7 @@
     const savedRows = @Html.Raw(Json.Serialize(ViewBag.List))
     const gauravGuid = '@Model.GauravGuid';
 </script>
-
+  
 <script nonce="@nonce" src="~/custom/gauravprofile _step2.js" asp-append-version="true"></script>  @* External JS file *@
 <script nonce="@nonce">
     $(document).on("click", "#btnSaveStep2", function () {
