@@ -1,0 +1,273 @@
+﻿@model MO.GauravProfile.Step1MO
+@{
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+}
+<style nonce="@nonce">
+    .progress-wrapper {
+        width: 100%;
+        margin: 20px 0;
+        position: relative;
+    }
+
+    .progress-line {
+        position: absolute;
+        top: 22px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #d9d9d9;
+        z-index: 1;
+    }
+
+    .progress-steps {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        z-index: 2;
+    }
+
+    .step-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 33.33%;
+        text-align: center;
+    }
+
+    .step-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #d5d5d5;
+        color: #555;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+        .step-circle.active {
+            background: #007bff;
+            color: white;
+        }
+
+    .step-title {
+        margin-top: 6px;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .view-trail-wrapper {
+        margin-top: 20px;
+        text-align: right; /* left / center bhi kar sakte ho */
+    }
+
+    .view-trail-btn {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .view-trail-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .view-trail-wrapper {
+        display: flex;
+        justify-content: space-between; /* left & right */
+        align-items: center;
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .remark-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-left: 5px solid #0d6efd;
+        padding: 10px 14px;
+        border-radius: 6px;
+        margin: 15px 0 20px 0;
+    }
+
+    .remark-text {
+        font-size: 14px;
+        color: #333;
+    }
+
+        .remark-text span {
+            color: #0d6efd;
+            font-weight: 500;
+        }
+
+    .view-trail-btn {
+        padding: 6px 14px;
+        background-color: #0d6efd;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 13px;
+    }
+
+        .view-trail-btn:hover {
+            background-color: #084298;
+        }
+
+    .page-header-wrapper {
+        position: relative;
+        min-height: 30px;
+    }
+
+    .back-link {
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 14px;
+        color: #0d6efd;
+        text-decoration: none;
+    }
+
+       /*  .back-link:hover {
+            text-decoration: underline;
+        } */
+
+
+</style>
+
+
+<div class="d-flex justify-content-end gap-2 mb-2">
+    <a href="/Profile/Dashboard"
+       class="btn btn-sm btn-secondary no-print">
+        ← Back To District Work Plan
+    </a>
+</div>
+
+
+<div class="progress-wrapper">
+    <div class="progress-line"></div>
+    <div class="progress-steps">
+        <div class="step-box">
+            <div class="step-circle @(Model.CurrentStep == 1 ? "active" : "")">1</div>
+            <div class="step-title">Step-1</div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-circle @(Model.CurrentStep == 2 ? "active" : "")">2</div>
+            <div class="step-title">Step-2</div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-circle @(Model.CurrentStep == 3 ? "active" : "")">3</div>
+            <div class="step-title">Step-3</div>
+        </div>
+    </div>
+</div>
+
+<!-- Progress bar se alag button -->
+<div class="remark-bar">
+    <div class="remark-text">
+        <strong>Last Remark:</strong>
+        <span id="lastRemarkText">Loading...</span>
+    </div>
+
+    <button class="view-trail-btn application-trail">
+        View All
+    </button>
+</div>
+
+<div class="modal fade" id="TrailModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">All Remark</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body" id="TrailModalContent">
+                <!-- Partial view will load here -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script nonce="@Context.Items["CSPNonce"]" src="~/custom/profileverification.js"></script>
+<script nonce="@nonce">
+    document.addEventListener("DOMContentLoaded", function () {
+
+       
+
+         document.querySelectorAll(".application-trail").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                openTrail();
+            });
+
+            GetLastRemark();
+        });
+
+
+    function GetLastRemark() {
+
+        var gauravGuid = '@Model.GauravGuid';
+
+        $.ajax({
+            url: '/Profile/GetLastRemark',
+            type: 'GET',
+            data: { gauravGuid: gauravGuid },
+            success: function (response) {
+
+                // ✅ agar JSON hai
+                if (response && response.lastRemark) {
+                    $('#lastRemarkText').text(response.lastRemark);
+                } else {
+                    $('#lastRemarkText').text('N/A');
+                }
+            },
+            error: function () {
+                $('#lastRemarkText').text('Failed to load');
+            }
+        });
+    }
+
+    });
+     function openTrail() {
+          var gauravGuidtrail = '@Model.GauravGuid';
+        $.ajax({
+            url: '/Profile/ViewTrail',
+            type: 'GET',
+            data: {
+                gauravGuid: gauravGuidtrail,
+           
+            },
+            success: function (response) {
+                $('#TrailModalContent').html(response);
+                //$('#profileModal').modal('show');
+
+               const modalEl = document.getElementById('TrailModal');
+
+            const modal = new bootstrap.Modal(modalEl, {
+                backdrop: false,   // ✅ backdrop remove
+                keyboard: true
+            });
+
+            modal.show();
+            },
+            error: function () {
+                alert('Failed to load profile');
+            }
+        });
+    }
+</script>

@@ -1,0 +1,210 @@
+﻿@model MO.ProfileUser.UserMO
+@{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+}
+<div class="">
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <div class="card radius-10">
+                <div class="card-header color-header headercolor7">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <h6 class="mb-0">Add User</h6>
+                        <a asp-action="ListUser" asp-controller="UserProfile" class="btn btn-sm btn-info d-flex align-items-center">
+                            List User
+                        </a>
+                    </div>
+                </div>            
+                <div class="card-body">
+                    <form asp-action="AddUser" asp-controller="UserProfile" method="post" id="frmAddUser">
+                        @Html.AntiForgeryToken()
+                        <input asp-for="Guid" type="hidden" />
+
+                        <div class="row g-3">
+                            <!-- Name -->
+                            <div class="col-lg-4">
+                                <label asp-for="Name" class="form-label"></label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter Name" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+
+                            <!-- Display Name -->
+                            <div class="col-lg-4">
+                                <label asp-for="DisplayName" class="form-label"></label>
+                                <input asp-for="DisplayName" class="form-control" placeholder="Enter Display Name" />
+                                <span asp-validation-for="DisplayName" class="text-danger"></span>
+                            </div>
+
+                            <!-- SSOID -->
+                            <div class="col-lg-4">
+                                <label asp-for="SSOID" class="form-label"></label>
+                                <input asp-for="SSOID" class="form-control" placeholder="Enter SSO ID" />
+                                <span asp-validation-for="SSOID" class="text-danger"></span>
+                            </div>
+
+                            <!-- Designation -->
+                            <div class="col-lg-4">
+                                <label asp-for="Designation" class="form-label"></label>
+                                <input asp-for="Designation" class="form-control" placeholder="Enter Designation" />
+                                <span asp-validation-for="Designation" class="text-danger"></span>
+                            </div>
+
+                            <!-- Mobile -->
+                            <div class="col-lg-4">
+                                <label asp-for="Mobile" class="form-label"></label>
+                                <input asp-for="Mobile" class="form-control" maxlength="10" placeholder="Enter Mobile" />
+                                <span asp-validation-for="Mobile" class="text-danger"></span>
+                            </div>
+
+                            <!-- WhatsApp Mobile -->
+                            <div class="col-lg-4">
+                                <label asp-for="WhatsappMobile" class="form-label"></label>
+                                <input asp-for="WhatsappMobile" class="form-control" maxlength="10" placeholder="Enter WhatsApp Mobile" />
+                                <span asp-validation-for="WhatsappMobile" class="text-danger"></span>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-lg-4">
+                                <label asp-for="EmailId" class="form-label"></label>
+                                <input asp-for="EmailId" class="form-control" placeholder="Enter Email" />
+                                <span asp-validation-for="EmailId" class="text-danger"></span>
+                            </div>
+
+                            <!-- User Level -->
+                            <div class="col-lg-4">
+                                <label asp-for="UserLevel" class="form-label"></label>
+                                <select id="ddlUserLevel" class="form-select form-select-sm" asp-for="UserLevel">
+                                    <option value="">-- Select Level --</option>
+                                    @foreach (var item in Model.UserLevelList)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="UserLevel" class="text-danger"></span>
+                            </div>
+
+                            <!--  -->
+                            <div class="col-lg-4">
+                                <label asp-for="GroupId" class="form-label"></label>
+                                <select id="ddlRole" class="form-select form-select-sm" asp-for="GroupId">
+                                    <option value="">-- Select Group --</option>
+                                    @foreach (var item in Model.GroupList)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="GroupId" class="text-danger"></span>
+                            </div>
+
+                            <!-- Department -->
+                            <div class="col-lg-4">
+                                <label asp-for="DepartmentId" class="form-label"></label>
+                                <select id="ddlDepartment" class="form-select form-select-sm" asp-for="DepartmentId">
+                                    <option value="">-- Select Department --</option>
+                                    @foreach (var item in Model.DepartmentList)
+                                    {
+                                        <option value="@item.Id">@item.DepartmentName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                            </div>
+
+                            <!-- District -->
+                            <div class="col-lg-4 district-div">
+                                <label asp-for="DistrictId" class="form-label"></label>
+                                <select id="ddlDistrict" class="form-select form-select-sm" asp-for="DistrictId">
+                                    <option value="">-- Select District --</option>
+                                    @foreach (var item in Model.DistrictList)
+                                    {
+                                        <option value="@item.Id">@item.DistrictName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="DistrictId" class="text-danger"></span>
+                            </div>   
+
+                            
+
+                            <!-- Submit -->
+                            <div class="col-12 text-end mt-3">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="bx bx-save me-1"></i> Save User
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script nonce="@Context.Items["CSPNonce"]?.ToString()">
+    (function () {
+        function findUserLevelElement() {
+            // Try id first
+            let el = document.getElementById("UserLevel");
+            if (el) return el;
+
+            // Try name (asp-for often renders name attribute)
+            el = document.querySelector('select[name="UserLevel"]');
+            if (el) return el;
+
+            // Try common alternative names (if you used UserLevelId or Model prefix)
+            el = document.querySelector('select[name$=".UserLevel"], select[id$="UserLevel"], select[name$="UserLevelId"], select[id$="UserLevelId"]');
+            if (el) return el;
+
+            // Last-resort: first select with option values that look like levels (0/1/2)
+            const selects = document.querySelectorAll("select");
+            for (const s of selects) {
+                // Heuristic: at least two options and option values are numeric
+                if (s.options.length >= 2 && !isNaN(Number(s.options[0].value))) {
+                    return s;
+                }
+            }
+
+            return null;
+        }
+
+        function toggleFields() {
+            const userLevelEl = findUserLevelElement();
+            if (!userLevelEl) return; // nothing to do if element not found
+
+            const level = userLevelEl.value; // string
+            const districtDivs = document.querySelectorAll(".district-div");
+            const groupDivs = document.querySelectorAll(".group-div");
+
+            if (level === "1" || level === "State" ) {
+                // State Level
+                districtDivs.forEach(div => div.style.display = "none");
+                //groupDivs.forEach(div => div.style.display = "none");
+            }
+            else if (level === "2" || level === "District") {
+                // District Level
+                districtDivs.forEach(div => div.style.display = "block");
+                //groupDivs.forEach(div => div.style.display = "block");
+            } else {
+                // Default: show both (or adapt as needed)
+                districtDivs.forEach(div => div.style.display = "block");
+                //groupDivs.forEach(div => div.style.display = "block");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // run on load
+            toggleFields();
+
+            // attach change listener (if element found)
+            const userLevelEl = findUserLevelElement();
+            if (userLevelEl) {
+                userLevelEl.addEventListener("change", toggleFields);
+            }
+        });
+    })();
+</script>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

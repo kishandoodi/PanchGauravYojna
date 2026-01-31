@@ -1,0 +1,306 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LayoutOut.cshtml";
+}
+@* <link href="~/landing/css/owl.carousel.css" rel="stylesheet" /> *@
+<style>
+
+
+    /* --------------- teams ------------- */
+    #teams {
+        position: relative;
+    }
+
+        #teams p.small-head {
+            font-family: Lexend;
+            font-size: 18px;
+            color: #F59E0B;
+            font-weight: 500;
+            padding-left: 50px;
+            margin-bottom: 0;
+            position: relative;
+        }
+
+            #teams p.small-head::before {
+                content: '';
+                width: 40px;
+                height: 2px;
+                position: absolute;
+                left: 0;
+                background-color: #F59E0B;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+            }
+
+        #teams h3 {
+            color: #3A332D;
+            font-family: Lexend;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 0px;
+        }
+
+        #teams .team-cont {
+            position: relative;
+        }
+
+        #teams .team-comp {
+            position: absolute;
+            bottom: -38px;
+            background-color: #FFAA1B;
+            width: 77%;
+            padding: 12px 30px 16px;
+            left: 20px;
+            border-radius: 14px 8px 14px 14px;
+            transition: 0.3s ease-in-out;
+        }
+
+            /* #teams .team-comp::after {
+                content: '';
+                background-color: #FFAA1B;
+                width: 45px;
+                height: 100%;
+                position: absolute;
+                right: -20px;
+                bottom: 0;
+                transition: 0.3s ease-in-out;
+                clip-path: polygon( 98.072% 91.203%,98.072% 91.203%,98.422% 92.54%,98.313% 93.842%,97.782% 95.083%,96.865% 96.239%,95.598% 97.285%,94.016% 98.196%,92.157% 98.949%,90.056% 99.516%,87.749% 99.875%,85.272% 100%,14.552% 100%,14.552% 100%,12.418% 99.907%,10.393% 99.636%,8.505% 99.203%,6.781% 98.622%,5.248% 97.908%,3.933% 97.076%,2.863% 96.14%,2.065% 95.115%,1.567% 94.016%,1.394% 92.858%,1.394% 7.143%,1.394% 7.143%,1.567% 5.985%,2.065% 4.886%,2.863% 3.861%,3.933% 2.925%,5.248% 2.093%,6.781% 1.379%,8.505% 0.798%,10.393% 0.365%,12.418% 0.094%,14.552% 0.001%,47.677% 0.001%,47.677% 0.001%,49.477% 0.067%,51.212% 0.262%,52.862% 0.578%,54.408% 1.006%,55.832% 1.538%,57.116% 2.167%,58.241% 2.884%,59.188% 3.683%,59.94% 4.553%,60.477% 5.489%,98.072% 91.203% );
+            } */
+
+        #teams .owl-nav .owl-prev {
+            margin-right: 8px !important;
+        }
+
+        #teams .owl-carousel .owl-nav button:hover {
+            background-color: #FFAA1B;
+        }
+
+        #teams .owl-item:hover .team-comp::after, #teams .owl-item:hover .team-comp {
+            background-color: #FF5023;
+        }
+
+        #teams .team-comp a:hover {
+            color: #1B1C57;
+        }
+
+        #teams .team-comp a {
+            color: #FFF;
+            font-family: Lexend;
+            font-size: 17px;
+            font-weight: 600;
+            transition: 0.3s ease-in-out;
+        }
+
+        #teams .team-comp p {
+            color: #FFF;
+            font-family: Poppins;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        #teams .owl-carousel {
+            display: block;
+        }
+
+        #teams .owl-stage-outer {
+            margin-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        #teams .owl-item img {
+            width: 100% !important;
+        }
+
+        #teams .owl-carousel .owl-nav {
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translateY(-100px);
+        }
+
+            #teams .owl-carousel .owl-nav button, #teams .owl-dots .owl-dot:focus {
+                outline: none;
+            }
+
+            #teams .owl-carousel .owl-nav i {
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                font-style: normal;
+            }
+
+        #teams .owl-dots {
+            text-align: center;
+            margin-top: 3%;
+        }
+
+            #teams .owl-dots .owl-dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 2px;
+                border: none;
+                margin: 4px 6px;
+                background-color: #d8d6d5;
+            }
+
+                #teams .owl-dots .owl-dot.active {
+                    background-color: #FF5023;
+                }
+
+        #teams .owl-nav .owl-prev, #teams .owl-nav .owl-next {
+            font-size: 16px;
+            padding: 10px 20px !important;
+            border-radius: 50px;
+            border: none;
+            color: #3C4563;
+            background-color: #E0E3EB;
+            margin: 4px;
+        }
+
+        #teams .owl-nav button:hover {
+            background-color: #FF5023;
+            color: #fff;
+        }
+</style>
+<section id="about_nicsi">
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="teams-size">
+                <div class="our-team-head wow fadeInUp" data-wow-duration="1s" style="visibility: visible; animation-duration: 1s; animation-name: fadeInUp;">
+                    <h2 class="screen__reader">Event Gallery</h2>                    
+                </div>
+                <div class="owl-carousel wow fadeInUp owl-loaded owl-drag" data-wow-duration="1s" style="visibility: visible; animation-duration: 1s; animation-name: fadeInUp;">
+                    <div class="owl-stage-outer">
+                        <div class="row owl-stage" id="dvEvent">
+                            <div class="owl-item col-3" style="margin-bottom:4%">
+                                <div class="team-cont">
+                                    <div class="image">
+                                        <img width="295" height="400" src="/Landing/Gallery/Events/28th_March_Bhilwara.jpeg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" style="border-radius:15px" alt="" decoding="async" srcset="/Landing/Gallery/Events/28th_March_Bhilwara.jpeg" sizes="(max-width: 295px) 100vw, 295px">
+                                    </div>
+                                    <div class="team-comp">
+                                        <p class="m-0 designation">Panch Gaurav  2024-25</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item col-3" style="margin-bottom:4%">
+                                <div class="team-cont">
+                                    <div class="image">
+                                        <img width="295" height="400" src="/Landing/Gallery/Events/Panch_Gaurav_Program_28th_March_Bhilwara.jpeg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" style="border-radius:15px" alt="" decoding="async" srcset="/Landing/Gallery/Events/Panch_Gaurav_Program_28th_March_Bhilwara.jpeg" sizes="(max-width: 295px) 100vw, 295px">
+                                    </div>
+                                    <div class="team-comp">
+                                        <p class="m-0 designation">Panch Gaurav  2024-25</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item col-3" style="margin-bottom:4%">
+                                <div class="team-cont">
+                                    <div class="image">
+                                        <img width="295" height="400" src="/Landing/Gallery/Events/2.jpeg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" style="border-radius:15px" alt="" decoding="async" srcset="/Landing/Gallery/Events/2.jpeg" sizes="(max-width: 295px) 100vw, 295px">
+                                    </div>
+                                    <div class="team-comp">
+                                        <p class="m-0 designation">Panch Gaurav  2024-25</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item col-3" style="margin-bottom:4%">
+                                <div class="team-cont">
+                                    <div class="image">
+                                        <img width="295" height="400" src="/Landing/Gallery/Events/4.jpeg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" style="border-radius:15px" alt="" decoding="async" srcset="/Landing/Gallery/Events/4.jpeg" sizes="(max-width: 295px) 100vw, 295px">
+                                    </div>
+                                    <div class="team-comp">
+                                        <p class="m-0 designation">Panch Gaurav  2024-25</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item col-3" style="margin-bottom:4%">
+                                <div class="team-cont">
+                                    <div class="image">
+                                        <img width="295" height="400" src="/Landing/Gallery/Events/6.jpeg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" style="border-radius:15px" alt="" decoding="async" srcset="/Landing/Gallery/Events/6.jpeg" sizes="(max-width: 295px) 100vw, 295px">
+                                    </div>
+                                    <div class="team-comp">
+                                        <p class="m-0 designation">Panch Gaurav  2024-25</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item col-3" style="margin-bottom:4%">
+                                <div class="team-cont">
+                                    <div class="image">
+                                        <img width="295" height="400" src="/Landing/Gallery/Events/5.jpeg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" style="border-radius:15px" alt="" decoding="async" srcset="/Landing/Gallery/Events/5.jpeg" sizes="(max-width: 295px) 100vw, 295px">
+                                    </div>
+                                    <div class="team-comp">
+                                        <p class="m-0 designation">Panch Gaurav  2024-25</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item col-3" style="margin-bottom:4%">
+                                <div class="team-cont">
+                                    <div class="image">
+                                        <img width="295" height="400" src="/Landing/Gallery/Events/1.jpeg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" style="border-radius:15px" alt="" decoding="async" srcset="/Landing/Gallery/Events/1.jpeg" sizes="(max-width: 295px) 100vw, 295px">
+                                    </div>
+                                    <div class="team-comp">
+                                        <p class="m-0 designation">Panch Gaurav  2024-25</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item col-3" style="margin-bottom:4%">
+                                <div class="team-cont">
+                                    <div class="image">
+                                        <img width="295" height="400" src="/Landing/Gallery/Events/8.jpeg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" style="border-radius:15px" alt="" decoding="async" srcset="/Landing/Gallery/Events/8.jpeg" sizes="(max-width: 295px) 100vw, 295px">
+                                    </div>
+                                    <div class="team-comp">
+                                        <p class="m-0 designation">Panch Gaurav  2024-25</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @* <div class="owl-nav">
+                    <button role="presentation" class="owl-prev" fdprocessedid="jwjeyg"><i class="fas fa-chevron-left"></i></button>
+                    <button role="presentation" class="owl-next disabled" fdprocessedid="realqs"><i class="fas fa-chevron-right"></i></button>
+                    </div> *@
+                    @*  <div class="owl-dots">
+                    <button class="owl-dot" fdprocessedid="gpuz8m"><span></span></button>
+                    <button class="owl-dot active" fdprocessedid="qtsfpo"><span></span></button></div>
+                    </div> *@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/custom/eventgalleryMaster.js" asp-append-version="true"></script>
+@section Scripts{
+    <script asp-append-version="true">
+        eventgallery.getEventPagelist();
+    </script>
+}
+@* <script src="~/landing/js/owl.carousel.min.js"></script>
+<script>
+    var owl = jQuery('#teams .owl-carousel');
+    owl.owlCarousel({
+        margin: 20,
+        nav: true,
+        autoplay: true,
+        lazyLoad: true,
+        autoplayTimeout: 3000,
+        loop: false,
+        dots: true,
+        navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
+        responsive: {
+            0: {
+                items: 1
+            },
+            576: {
+                items: 2
+            },
+            992: {
+                items: 3
+            },
+            1200: {
+                items: 4
+            }
+        },
+        autoplayHoverPause: true,
+        mouseDrag: true
+    });
+                </script> *@

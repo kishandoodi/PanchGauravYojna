@@ -1,0 +1,168 @@
+﻿@{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var user = HttpContextAccessor.HttpContext.User;
+    var isAuthenticated = user.Identity.IsAuthenticated;
+    var district = user.FindFirst("DistrictName")?.Value;
+    var name = user.FindFirst("UserName")?.Value;
+    var role = user.FindFirst("RoleId")?.Value;
+    var Departmet = user.FindFirst("Department")?.Value;
+    var userlevel = user.FindFirst("UserLevel")?.Value;
+}
+@{
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+}
+<style nonce="@nonce">
+    .display_none {
+        display: none;
+    }
+
+    .readonly_text {
+        background-color: #ececec;
+    }
+
+    .text_align_center {
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .error_lbl {
+        color: red;
+        font-size: 13px;
+    }
+</style>
+<div class="">
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <div class="card radius-10">
+                <div class="card-header color-header headercolor7">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <!-- Title -->
+                        <h6 class="mb-0">Indicator Target Master</h6>
+
+                        <!-- Back Button -->
+                        <a asp-action="Dashboard" asp-controller="Indicator" class="btn btn-sm btn btn-info d-flex align-items-center">
+                            <i class="bx bx-arrow-back me-1"></i> Back
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="hidden" id="Guid" name="Guid" />
+                        <input type="hidden" id="hiddenroleid" value="@role" />
+                        <input type="hidden" id="hiddendepartmentid" value="@Departmet" />
+                        <input type="hidden" id="hiddengauravid" />
+                        <input type="hidden" id="hiddendistrictid" />
+                        <div class="form-group row">
+                            @if (role == "2")
+                            {
+                                <div class="col-lg-3">
+                                    <label>District</label>
+                                    <select class="form-select form-select-sm" name="District" id="District">
+                                    </select>
+                                    <div>
+                                        <label for="error" class="mt-0 error_lbl" id="errorDistrict" style=""></label>
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-lg-3">
+                                <label>Gaurav</label>
+                                <select class="form-select form-select-sm" name="Gaurav" id="Gaurav">
+                                </select>
+                                <div>
+                                    <label for="error" class="mt-0 error_lbl" id="errorGaurav"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12" id="divresult" style="display:block">
+                            <div class="">
+                                <table class="table table-bordered" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No.</th>
+                                            <th>Indicator</th>
+                                            <th>Unit</th>
+                                            <th>BaseLine Status (2024-25)</th>
+                                            <th>Target (2025-26)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable">
+
+                                        @*  <tr>
+                                            <td colspan="5">Name Of Crop : Mustared</td>
+                                        </tr>
+                                        <tr>
+                                            <th>1</th>
+                                            <th>Product</th>
+                                            <th>Metrics</th>
+                                            <th><input type="text" class="form-control form-control-sm mb-3" value="" placeholder="" style="border:1px solid #000" ></th>
+                                            <th><input type="text" class="form-control form-control-sm mb-3" value="" placeholder="" style="border:1px solid #000"></th>
+                                        </tr>       *@                                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-2 offset-10">
+                        <button type="button" onclick="progress.savedata()" class="btn btn-success display_none" id="btnSave">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/custom/common.js"></script>
+@* <script src="~/custom/Common.js" asp-append-version="true"></script> *@
+<script src="~/custom/progress.js" asp-append-version="true" nonce="@nonce"></script>
+@section Scripts {
+    <script nonce="@nonce">
+        $(function () {
+            common.BindDropdown("/Master/BindGauravDropDown", "Gaurav", "Gaurav", $('#hiddengauravid').val());
+            common.BindDropdown("/Master/BindDistrictDropDown", "District", "District", $('#hiddendistrictid').val());
+        });
+    </script>
+    <script nonce="@Context.Items["CSPNonce"]">
+        document.addEventListener('DOMContentLoaded', function () {
+            const districtEl = document.getElementById('District');
+            if (districtEl) {
+                districtEl.addEventListener('change', function () {
+                    progress.getdata();
+                });
+            }
+
+            const gauravEl = document.getElementById('Gaurav');
+            if (gauravEl) {
+                gauravEl.addEventListener('change', function () {
+                    progress.getdata();
+                });
+            }
+            // button save
+            document.getElementById('btnSave')?.addEventListener('click', function () {
+            progress.savedata();
+        });
+        });
+            $(document).on('keypress', '.alphanumeric', function (e) {
+                var regex = /^[0-9a-zA-Z ]$/;
+                var key = String.fromCharCode(e.which);
+                if (!regex.test(key)) {
+                    e.preventDefault();
+                }
+            });
+            $(document).on('paste', '.alphanumeric', function (e) {
+            e.preventDefault();
+            var pastedData = (e.originalEvent || e).clipboardData.getData('text');
+            var cleanData = pastedData.replace(/[^0-9a-zA-Z ]/g, '');
+            document.execCommand('insertText', false, cleanData);
+        });
+
+    </script>
+}

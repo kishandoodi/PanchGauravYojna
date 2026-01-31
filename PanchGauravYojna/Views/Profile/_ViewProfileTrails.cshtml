@@ -1,0 +1,32 @@
+﻿@model List<MO.GauravProfile.ProfileBasicTrails>
+
+<table class="table table-bordered table-sm">
+    <thead class="table-light">
+        <tr>
+            <th>Remark</th>
+            <th>RemarkedBy</th>
+            <th>Remark Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Remark</td>
+                    <td>@item.CreatedBy</td>
+                    <td>@item.CreatedDate.ToString("dd-MMM-yyyy HH:mm")</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" class="text-center text-muted">
+                    No trail found
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

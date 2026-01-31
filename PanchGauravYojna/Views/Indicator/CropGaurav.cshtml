@@ -1,0 +1,229 @@
+﻿@{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var user = HttpContextAccessor.HttpContext.User;
+    var isAuthenticated = user.Identity.IsAuthenticated;
+    var district = user.FindFirst("DistrictName")?.Value;
+    var name = user.FindFirst("UserName")?.Value;
+    var role = user.FindFirst("RoleId")?.Value;
+    var Departmet = user.FindFirst("Department")?.Value;
+    var userlevel = user.FindFirst("UserLevel")?.Value;
+}
+<div class="">
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <div class="card radius-10">
+                <div class="card-header color-header headercolor7">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <!-- Title -->
+                        <h6 class="mb-0">Indicator Target Master</h6>
+
+                        <!-- Back Button -->
+                        <a asp-action="Dashboard" asp-controller="Indicator" class="btn btn-sm btn btn-info d-flex align-items-center">
+                            <i class="bx bx-arrow-back me-1"></i> Back
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="hidden" id="Guid" name="Guid" />
+                        <input type="hidden" id="hiddenroleid" value="@role" />
+                        <input type="hidden" id="hiddendepartmentid" value="@Departmet" />
+                        <input type="hidden" id="hiddengauravid" />
+                        <input type="hidden" id="hiddendistrictid" />
+                        <div class="form-group row">
+                            @if (role == "2")
+                            {
+                                <div class="col-lg-3">
+                                    <label>District</label>
+                                    <select class="form-select form-select-sm" name="District" id="District" onchange="gauravQuestion.getdata()">
+                                    </select>
+                                    <div>
+                                        <label for="error" class="mt-0" id="errorDistrict" style="color:red; font-size:13px;"></label>
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-lg-3">
+                                <label>Gaurav</label>
+                                <select class="form-select form-select-sm" name="Gaurav" id="Gaurav" onchange="gauravQuestion.getdata()">
+                                </select>
+                                <div>
+                                    <label for="error" class="mt-0" id="errorGaurav" style="color:red; font-size:13px;"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-12" id="divresult" style="display:block">
+                            <h2>पंच गौरव कार्यक्रम</h2>
+                            <p>वित्तीय वर्ष 2025–26</p>
+                            <h5>1. प्रस्तावना</h5>
+                            <p>
+                                पंच गौरव कार्यक्रम राजस्थान सरकार की एक पहल है, जिसका उद्देश्य प्रत्येक जिले की विशिष्ट पहचान,
+                                एक जिला-एक मीत, एक जिला-एक उत्पाद, एक जिला-एक वन्य जीव जाति, एक जिला-एक खेल,
+                                और एक जिला-एक पर्यटन स्थल के संरक्षण, समन्वय और विकास के माध्यम से आर्थिक, सांस्कृतिक,
+                                और पर्यावरणीय प्रगति को बढ़ावा देना है।
+                            </p>
+                            <h5>2. जिला प्रोफाइल </h5>
+                            <h6>2.1 जिले की भोगोलोक एंड सांस्कृतिक विसीसताये  </h6>
+                            <p>
+                                <textarea rows="5" cols="100" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId"></textarea>
+                            </p>
+                            <h6>2.2 जिले की प्रमुख आर्थिक गतिविधिया  </h6>
+                            <p>
+                                <textarea rows="5" cols="100" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId"></textarea>
+                            </p>
+                            <h5>3. चिन्हित पंच गौरव का विवरडन  </h5>
+                            <div>
+                                <table class="table table-bordered" border="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Gaurav</th>
+                                            <th>chayanit gaurav ka nanme</th>
+                                            <th>vivran</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>upaj</td>
+                                            <td><input type="text" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId" /></td>
+                                            <td><textarea rows="2" cols="20" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>utpad</td>
+                                            <td><input type="text" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId" /></td>
+                                            <td><textarea rows="2" cols="20" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId"></textarea></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>vanspati prajati</td>
+                                            <td><input type="text" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId" /></td>
+                                            <td><textarea rows="2" cols="20" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId"></textarea></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>khel</td>
+                                            <td><input type="text" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId" /></td>
+                                            <td><textarea rows="2" cols="20" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId"></textarea></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>praytan sthal</td>
+                                            <td><input type="text" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId" /></td>
+                                            <td><textarea rows="2" cols="20" class="form-control" placeholder="अपना उत्तर यहाँ लिखें..." name="q.questionMasterId"></textarea></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="">
+                                <table class="table table-bordered" border="0">
+                                    @*  <thead>
+                                        <tr>
+                                            <th>S.No.</th>
+                                            <th>Indicator</th>
+                                            <th>Unit</th>
+                                            <th>BaseLine Status (2024-25)</th>
+                                            <th>Target (2025-26)</th>
+                                        </tr>
+                                    </thead> *@
+                                    <tbody id="myTable">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-2 offset-10">
+                        <button type="submit" onclick="progress.savedata()" class="btn btn-success" id="btnSave" disabled>Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/custom/Common.js" asp-append-version="true"></script>
+<script src="~/custom/GauravQuestion.js" asp-append-version="true"></script>
+@section Scripts {
+    <script>
+        $(function () {
+            common.BindDropdown("/Master/BindGauravDropDown", "Gaurav", "Gaurav", $('#hiddengauravid').val());
+            common.BindDropdown("/Master/BindDistrictDropDown", "District", "District", $('#hiddendistrictid').val());
+        });
+    </script>
+}
+@* <script>
+    $(document).ready(function () {
+        const questions = [
+            { DisplayNumber: "1.1", QuestionText: "चयनित उपज का परिचय", IsSubQuestion: false },
+            { DisplayNumber: "1.2", QuestionText: "चयनित उपज की विशेषताएँ", IsSubQuestion: false },
+            { DisplayNumber: "1.7.1", QuestionText: "विकास संबंधित गतिविधियाँ", IsSubQuestion: true }
+        ];
+
+        let tbody = $('#myTable');
+        tbody.empty();
+
+        questions.forEach(q => {
+            // Question row
+            let questionRow = $('<tr>').append(
+                $('<td>').text(q.DisplayNumber + ". " + q.QuestionText)
+            );
+            tbody.append(questionRow);
+
+            // Input row
+            let inputRow = $('<tr>');
+
+            if (!q.IsSubQuestion) {
+                inputRow.append(
+                    $('<td>').attr('colspan', 2).append(
+                        $('<textarea>')
+                            .attr({ rows: 5, cols: 170, placeholder: "अपना उत्तर यहाँ लिखें...", name: 'message' })
+                            .addClass('form-control')
+                    )
+                );
+            } else {
+                // Create nested table
+                let nestedTable = $('<table>').addClass('table table-bordered').attr('border', 0);
+                let thead = $('<thead>').append(
+                    $('<tr>').append(
+                        ['क्र.', 'गतिविधि', 'प्रस्तावित व्यय', 'CSR', 'MLA-LAD', 'MPLAD', 'अन्य'].map(text =>
+                            $('<th>').text(text)
+                        )
+                    )
+                );
+
+                let tbodyNested = $('<tbody>');
+                let nestedRow = $('<tr>');
+
+                for (let i = 0; i < 7; i++) {
+                    nestedRow.append(
+                        $('<td>').append(
+                            $('<input>')
+                                .attr({ type: 'text', placeholder: '', value: '' })
+                                .addClass('form-control form-control-sm mb-3')
+                                .css('border', '1px solid #000')
+                        )
+                    );
+                }
+
+                tbodyNested.append(nestedRow);
+                nestedTable.append(thead).append(tbodyNested);
+
+                inputRow.append(
+                    $('<td>').attr('colspan', 2).append(nestedTable)
+                );
+            }
+
+            tbody.append(inputRow);
+        });
+    });
+</script> *@
+
+
+

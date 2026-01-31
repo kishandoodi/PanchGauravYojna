@@ -1,0 +1,154 @@
+﻿@model MO.GauravProfile.Step3MO
+@{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var user = HttpContextAccessor.HttpContext.User;
+    var isAuthenticated = user.Identity.IsAuthenticated;
+    var district = user.FindFirst("DistrictName")?.Value;
+    var name = user.FindFirst("UserName")?.Value;
+    var role = user.FindFirst("RoleId")?.Value;
+    var Departmet = user.FindFirst("Department")?.Value;
+    var userlevel = user.FindFirst("UserLevel")?.Value;
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+}
+<div class="card radius-10 shadow-sm">
+    <div class="card-body">
+
+        <h4 class="text-center fw-bold">पंच गौरव कार्यक्रम</h4>
+        <h5 class="text-center">वित्तीय वर्ष 2025–26</h5>
+        <h6 class="text-center text-primary">District - @district</h6>
+
+        <div class="my-3">
+            @await Html.PartialAsync("_ProgressBar", new MO.GauravProfile.Step1MO
+            {
+                CurrentStep = Model.CurrentStep,
+                        GauravGuid = Model.GauravGuid
+                        })
+        </div>
+
+        <form asp-action="Step3" method="post">
+            <input type="hidden" asp-for="@Model.GauravGuid" />
+
+            <div class="container">
+
+                @if (Model.mainQuestionStep3MOs.Any())
+                {
+                    @foreach (var q in Model.mainQuestionStep3MOs)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-12 bg-secondary bg-opacity-10 p-2 rounded fw-bold">
+                                <i class="bi bi-list-task text-secondary"></i>
+                                @q.DisplayNumber. @q.QuestionText
+                            </div>
+                        </div>
+
+                        @if (q.SubQuestions.Any())
+                        {
+                            @foreach (var sq in q.SubQuestions)
+                            {
+                                <div class="row px-3 py-2 mb-2 border-start border-3 border-primary shadow-sm rounded bg-light">
+                                    <div class="col-12 fw-semibold">
+                                        <i class="bi bi-chevron-double-right text-primary"></i>
+                                        @sq.DisplayNumber. @sq.QuestionText
+                                    </div>
+
+                                    <div class="col-12 mt-2">
+                                        <textarea class="form-control border-primary border-opacity-50 shadow-sm"
+                                  rows="3"
+                                  placeholder="अपना उत्तर यहाँ लिखें..."
+                                  name="Answer_@sq.QuestionMasterId">@sq.AnswerValue</textarea>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                }
+
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-end mt-4">
+                <a class="btn btn-outline-warning px-4 m-2" asp-action="Step2"
+                   asp-controller="Profile"
+                   asp-route-guid="@Model.GauravGuid">
+                    <i class="fa fa-arrow-circle-left"></i> Back
+                </a>
+
+                <button class="btn btn-success px-4 fw-semibold m-2" name="submitType" value="Save">
+                    Save 
+                </button>     
+                
+                <button class="btn btn-warning px-4 fw-semibold m-2" name="submitType" value="Verify">
+                  Save & Send for Verification <i class="fa fa-arrow-circle-right"></i>
+                </button>
+            </div>            
+        </form>
+    </div>
+</div>
+@* <div class="modal fade" id="TrailModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">Profile Trails</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body" id="TrailModalContent">
+                <!-- Partial view will load here -->
+            </div>
+
+        </div>
+    </div>
+</div> *@
+
+@* <script nonce="@Context.Items["CSPNonce"]" src="~/custom/profileverification.js"></script>
+<script nonce="@nonce">
+    document.addEventListener("DOMContentLoaded", function () {
+
+         document.querySelectorAll(".application-trail").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                openTrail();
+            });
+        });
+
+    });
+    function openTrail() {
+          var gauravGuidtrail = '@Model.GauravGuid';
+        $.ajax({
+            url: '/Profile/ViewTrail',
+            type: 'GET',
+            data: {
+                gauravGuid: gauravGuidtrail,
+
+            },
+            success: function (response) {
+                $('#TrailModalContent').html(response);
+                //$('#profileModal').modal('show');
+
+               const modalEl = document.getElementById('TrailModal');
+
+            const modal = new bootstrap.Modal(modalEl, {
+                backdrop: false,   // ✅ backdrop remove
+                keyboard: true
+            });
+
+            modal.show();
+            },
+            error: function () {
+                alert('Failed to load profile');
+            }
+        });
+    }
+</script> *@

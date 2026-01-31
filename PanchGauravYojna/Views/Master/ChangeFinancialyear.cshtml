@@ -1,0 +1,43 @@
+﻿@using MO.Common
+@model MO.Master.ChangeSession
+@{
+    ViewData["Title"] = "Gaurav";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+    MenuPermissionMO p = ViewBag.Permission as MenuPermissionMO ?? new MenuPermissionMO();   
+}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header text-center">
+                    <h5>Change Financial Year</h5>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="ChangeFinancialyear" method="post">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                Select Financial Year
+                            </label>
+
+                            <select asp-for="Id" class="form-select form-select-sm"
+                                    asp-items="@(new SelectList(Model.FinancialYears, "Id", "Name"))">
+                                <option value="">-- Select Gaurav --</option>
+                            </select>
+                            <span asp-validation-for="Id" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">
+                                Change Financial Year
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

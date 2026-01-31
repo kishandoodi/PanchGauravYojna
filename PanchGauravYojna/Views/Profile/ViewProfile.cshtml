@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Gaurav Profile";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var user = HttpContextAccessor.HttpContext.User;
+    var isAuthenticated = user.Identity.IsAuthenticated;
+    var district = user.FindFirst("DistrictName")?.Value;
+    var name = user.FindFirst("UserName")?.Value;
+    var role = user.FindFirst("RoleId")?.Value;
+    var Departmet = user.FindFirst("Department")?.Value;
+    var userlevel = user.FindFirst("UserLevel")?.Value;
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+}
+<div class="card radius-10">
+    <div class="card-header color-header headercolor1">
+        <div class="d-flex align-items-center justify-content-between w-100">
+            <!-- Title -->
+            <h6 class="mb-0">Mian Profile</h6>
+        </div>
+    </div>
+    <div class="card-body">
+        <div>
+            <input type="hidden" id="Guid" name="Guid" />
+            <input type="hidden" id="hiddenroleid" value="@role" />
+            <input type="hidden" id="hiddendepartmentid" value="@Departmet" />
+            <input type="hidden" id="hiddengauravid" />
+            <input type="hidden" id="hiddendistrictid" value="@district" />
+            <div class="form-group row">  
+                @if(userlevel == "1")
+                {
+                    <form method="post">
+                    <div class="col-lg-3">
+                        <label>District</label>
+                      <select name="DistrictId" class="form-control" required>
+                            <option value="">-- Select District --</option>
+                            @foreach (var item in ViewBag.DistrictList as List<MO.ProfileUser.DistrictListDDL>)
+                            {
+                                <option value="@item.Id">@item.DistrictName</option>
+                            }
+                        </select>
+                        <div>
+                            <label for="error" class="mt-0" id="errorDistrict" style="color:red; font-size:13px;"></label>
+                        </div>
+                    </div>
+
+                    <!-- STEP 1 SAVE BUTTON -->
+                    <div class="col-lg-3">
+                        <button type="submit" class="btn btn-success px-4 mt-3 fw-semibold">Search</button>                        
+                    </div>
+                    </form>
+                }   
+            </div>
+        </div>
+    </div>
+
+
+</div> 
+@if (ViewBag.FilteredList != null)
+{
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Sr.No</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.FilteredList)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Mobile</td>
+                    <td>@item.Address</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

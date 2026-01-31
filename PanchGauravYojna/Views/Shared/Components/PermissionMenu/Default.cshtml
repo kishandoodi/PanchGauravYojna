@@ -1,0 +1,41 @@
+﻿
+@model List<MO.MenuMaster.MenuItem>
+
+<ul class="metismenu" id="menu">
+    @foreach (var item in Model)
+    {
+        if (item.isChecked && item.Children.Count == 0)
+        {
+            <li>
+                <a asp-controller="@item.ControllerName" asp-action="@item.ActionName">
+                    <div class="parent-icon">
+                        <i class='@item.IconClass'></i>
+                    </div>
+                    <div class="menu-title">@item.Name</div>
+                </a>
+            </li>
+        }
+        if (item.isChecked && item.Children.Any())
+        {
+            <li>
+                <a class="has-arrow" href="javascript:;">
+                    <div class="parent-icon">
+                        <i class="@item.IconClass"></i>
+                    </div>
+                    <div class="menu-title">@item.Name</div>
+                </a>
+                @if (item.Children.Any())
+                {
+                    @foreach (var subitem in item.Children)
+                    {
+                        <ul>
+                            <li>
+                                <a asp-controller="@subitem.ControllerName" asp-action="@subitem.ActionName"><i class="@subitem.IconClass"></i>@subitem.Name</a>
+                            </li>
+                        </ul>
+                    }
+                }
+            </li>
+        }
+    }
+</ul>

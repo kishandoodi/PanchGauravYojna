@@ -1,0 +1,185 @@
+﻿@model MO.ProfileUser.UserMO
+@{
+    ViewData["Title"] = "Permission";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+}
+@{
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+}
+<style nonce="@nonce">
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    ul {
+        list-style-type: none;
+        padding-left: 20px;
+    }
+
+    .tree-item {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+        font-size: 16px;
+    }
+
+    .toggle-btn {
+        cursor: pointer;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-right: 8px;
+        transition: 0.3s;
+    }
+
+        .toggle-btn:hover {
+            background-color: #45a049;
+        }
+
+        .toggle-btn.open {
+            background-color: #FF9800;
+        }
+
+    .tree-checkbox {
+        margin-right: 10px;
+    }
+
+    .child-list {
+        display: none;
+        margin-left: 40px;
+        border-left: 2px solid #ddd;
+        padding-left: 10px;
+    }
+
+    .tree-item label {
+        color: #333;
+        font-weight: bold;
+    }
+
+    .tree-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .permission-buttons {
+        margin-left: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+        .permission-buttons label {
+            font-size: 13px;
+            color: #444;
+        }
+</style>
+<div class="">
+    <div class="row">
+        <div class="col-4 col-lg-12">
+            <input type="hidden" asp-for="GroupId" id="hiddenGroupId" />
+            <label for="RoleId">Group</label>
+            <select class="form-select" name="GroupId" id="GroupId" asp-for="GroupId">
+                <option value="-1">--Select Group--</option>
+            </select>
+            <div>
+                <label for="error" class="mt-0 text-danger" id="errorgroupId"></label>
+            </div>
+        </div>
+
+        <div class="col-8 col-lg-12">
+            <div class="card radius-10">
+                <div class="card-header color-header headercolor7">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h6 class="mb-0 ">Group Permission</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="treeContainer">
+                        @* <ul>
+                            <li>
+                                <div class="tree-item">
+                                    <button class="toggle-btn">▶</button>
+                                    <input type="checkbox" class="tree-checkbox"> <label>Parent 1</label>
+                                </div>
+                                <ul class="child-list">
+                                    <li>
+                                        <div class="tree-item">
+                                            <input type="checkbox" class="tree-checkbox"> <label>Child 1.1</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="tree-item">
+                                            <input type="checkbox" class="tree-checkbox"> <label>Child 1.2</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div class="tree-item">
+                                    <button class="toggle-btn">▶</button>
+                                    <input type="checkbox" class="tree-checkbox"> <label>Parent 2</label>
+                                </div>
+                                <ul class="child-list">
+                                    <li>
+                                        <div class="tree-item">
+                                            <input type="checkbox" class="tree-checkbox"> <label>Child 2.1</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="tree-item">
+                                            <input type="checkbox" class="tree-checkbox"> <label>Child 2.2</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>         *@               
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group" style="margin-top:10px">
+                            <button type="submit" class="btn btn-primary me-2" id="btnFinalSave">Final Save</button>
+                            <a asp-action="Grouppermission" asp-asp-controller="Group" class="btn btn-danger">Cancel</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script nonce="@nonce" src="~/custom/Common.js" asp-append-version="true"></script>
+<script nonce="@nonce" src="~/custom/manageMaster/MMenuPermission.js" asp-append-version="true"></script>
+<script nonce="@nonce">
+    document.addEventListener("DOMContentLoaded", function () {
+        common.BindDropdown("BindDropDown_Group", "GroupId", "Role", $('#hiddenGroupId').val());
+
+    });
+</script>
+<script nonce="@nonce">
+    document.getElementById('btnFinalSave').addEventListener('click', function (e) {
+        e.preventDefault(); // Only if you're preventing the form submission
+        mpermission.saveFinal(); // Safe JS call
+    });
+
+    document.getElementById('btnCancelPermission').addEventListener('click', function (e) {
+        e.preventDefault(); // Optional: handle cancel logic here
+        console.log("Cancel clicked");
+    });
+</script>
+<script nonce="@nonce">
+    document.addEventListener('DOMContentLoaded', function () {
+        var roleSelect = document.getElementById('GroupId');
+        if (roleSelect) {
+            roleSelect.addEventListener('change', function() {
+                mpermission.getPermission();
+            });
+        }
+    });
+</script>
+

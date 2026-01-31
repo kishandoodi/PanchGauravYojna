@@ -1,0 +1,1177 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LayoutOut.cshtml";
+}
+@{
+    var returnUrl = Convert.ToString(Context.Request.Query["ReturnUrl"]);
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+}
+<style nonce="@nonce">
+    .margin_top{
+        margin-top: 26%;
+        margin-bottom:1%;
+    }
+    .bg_color{
+        background: rgb(3,40,92);
+        background: linear-gradient(0deg, rgba(3,40,92,1) 0%, rgba(191,29,62,1) 100%);
+        margin:auto !important;
+    }
+    .bg_card{
+        color: #fff;
+        border: 0px;
+        margin-top: -230px !important;
+    }
+    .color-white{
+        color: #fff;
+    }
+</style>
+   
+<div class="container margin_top">
+        <div class="col-12 col-xl-5 col-xxl-4 auth-cover-right align-items-center justify-content-center bg_color">
+        <div class="card rounded-0 shadow-none bg-transparent mb-0 bg_card">
+                <div class="card-body p-sm-5">
+                    <div class="">
+                        <div class="mb-3 text-center">
+                            <img src="~/img/sdglogo.png" width="60" alt="">
+                        </div>
+                        <div class="text-center mb-4">
+                            <h5 class="color-white" style="">Panch Gaurav </h5>
+                            <p class="mb-0">Please log in to your account</p>
+                        </div>
+                        <div class="form-body">
+                        <form class="row g-3" autocomplete="off">
+                            <!-- CSRF token -->
+                            <input type="hidden" id="nonce_id" value="@nonce" />
+                                @Html.AntiForgeryToken()
+                                <div class="col-12">
+                                    <label for="Username" class="form-label">UserName</label>
+                                <input type="text" class="form-control alphanumeric" id="Username" placeholder="UserName" onkeypress="account.ClearVal('Username')" autocomplete="off" maxlength="20">
+                                </div>
+                                <div class="col-12">
+                                    <label for="Password" class="form-label">Password</label>
+                                    <div class="input-group" id="show_hide_password">
+                                    <input type="password" class="form-control border-end-0 alphanumeric" id="Password" placeholder="Enter Password" style="height: auto;" onkeypress="account.ClearVal('Username')" autocomplete="off" maxlength="20">
+                                        <a href="javascript:;" class="input-group-text"><i class="bx bx-hide"></i></a>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-grid">
+                                    @* <button type="submit" class="btn btn-primary" id="btn-login" asp-action="IndicatorMaster" asp-controller="Indicator">Login</button> *@
+                                     <button type="button" class="btn btn-primary" id="btn_login">Sign in</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+<script src="~/custom\account.js" asp-append-version="true"></script>
+<script src="~/dashboardlogin/scripts.b23791aacf819f5925a1.js"></script>
+<script src="~/js/crypto-js.min.js"></script>
+<script nonce="@nonce">
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('btn_login').addEventListener('click', function (e) {
+            e.preventDefault();
+            account.login();
+        });
+    });
+    $(document).on('paste', '.alphanumeric', function (e) {
+            e.preventDefault();
+            var pastedData = (e.originalEvent || e).clipboardData.getData('text');
+            var cleanData = pastedData.replace(/[^0-9a-zA-Z ]/g, '');
+            document.execCommand('insertText', false, cleanData);
+        });
+</script>
+<script type="text/javascript" nonce="@nonce">
+    $('#WheelGoal0').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal0');
+            console.log('WheelGoal0 #hoverDiv');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            console.log('WheelGoal1 #hoverDiv');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                console.log('WheelGoal1 #enter');
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal0');
+            console.log('WheelGoal0 #hoverDiv');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            console.log('WheelGoal1 #hoverDiv');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                console.log('WheelGoal1 #enter');
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal1').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal1');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal1');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal2').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal2');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal2');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal3').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal3');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal3');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal4').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal4');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal4');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal5').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal5');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal5');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal6').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal6');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal6');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal7').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal7');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal7');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal8').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal8');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal8');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal9').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal9');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal9');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal10').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal10');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal10');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal11').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal11');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal11');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal12').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal12');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal12');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal13').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal13');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal13');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal12').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal12');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal12');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal13').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal13');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal13');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal14').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal14');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal14');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal15').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal15');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal15');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal16').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal16');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal16');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+    $('#WheelGoal17').hover(
+        function () {
+            // Mouse enter event
+
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal17');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('hide')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('hide');
+                        // Add the 'hide' class
+                        gElement.classList.add('show');
+                    }
+                }
+            }
+
+            // $(this).css('background-color', 'lightgreen');
+            // console.log('Mouse entered #hoverDiv');
+        },
+        function () {
+            // Mouse leave event
+            // Select the SVG element
+            const svg = document.getElementById('WheelGoal17');
+            // Get all g elements within the SVG
+            const gElements = svg.getElementsByTagName('g');
+
+            // gElements[3].classList.remove('show');
+
+            // Loop through each g element
+            for (let i = 0; i < gElements.length; i++) {
+                const gElement = gElements[i];
+                if (i == 4) {
+                    // Check if the g element has the class 'show'
+                    if (gElement.classList.contains('show')) {
+                        // Remove the 'show' class
+                        gElement.classList.remove('show');
+                        // Add the 'hide' class
+                        gElement.classList.add('hide');
+                    }
+                }
+            }
+            //$(this).css('background-color', 'lightblue');
+            //console.log('Mouse left #hoverDiv');
+        }
+    );
+</script>

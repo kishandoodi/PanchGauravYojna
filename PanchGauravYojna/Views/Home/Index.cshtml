@@ -1,0 +1,329 @@
+﻿@model List<MO.WebsiteMaster.HomeSliderVM>
+
+
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LayoutOut.cshtml";
+}
+@{
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+}
+<!-- slider section -->
+<div class="container-fluid slider-main" style="">
+    <section class="bg-banner intro screen__reader">
+        <div class="container_gallery slider-container_gallery" id="container" style="width:100%; padding:0px;">
+            <div class="caption" id="slider-caption">
+                <div class="caption-heading">
+                    <h1>Lorem Ipsum</h1>
+
+                </div>
+                <div class="caption-subhead"><span>dolor sit amet, consectetur adipiscing elit.</span></div><a class="btn" href="#">Sit Amet</a>
+            </div>
+            <div class="left-col" id="left-col">
+                <div id="left-slider"></div>
+            </div>
+            <ul class="nav">
+                <li class="slide-up"> <a href="#"><</a></li>
+                <li class="slide-down"> <a id="down_button" href="#">></a></li>
+            </ul>
+
+        </div>
+    </section>
+    <!-- About Us section End-->
+    <section class="about_nicsi nicsi_sec_pad aboutus-container" style="margin-top:0px">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8 mb-4 mb-sm-4 mb-md-4 mb-lg-4 mb-xl-0 mb-xxl-0">
+                    <div class="nicsi_shadow_box" data-aos="fade-up">
+                        <div class="row align-items-center">
+                            <div class="col-md-5">
+                                <img src="~/Landing/images/homeimg.jpg" alt="Intership" class="w-75 h-100 m-auto strengths_img brown_color_img"> <img src="Landing/images/homeimg.jpg" alt="Intership" class="w-75 h-100 m-auto strengths_img formal_color_img">
+                            </div>
+                            <div class="col-md-7">
+                                <h2 class="nicsi_heading about_nicsi_heading">
+                                    Panch Gaurav  Programme <span> (PGP) </span>
+                                </h2>
+                                <div class="about_nicsi_heading_line heading_division_footer"></div>
+                                <!-- <div class="heading_division_white mb-3"></div> -->
+                               
+                                <p>To promote this regional pride and create opportunities for economic growth and employment, the “Panch Gaurav” Programme has been initiated. Each district will identify five key elements:</p>
+                                <ul class="vs_list padding_left_40">
+                                    <li>
+                                        One District-One Agricultural Produce
+                                    </li>
+                                    <li>One District-One Botanical Species</li>
+                                    <li>One District-One industrial product</li>
+                                    <li>One District-One Tourist Place</li>
+                                    <li>One District-One Sport</li>
+                                </ul>
+                                <a asp-action="AboutUs" asp-controller="Home" class="col-6 btn nicsi_btn d-block aboutus_btn_viewmore" style="text-decoration:none !important">
+                                    View
+                                    More
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4">
+                    <div class="nicsi_shadow_box p-3">
+                        <div class="heading_2 mb-4 p-2">
+                            <img src="/Landing/images/announcement_icon.svg" class="anouncement_icon_heding" alt="Announcement icon" style="height: 28px;">
+                            <h5>Announcements</h5>
+                        </div>
+                        <div class="announcements_box">
+                            <p>
+                               <a href="~/Landing/GuidLine/Revised _Guidelines_Panch.pdf" target="_blank">
+                                   Click here for Panch Gaurav  Programme (PGP) 2025 Guideline
+                                   <span class="new-icon"></span>
+                               </a>
+                            </p>
+                            @*<p>
+                                <a href="~/Landing/GuidLine/Revised _Guidelines_Panch.pdf" target="_blank">
+                                    Click here for Panch Gaurav  Programme (PGP) 2025 Details
+                                    <span class="new-icon"></span>
+                                </a> 
+                              </p>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Us section Start-->
+
+
+</div>
+<!-- slider section -->
+@* <script nonce="@nonce">
+    // let slide_data = [
+    //     { src: '/Landing/images/slider/28th_March_Bhilwara_2.jpeg', title: 'Slide 1', copy: 'Panch Gaurav Programme (PGP) 2024-25' },
+    //     { src: '/Landing/images/slider/Panch_Gaurav_Program_28th_March_Bhilwara_1.jpeg', title: 'Slide 2', copy: 'Panch Gaurav Programme (PGP) 2024-25' },
+    //     { src: '/Landing/images/slider/41_3.jpeg', title: 'Slide 3', copy: 'Panch Gaurav Programme (PGP) 2024-25' },
+    //     { src: '/Landing/images/slider/PanchGauravSlider1_4.jpeg', title: 'Slide 4', copy: 'Panch Gaurav Programme (PGP) 2024-25' },
+    // ];
+        let slide_data = [
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <text>
+        {
+            src: '@Html.Raw(Model[i].ImageBase64)',
+            title: '@Model[i].Title',
+            copy: '@Model[i].Title'
+        }@(i < Model.Count - 1 ? "," : "")
+        </text>
+    }
+    ];
+
+    let slides = [], captions = [];
+
+    let autoplay = setInterval(nextSlide, 5000);
+    let container = document.getElementById('container');
+    let leftSlider = document.getElementById('left-col');
+    let down_button = document.getElementById('down_button');
+
+    down_button.addEventListener('click', function (e) {
+        e.preventDefault();
+        clearInterval(autoplay);
+        nextSlide();
+    });
+
+    for (let i = 0; i < slide_data.length; i++) {
+        let slide = document.createElement('div');
+        let caption = document.createElement('div');
+        let slide_title = document.createElement('div');
+
+        slide.classList.add('slide');
+        slide.style.backgroundImage = `url('${slide_data[i].src}')`;  // ✅ FIXED
+
+        caption.classList.add('caption');
+        slide_title.classList.add('caption-heading');
+        //slide_title.innerHTML = `<h1>${slide_data[i].title}</h1>`; // ✅ FIXED
+
+        if (i === 0) {
+            slide.classList.add('current');
+            caption.classList.add('current-caption');
+        } else if (i === 1) {
+            slide.classList.add('next');
+            caption.classList.add('next-caption');
+        } else if (i === slide_data.length - 1) {
+            slide.classList.add('previous');
+            caption.classList.add('previous-caption');
+        }
+
+        caption.appendChild(slide_title);
+        caption.insertAdjacentHTML('beforeend', `<div class="caption-subhead"><span>${slide_data[i].copy}</span></div>`);
+        slides.push(slide);
+        captions.push(caption);
+
+        leftSlider.appendChild(slide);
+        container.appendChild(caption);
+    }
+
+    function nextSlide() {
+        slides[0].classList.remove('current');
+        slides[0].classList.add('previous', 'change');
+        slides[1].classList.remove('next');
+        slides[1].classList.add('current');
+        slides[2].classList.add('next');
+        slides[slides.length - 1].classList.remove('previous');
+
+        captions[0].classList.remove('current-caption');
+        captions[0].classList.add('previous-caption', 'change');
+        captions[1].classList.remove('next-caption');
+        captions[1].classList.add('current-caption');
+        captions[2].classList.add('next-caption');
+        captions[captions.length - 1].classList.remove('previous-caption');
+
+        slides.push(slides.shift());
+        captions.push(captions.shift());
+    }
+
+    // ✅ Use first caption element to attach transition listener
+    function whichTransitionEvent() {
+        let el = document.createElement("fakeelement");
+        let transitions = {
+            "transition": "transitionend",
+            "OTransition": "oTransitionEnd",
+            "MozTransition": "transitionend",
+            "WebkitTransition": "webkitTransitionEnd"
+        };
+        for (let t in transitions) {
+            if (el.style[t] !== undefined) return transitions[t];
+        }
+    }
+
+    let transitionEvent = whichTransitionEvent();
+    let firstCaption = document.querySelector('.caption.current-caption');
+
+    if (firstCaption) {
+        firstCaption.addEventListener(transitionEvent, function customFunction(event) {
+            firstCaption.removeEventListener(transitionEvent, customFunction);
+            console.log('Animation ended');
+        });
+    }
+</script> *@
+
+
+<script nonce="@nonce">
+    let slide_data = [
+    @for (int i = 0; i < Model.Count; i++)
+    {
+            <text>
+            {
+                src: '@Html.Raw(Model[i].ImageBase64)',
+                title: '@Model[i].Title',
+                copy: '@Model[i].Title'
+            }@(i < Model.Count - 1 ? "," : "")
+            </text>
+    }
+    ];
+
+    let slides = [], captions = [];
+
+    let autoplay = setInterval(nextSlide, 5000);
+
+    let container = document.getElementById('container');
+    let leftSlider = document.getElementById('left-col');
+    let down_button = document.getElementById('down_button');
+
+    // down_button.addEventListener('click', function (e) {
+    //     e.preventDefault();
+    //     clearInterval(autoplay);
+    //     nextSlide();
+    // });
+        if (down_button) {
+        down_button.addEventListener('click', function (e) {
+            e.preventDefault();
+            clearInterval(autoplay);
+            nextSlide();
+        });
+    }
+
+    for (let i = 0; i < slide_data.length; i++) {
+
+        let slide = document.createElement('div');
+        let caption = document.createElement('div');
+        let slide_title = document.createElement('div');
+
+        slide.classList.add('slide');
+        slide.style.backgroundImage = `url('${slide_data[i].src}')`;
+
+        caption.classList.add('caption');
+        slide_title.classList.add('caption-heading');
+
+        if (i === 0) {
+            slide.classList.add('current');
+            caption.classList.add('current-caption');
+        } else if (i === 1) {
+            slide.classList.add('next');
+            caption.classList.add('next-caption');
+        } else if (i === slide_data.length - 1) {
+            slide.classList.add('previous');
+            caption.classList.add('previous-caption');
+        }
+
+        caption.appendChild(slide_title);
+        caption.insertAdjacentHTML(
+            'beforeend',
+            `<div class="caption-subhead"><span>${slide_data[i].copy}</span></div>`
+        );
+
+        slides.push(slide);
+        captions.push(caption);
+
+        leftSlider.appendChild(slide);
+        container.appendChild(caption);
+    }
+
+    // function nextSlide() {
+    //     if (slides.length < 3) return;
+
+    //     slides[0].classList.remove('current');
+    //     slides[0].classList.add('previous', 'change');
+
+    //     slides[1].classList.remove('next');
+    //     slides[1].classList.add('current');
+
+    //     slides[2].classList.add('next');
+    //     slides[slides.length - 1].classList.remove('previous');
+
+    //     captions[0].classList.remove('current-caption');
+    //     captions[0].classList.add('previous-caption', 'change');
+
+    //     captions[1].classList.remove('next-caption');
+    //     captions[1].classList.add('current-caption');
+
+    //     captions[2].classList.add('next-caption');
+    //     captions[captions.length - 1].classList.remove('previous-caption');
+
+    //     slides.push(slides.shift());
+    //     captions.push(captions.shift());
+    // }
+
+        function nextSlide() {
+
+        let currentIndex = slides.findIndex(s => s.classList.contains('current'));
+        let nextIndex = (currentIndex + 1) % slides.length;
+        let prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+
+        slides.forEach(s => s.classList.remove('current', 'next', 'previous', 'change'));
+        captions.forEach(c => c.classList.remove('current-caption', 'next-caption', 'previous-caption', 'change'));
+
+        slides[currentIndex].classList.add('previous');
+        slides[nextIndex].classList.add('current');
+        slides[(nextIndex + 1) % slides.length].classList.add('next');
+
+        captions[currentIndex].classList.add('previous-caption');
+        captions[nextIndex].classList.add('current-caption');
+        captions[(nextIndex + 1) % captions.length].classList.add('next-caption');
+
+        slides.push(slides.shift());
+        captions.push(captions.shift());
+    }
+
+</script>
+
+
+

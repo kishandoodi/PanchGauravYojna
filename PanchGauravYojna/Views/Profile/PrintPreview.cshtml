@@ -1,0 +1,317 @@
+﻿@model MO.GauravProfile.PrintProfile
+@{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var user = HttpContextAccessor.HttpContext.User;
+    var isAuthenticated = user.Identity.IsAuthenticated;
+    var district = user.FindFirst("DistrictName")?.Value;
+    var name = user.FindFirst("UserName")?.Value;
+    var role = user.FindFirst("RoleId")?.Value;
+    var Departmet = user.FindFirst("Department")?.Value;
+    var userlevel = user.FindFirst("UserLevel")?.Value;
+}
+@{
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+
+    int gouravnumber = 0;
+    string gauravnamehindi = "";
+
+    // STEP 1 Questions
+    var firstQuestion = Model.step1?.FirstOrDefault();
+
+    if (firstQuestion != null &&
+        int.TryParse(firstQuestion.DisplayNumber?.Split('.')?[0], out gouravnumber))
+    {
+        switch (gouravnumber)
+        {
+            case 1:
+                gauravnamehindi = "उपज";
+                break;
+            case 2:
+                gauravnamehindi = "उत्पाद";
+                break;
+            case 3:
+                gauravnamehindi = "वनस्पति प्रजाति";
+                break;
+            case 4:
+                gauravnamehindi = "पर्यटन स्थल";
+                break;
+            case 5:
+                gauravnamehindi = "खेल";
+                break;
+        }
+    }
+}
+<style nonce="@nonce">
+    .q-row {
+        background: #f0f0f0;
+        font-weight: bold;
+        border: 1px solid #000;
+    }
+
+    .q-row td {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .a-row {
+        border: 1px solid #000;
+    }
+
+    .a-row td {
+        padding: 10px 10px 10px 30px;
+    }
+
+    .answer-box {
+        white-space: pre-wrap;
+        min-height: 60px;
+        border: 1px solid #000;
+        padding: 8px;
+    }
+    .subtable-row{
+            border: 1px solid #000;
+    }
+</style>
+<style nonce="@nonce">
+    .t-row {
+    display: flex;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+}
+.t-cell {
+    flex: 1;
+    border-right: 1px solid #ccc;
+    padding: 8px;
+}
+.t-cell:last-child {
+    border-right: none;
+}
+
+.header-row {
+    background: #e0e0e0;
+    font-weight: bold;
+}
+
+</style>
+<style id="table_style" nonce="@nonce">
+
+    /* Question row */
+    .q-row {
+        background: #f0f0f0;
+        font-weight: bold;
+        border: 1px solid #000;
+    }
+
+        .q-row td, .q-row th {
+            padding: 8px;
+        }
+
+    /* Answer row */
+    .a-row {
+        border: 1px solid #000;
+    }
+
+        .a-row td {
+            padding: 8px 10px 8px 25px;
+        }
+
+    /* Sub table rows */
+    .subtable-row td {
+        border: 1px solid #000;
+        padding: 6px;
+    }
+
+    /* Table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    /* Print settings */
+    @@media print {
+        body {
+            margin: 10mm;
+            font-family: Mangal, Arial, sans-serif;
+        }
+
+        .no-print {
+            display: none !important;
+        }
+
+        table {
+            page-break-inside: auto;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        h4, h5, h6 {
+            text-align: center;
+        }
+    }
+</style>
+<div class="d-flex justify-content-end gap-2 mb-2">
+    <a href="/Profile/Dashboard"
+       class="btn btn-sm btn-secondary no-print">
+        ← Back
+    </a>
+
+    <button type="button"
+            class="btn btn-sm btn-primary no-print btn-preview-profile">
+        🖨 Print
+    </button>
+</div>
+<div id="printprofilediv">
+<div class="col-12 col-lg-12">   
+    <div class="card radius-10">
+        <div class="card-body">
+                   <h4 class="text-center">पंच गौरव कार्यक्रम</h4>
+                    <h5 class="text-center">वित्तीय वर्ष 2025–26</h5>
+                    <h6 class="text-center">District - @district</h6>
+       
+                    @* <h5>एक जिला एक उपज : - उपज</h5> *@
+                    <table class="table table-bordered m-1">
+    <tbody>
+        <!-- STEP 1 Questions -->
+        @if (Model.step1.Any())
+        {
+            foreach (var q in Model.step1)
+            {               
+                <tr class="q-row">
+                    <td>@q.DisplayNumber. @q.QuestionText</td>
+                </tr>
+
+                <tr class="a-row">
+                    <td>
+                        <div class="">@q.AnswerValue</div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>      
+                    <table class="table table-bordered m-1" id="savedTable">
+                    <!-- Section Heading Row -->
+                    <thead class="table-success text-center">
+
+                        <tr class="q-row">
+                            <th colspan="11" class="q-row">@gouravnumber .7 पचं गौरव के तहत चयनित @gauravnamehindi के विकास के लिए बजट व्यवस्था (₹ हजार)</th>
+                        </tr>
+
+                        <!-- Column Headers -->
+                        <tr class="q-row">
+                            <th>#</th>
+                            <th>गतिविधि</th>
+                            <th>नाम</th>
+                            <th>व्यय</th>
+                            <th>विभाग</th>
+                            <th>MPLAD</th>
+                            <th>CSR</th>
+                            <th>अन्य</th>
+                            <th>बजट</th>
+                            <th>कार्य योजना</th>
+                            <th>समय सीमा</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    </table>      
+                    <table class="table table-bordered m-1">
+    <tbody>
+
+        <!-- STEP 3 Questions -->
+        @if (Model.step3.Any())
+        {
+            foreach (var q in Model.step3)
+            {
+                <tr class="q-row">
+                    <td>@q.DisplayNumber. @q.QuestionText</td>
+                </tr>
+
+                @if (q.SubQuestions.Any())
+                {
+                    foreach (var sq in q.SubQuestions)
+                    {
+                        <tr class="q-row">
+                            <td style="font-weight:600;">@sq.DisplayNumber. @sq.QuestionText</td>
+                        </tr>
+
+                        <tr class="a-row">
+                            <td><div>@sq.AnswerValue</div></td>
+                        </tr>
+                    }
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+        </div>
+    </div>
+</div>
+</div>
+<script nonce="@Context.Items["CSPNonce"]">
+
+let savedRows = @Html.Raw(Json.Serialize(ViewBag.List))
+
+function loadSavedTable() {
+    let tbody = document.querySelector("#savedTable tbody");
+    tbody.innerHTML = "";
+
+    if (!savedRows || savedRows.length === 0) return;
+
+    // ⭐ Group by RowId
+    let grouped = {};
+    savedRows.forEach(item => {
+        if (!grouped[item.rowId]) grouped[item.rowId] = [];
+        grouped[item.rowId].push(item);
+    });
+
+    // ⭐ Loop each RowId
+    Object.keys(grouped).forEach((rowId, index) => {
+
+        let rowItems = grouped[rowId];
+
+        // Convert SubQuestionMasterId → AnswerValue (column wise)
+        let columns = {};
+        rowItems.forEach(i => {
+            columns[i.subQuestionMasterId] = i.answerValue;
+        });
+
+        // Dynamic table row
+        let row = `
+            <tr data-rowid="${rowId}" class="subtable-row">
+                <td>${rowId}</td>
+                <td>${columns[17] ?? ""}</td>
+                <td>${columns[1] ?? ""}</td>  
+                <td>${columns[2] ?? ""}</td>
+                <td>${columns[3] ?? ""}</td>
+                <td>${columns[4] ?? ""}</td>
+                <td>${columns[5] ?? ""}</td>
+                <td>${columns[6] ?? ""}</td>
+                <td>${columns[7] ?? ""}</td>
+                <td>${columns[15] ?? ""}</td>
+                <td>${columns[16] ?? ""}</td>                
+            </tr>
+        `;
+
+        tbody.innerHTML += row;
+    });
+}
+
+document.addEventListener("DOMContentLoaded", loadSavedTable);
+     document.querySelectorAll(".btn-preview-profile").forEach(function (btn) {
+                    btn.addEventListener("click", function () {
+                                print.printdv("printprofilediv");
+                    });
+                });
+</script>
+

@@ -1,0 +1,303 @@
+﻿@model MO.GauravProfile.PrintProfile
+@* @{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+} *@
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var user = HttpContextAccessor.HttpContext.User;
+    var isAuthenticated = user.Identity.IsAuthenticated;
+    var district = user.FindFirst("DistrictName")?.Value;
+    var districtId = user.FindFirst("DistrictId")?.Value;
+    var name = user.FindFirst("UserName")?.Value;
+    var role = user.FindFirst("RoleId")?.Value;
+    var Departmet = user.FindFirst("Department")?.Value;
+    var userlevel = user.FindFirst("UserLevel")?.Value;
+}
+@{
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+
+    int gouravnumber = 0;
+    string gauravnamehindi = "";
+
+    // STEP 1 Questions
+    var firstQuestion = Model.step1?.FirstOrDefault();
+
+    if (firstQuestion != null &&
+        int.TryParse(firstQuestion.DisplayNumber?.Split('.')?[0], out gouravnumber))
+    {
+        switch (gouravnumber)
+        {
+            case 1:
+                gauravnamehindi = "उपज";
+                break;
+            case 2:
+                gauravnamehindi = "वनस्पति प्रजाति";
+                break;
+            case 3:
+                gauravnamehindi = "उत्पाद";
+                break;
+            case 4:
+                gauravnamehindi = "पर्यटन स्थल";
+                break;
+            case 5:
+                gauravnamehindi = "खेल";
+                break;
+        }
+    }
+}
+
+<div class="col-12 col-lg-12">   
+    <div class="card radius-10">
+        <div class="card-body">
+                   <h4 class="text-center">पंच गौरव कार्यक्रम</h4>
+                    <h5 class="text-center">वित्तीय वर्ष @Model.FinancialYear</h5>
+                    <h6 class="text-center">District - @Model.District</h6>
+                    <h5>@Model.Gaurav : - @Model.GauravItem</h5>
+                    <table class="table table-bordered m-1">
+                        <tbody>
+                            <!-- STEP 1 Questions -->
+                            @if (Model.step1.Any())
+                            {
+                                foreach (var q in Model.step1)
+                                {               
+                                    <tr class="q-row">
+                                        <td>@q.DisplayNumber. @q.QuestionText</td>
+                                    </tr>
+
+                                    <tr class="a-row">
+                                        <td>
+                                            <div class="">@q.AnswerValue</div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>      
+                    <table class="table table-bordered m-1" id="savedTable">
+                    <!-- Section Heading Row -->
+                    <thead class="table-success text-center">
+
+                        <tr class="q-row">
+                            <th colspan="11" class="q-row">@gouravnumber .7 पचं गौरव के तहत चयनित @gauravnamehindi के विकास के लिए बजट व्यवस्था (₹ हजार)</th>
+                        </tr>
+
+                        <!-- Column Headers -->
+                        <tr class="q-row">
+                            <th>#</th>
+                            <th>गतिविधि</th>
+                            <th>नाम</th>
+                            <th>व्यय</th>
+                            <th>विभाग</th>
+                            <th>MPLAD</th>
+                            <th>CSR</th>
+                            <th>अन्य</th>
+                            <th>बजट</th>
+                            <th>कार्य योजना</th>
+                            <th>समय सीमा</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+
+                    </table>      
+                    <table class="table table-bordered m-1">
+    <tbody>
+
+        <!-- STEP 3 Questions -->
+        @if (Model.step3.Any())
+        {
+            foreach (var q in Model.step3)
+            {
+                <tr class="q-row">
+                    <td>@q.DisplayNumber. @q.QuestionText</td>
+                </tr>
+
+                @if (q.SubQuestions.Any())
+                {
+                    foreach (var sq in q.SubQuestions)
+                    {
+                        <tr class="q-row">
+                            <td style="font-weight:600;">@sq.DisplayNumber. @sq.QuestionText</td>
+                        </tr>
+
+                        <tr class="a-row">
+                            <td><div>@sq.AnswerValue</div></td>
+                        </tr>
+                    }
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+ <hr />
+
+<!-- Hidden values for JS -->
+<input type="hidden" id="hdnGauravGuid" value="@Model.GauravGuid" />
+<input type="hidden" id="hdnDistrictId" value="@Model.DistrictId" />
+<input type="hidden" id="hdnFinancialYearId" value="2" />
+
+@* <div class="row mt-3">
+    <div class="col-md-12">
+        <label class="fw-bold">Remarks</label>
+        <textarea id="txtRemark"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Enter remarks here..."></textarea>
+    </div>
+</div>
+ *@
+            <div class="row mt-3">
+                <div class="col-md-12 d-flex justify-content-between align-items-center">
+                    <label class="fw-bold mb-0">Remarks</label>
+
+                    @if (!string.IsNullOrEmpty(Model.LastRemark))
+                    {
+                        <button type="button"
+                                class="btn btn-sm btn-outline-primary btn-view-last-remark "
+                                data-guid="@Model.GauravGuid">
+                            View Last Remark
+                        </button>
+                    }
+
+                </div>
+
+                <div class="col-md-12 mt-2">
+                    <textarea id="txtRemark"
+                              class="form-control"
+                              rows="3"
+                              placeholder="Enter remarks here..."></textarea>
+                </div>
+            </div>
+
+
+<div class="d-flex justify-content-end gap-2 mt-4">
+
+    <button type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal">
+        Close
+    </button>
+
+    <button type="button"
+            id="btnRevert"
+            class="btn btn-warning"><i class="fa fa-reply"></i>
+        Revert Back 
+    </button>
+
+    <button type="button"
+            id="btnVerify"
+            class="btn btn-success">
+        Verify
+    </button>
+
+</div>
+        </div>
+    </div>
+</div>
+
+@* <div id="trailContainer" class="mt-3">
+    <!-- ViewTrail partial will load here -->
+</div> *@
+@*side-popup*@
+<div class="offcanvas offcanvas-end"
+     tabindex="-1"
+     id="trailOffcanvas">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Remark History</h5>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body" id="trailOffcanvasBody">
+        <!-- ViewTrail partial will load here -->
+    </div>
+</div>
+
+@* <div class="modal fade" id="trailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Remark History</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body" id="trailModalBody">
+                <!-- ViewTrail partial will load here -->
+            </div>
+
+        </div>
+    </div>
+</div> *@
+<script nonce="@nonce">
+    verification.init(@Html.Raw(Json.Serialize(ViewBag.List)));
+    // center-popup
+     // document.addEventListener("click", function (e) {
+
+     //      const btn = e.target.closest(".btn-view-last-remark");
+     //      if (!btn) return;
+
+     //      const gauravGuid = btn.getAttribute("data-guid");
+
+     //      $.ajax({
+     //          url: '/Profile/ViewTrail',
+     //          type: 'GET',
+     //          data: { gauravGuid: gauravGuid },
+     //          success: function (response) {
+
+     //              // inject partial
+     //              $('#trailModalBody').html(response);
+
+     //              // show CENTER popup
+     //              const modalEl = document.getElementById('trailModal');
+     //                const modal = new bootstrap.Modal(modalEl, {
+     //                backdrop: false,   // 🔥 IMPORTANT
+     //                keyboard: true,
+     //                focus: true
+     //               });
+
+     //              modal.show();
+     //          },
+     //          error: function () {
+     //              alert('Failed to load remark history');
+     //          }
+     //      });
+     //  });
+     //side popup
+
+     document.addEventListener("click", function (e) {
+
+         const btn = e.target.closest(".btn-view-last-remark");
+         if (!btn) return;
+
+         const gauravGuid = btn.getAttribute("data-guid");
+
+         $.ajax({
+             url: '/Profile/ViewTrail',
+             type: 'GET',
+             data: { gauravGuid: gauravGuid },
+             success: function (response) {
+
+                 // load content
+                 $('#trailOffcanvasBody').html(response);
+
+                 // show popup
+                 const canvasEl = document.getElementById('trailOffcanvas');
+                 const offcanvas = new bootstrap.Offcanvas(canvasEl);
+                 offcanvas.show();
+             },
+             error: function () {
+                 alert('Failed to load remark history');
+             }
+         });
+     });
+</script>
+
+

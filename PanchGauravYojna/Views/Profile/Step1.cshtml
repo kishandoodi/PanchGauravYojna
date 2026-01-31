@@ -1,0 +1,322 @@
+﻿@model MO.GauravProfile.Step1MO
+@{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var user = HttpContextAccessor.HttpContext.User;
+    var isAuthenticated = user.Identity.IsAuthenticated;
+    var district = user.FindFirst("DistrictName")?.Value;
+    var name = user.FindFirst("UserName")?.Value;
+    var role = user.FindFirst("RoleId")?.Value;
+    var Departmet = user.FindFirst("Department")?.Value;
+    var userlevel = user.FindFirst("UserLevel")?.Value;
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+}
+<style nonce="@nonce">
+    
+.vertical-timeline {
+    width: 100%;
+    position: relative;
+    padding: 1.5rem 0 1rem
+}
+
+.vertical-timeline::after {
+    content: "";
+    display: table;
+    clear: both
+}
+
+.vertical-timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 67px;
+    height: 100%;
+    width: 4px;
+    background: #e9ecef;
+    border-radius: .375rem
+}
+
+.vertical-timeline-element {
+    position: relative;
+    margin: 0 0 1rem
+}
+
+.vertical-timeline-element:after {
+    content: "";
+    display: table;
+    clear: both
+}
+
+.vertical-timeline-element:last-child {
+    margin-bottom: 0
+}
+
+.vertical-timeline-element-content {
+    position: relative;
+    margin-left: 90px;
+    font-size: .8rem
+}
+
+.vertical-timeline-element-content:after {
+    content: "";
+    display: table;
+    clear: both
+}
+
+.vertical-timeline-element-content .timeline-title {
+    font-size: .8rem;
+    text-transform: uppercase;
+    margin: 0 0 .5rem;
+    padding: 2px 0 0;
+    font-weight: bold
+}
+
+.vertical-timeline-element-content p {
+    color: #6c757d;
+    margin: 0 0 .5rem
+}
+
+.vertical-timeline-element-content .vertical-timeline-element-date {
+    display: block;
+    position: absolute;
+    left: -90px;
+    top: 0;
+    padding-right: 10px;
+    text-align: right;
+    color: #adb5bd;
+    font-size: .7619047619rem;
+    white-space: nowrap
+}
+
+.vertical-timeline-element-icon {
+    position: absolute;
+    top: 0;
+    left: 60px
+}
+
+.vertical-timeline-element-icon .badge-dot-xl {
+    box-shadow: 0 0 0 5px #fff
+}
+
+.vertical-timeline-element--no-children .vertical-timeline-element-content {
+    background: 0 0;
+    box-shadow: none
+}
+
+.vertical-timeline-element--no-children .vertical-timeline-element-content::before {
+    display: none
+}
+
+.vertical-without-time::before {
+    left: 11px
+}
+
+.vertical-without-time .vertical-timeline-element-content {
+    margin-left: 36px
+}
+
+.vertical-without-time .vertical-timeline-element-icon {
+    left: 4px
+}
+
+.vertical-time-icons {
+    padding: 2rem 0 0
+}
+
+.vertical-time-icons::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 14px;
+    height: 100%;
+    width: 6px;
+    background: #e9ecef;
+    border-radius: .375rem
+}
+
+.vertical-time-icons .vertical-timeline-element {
+    margin-bottom: 1rem
+}
+
+.vertical-time-icons .vertical-timeline-element-content {
+    margin-left: 50px
+}
+
+.vertical-time-icons .vertical-timeline-element-icon {
+    width: 34px;
+    height: 34px;
+    left: 0;
+    top: -7px
+}
+
+.vertical-time-icons .vertical-timeline-element-icon .timeline-icon {
+    width: 34px;
+    height: 34px;
+    background: #fff;
+    border-radius: 50px;
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: 0 0 0 5px #fff;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    align-content: center
+}
+
+.vertical-time-icons .vertical-timeline-element-icon .timeline-icon i {
+    display: block;
+    font-size: 1.1rem;
+    margin: 0 auto
+}
+
+.vertical-time-icons .vertical-timeline-element-icon .timeline-icon svg {
+    margin: 0 auto
+}
+
+.vertical-time-simple {
+    padding: .5rem 0
+}
+
+.vertical-time-simple .vertical-timeline-element {
+    margin: 0 0 .5rem
+}
+
+.vertical-time-simple .timeline-title {
+    font-weight: normal;
+    font-size: .9166666667rem;
+    padding: 0
+}
+
+.vertical-time-simple .vertical-timeline-element-icon {
+    height: 14px;
+    width: 14px;
+    background: #e9ecef;
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    display: block;
+    border-radius: 20px
+}
+
+.vertical-time-simple .vertical-timeline-element-icon::after {
+    content: "";
+    position: absolute;
+    background: #fff;
+    left: 50%;
+    top: 50%;
+    margin: -4px 0 0 -4px;
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 20px
+}
+
+.vertical-time-simple .timeline-title {
+    text-transform: none
+}
+
+.dot-primary .vertical-timeline-element-icon {
+    background: #3f6ad8
+}
+
+.dot-secondary .vertical-timeline-element-icon {
+    background: #6c757d
+}
+
+.dot-success .vertical-timeline-element-icon {
+    background: #3ac47d
+}
+
+.dot-info .vertical-timeline-element-icon {
+    background: #16aaff
+}
+
+.dot-warning .vertical-timeline-element-icon {
+    background: #f7b924
+}
+
+.dot-danger .vertical-timeline-element-icon {
+    background: #d92550
+}
+
+.dot-light .vertical-timeline-element-icon {
+    background: #eee
+}
+
+.dot-dark .vertical-timeline-element-icon {
+    background: #343a40
+}
+
+.dot-focus .vertical-timeline-element-icon {
+    background: #444054
+}
+
+.dot-alternate .vertical-timeline-element-icon {
+    background: #794c8a
+}
+
+.vertical-timeline--animate .vertical-timeline-element-icon.is-hidden {
+    visibility: hidden
+}
+
+.vertical-timeline--animate .vertical-timeline-element-icon.bounce-in {
+    visibility: visible;
+    animation: cd-bounce-1 .8s
+}
+
+</style>
+<div class="card radius-10 shadow-sm">
+    <div class="card-body">
+
+        <h4 class="text-center fw-bold">पंच गौरव कार्यक्रम</h4>
+        <h5 class="text-center">वित्तीय वर्ष 2025–26</h5>
+        <h6 class="text-center text-primary">District - @district</h6>
+
+        <div class="my-3">
+            @await Html.PartialAsync("_ProgressBar", Model)
+      
+        <form asp-action="Step1" method="post">
+            <input type="hidden" asp-for="@Model.GauravGuid" />
+
+            <div class="container">
+                @if (Model.Questions.Any())
+                {
+                    @foreach (var q in Model.Questions)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-12 bg-secondary bg-opacity-10 p-2 rounded fw-bold">
+                                <i class="bi bi-list-task text-secondary"></i>
+                                @q.DisplayNumber. @q.QuestionText
+                            </div>
+                        </div>
+
+                        <div class="row px-3 py-2 mb-3 border-start border-3 border-primary shadow-sm rounded bg-light">
+                            <div class="col-12">
+                                <textarea class="form-control border-primary border-opacity-50 shadow-sm"
+                                          rows="3"
+                                          placeholder="अपना उत्तर यहाँ लिखें..."
+                                          name="Answer_@q.QuestionMasterId">@q.AnswerValue</textarea>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="text-end">
+                <button class="btn btn-success px-4 py-2 fw-semibold">
+                    Save & Next <i class="fa fa-arrow-circle-right"></i>
+                </button>
+            </div>
+        </form>
+
+    </div>
+    </div>
+</div>
+
+
+

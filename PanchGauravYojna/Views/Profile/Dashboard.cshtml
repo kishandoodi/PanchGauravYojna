@@ -1,0 +1,236 @@
+﻿@model List<MO.GauravProfile.GauravProfileDashboardMO>
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+}
+@{
+    var user = HttpContextAccessor.HttpContext.User;
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+    var DepartmetId = user.FindFirst("DepartmentId")?.Value;
+}
+
+
+
+<style nonce="@nonce">
+    .image-box {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 15px;
+        margin-bottom: 20px;
+        text-align: center;
+        border-radius: 10px;
+        background-color: #fff;
+        transition: transform 0.3s;
+    }
+
+        .image-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+    .image-link {
+        display: block;
+        margin-top: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .edit-btn {
+        margin-top: 8px;
+        display: inline-block;
+    }
+    /* IMAGE */
+    .card-img-fixed {
+        height: 160px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    /* CARD BODY */
+    .card-body-fixed {
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* TITLE */
+    .card-title-fixed {
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* BUTTON */
+    .profile-btn {
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 999px;
+        color: #fff;
+        padding: 0;
+        font-size: 14px;
+    }
+
+    /* STATUS COLORS */
+    .status-finalsubmit {
+        background-color: #198754; /* green */
+    }
+
+    .status-firsttime {
+        background-color: #dc3545; /* red */
+    }
+
+    .status-revertback {
+        background-color: #ffc107; /* yellow */
+        color: #000;
+    }
+
+    .status-sendforverfication {
+        background-color: #0d6efd; /* blue */
+    }
+
+    .status-legend-card {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 14px 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .legend-title {
+        font-weight: 600;
+        font-size: 14px;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+
+    .legend-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: #333;
+    }
+
+    .legend-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+</style>
+<style nonce="@nonce">
+    .hover-card {
+        transition: transform .3s, box-shadow .3s;
+        background: #ffffff;
+    }
+
+        .hover-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .justify-center {
+        display: flex;
+        justify-content: center !important;
+        }
+</style>
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+            <div class="status-legend-card">
+                <div class="legend-title">
+                    <i class="bi bi-info-circle-fill"></i>
+                    Status Color Indicator
+                </div>
+
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <span class="legend-dot status-firsttime"></span>
+                        <span>First Time (Not Started)</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-dot status-sendforverfication"></span>
+                        <span>Sent for Verification</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-dot status-finalsubmit"></span>
+                        <span>Verified</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-dot status-revertback"></span>
+                        <span>Reverted Back</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row g-4 justify-center">
+ 
+        @foreach (var item in Model)
+        {
+            @* var statusClass = item.StatusId == 1 ? "status-success" : "status-pending"; *@
+            var statusClass = item.StatusId switch
+            {
+                0 => "status-firsttime",
+                1 => "status-sendforverfication",
+                2 => "status-finalsubmit",
+                3 => "status-revertback",
+                _ => "status-pending"
+            };
+
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                <div class="card shadow-sm border-0 text-center rounded-4 hover-card">
+
+                    <img class="card-img-top p-2 rounded-4 card-img-fixed"
+                         src="~/Landing/Gallery/Goalwise/@(item.GauravName.Replace(" ", "").ToLower())_icon.jpg"
+                         alt="@item.GauravName" />
+
+                    <div class="card-body card-body-fixed">
+
+                        <h6 class="fw-bold card-title-fixed">
+                            @item.GauravName
+                        </h6>
+
+                        <a asp-controller="Profile"
+                           asp-action="CheckAndRedirect"
+                           asp-route-guid="@item.GauravGuid"
+                           asp-route-gauravId="@item.GauravId"
+                           class="btn profile-btn @statusClass">
+                            Profile
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+
+
+</div>
+</div>

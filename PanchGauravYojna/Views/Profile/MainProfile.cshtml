@@ -1,0 +1,144 @@
+﻿@model MO.GauravProfile.mainProfileMO
+@{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+}
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var user = HttpContextAccessor.HttpContext.User;
+    var isAuthenticated = user.Identity.IsAuthenticated;
+    var district = user.FindFirst("DistrictName")?.Value;
+    var name = user.FindFirst("UserName")?.Value;
+    var role = user.FindFirst("RoleId")?.Value;
+    var Departmet = user.FindFirst("Department")?.Value;
+    var userlevel = user.FindFirst("UserLevel")?.Value;
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+}
+@{
+    bool isReadOnly = false;
+}
+@* @{
+    bool isReadOnly = Model.FinalSubmit == 1 || userlevel == "2";
+} *@
+<style nonce="@nonce">
+    .readonly-field {
+        border: none !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
+        padding-left: 0;
+    }
+</style>
+<div class="col-12 col-lg-12">
+    <div class="card shadow-lg border-0 radius-10 mt-3">
+        <div class="card-body">
+
+            <!-- HEADER -->
+            <div class="text-center mb-3">
+                <h4 class="fw-bold">पंच गौरव कार्यक्रम</h4>
+                <h5 class="text-muted">वित्तीय वर्ष 2025–26</h5>
+                <h6 class="fw-semibold">District - @district</h6>
+            </div>
+
+            <!-- STEP 1 SECTION -->
+            <div id="step1">
+                <form asp-action="SaveMainProfile" asp-controller="Profile" method="post">
+                    <input type="hidden" name="GauravMainProfileAnswerId" value="@Model.GauravMainProfileAnswerId" />
+                    <input type="hidden" name="DistrictId" value="@Model.DistrictId" />
+                    <input type="hidden" name="FinancialYear_Id" value="@Model.FinancialYear_Id" />
+                <div class="border rounded p-3 bg-light mb-3">
+
+                    <label class="fw-bold font-20">1. प्रस्तावना</label>
+                    <div class="row px-3 py-2 mb-3 border-start border-3 border-primary shadow-sm rounded bg-light">
+                        <div class="col-12">
+                                <textarea class="form-control border-primary border-opacity-50 shadow-sm @(isReadOnly ? "readonly-field" : "")" rows="3" name="Introduction" id="prastwana" placeholder="अपना उत्तर यहाँ लिखें...">@Model.Introduction</textarea>
+                            </div>
+                    </div>                    
+                </div>
+
+                <div class="border rounded p-3 bg-light mb-3">
+                    <label class="fw-bold font-20">2. जिला प्रोफाइल</label>
+                    <br />
+                    <label class="fw-semibold mt-2">2.1 जिले की भोगोलोक एंड सांस्कृतिक विषेषताये</label>
+                    <div class="row px-3 py-2 mb-3 border-start border-3 border-primary shadow-sm rounded bg-light">
+                        <div class="col-12">
+                                <textarea class="form-control border-primary border-opacity-50 shadow-sm @(isReadOnly ? "readonly-field" : "")" name="DistrictProfile_one" rows="3" id="distprofile1" placeholder="अपना उत्तर यहाँ लिखें..." @(isReadOnly ? "readonly" : "")>@Model.DistrictProfile_one</textarea>
+                        </div>
+                    </div>
+                   
+                    <label class="fw-semibold">2.2 जिले की प्रमुख आर्थिक गतिविधिया</label>
+                    <div class="row px-3 py-2 mb-3 border-start border-3 border-primary shadow-sm rounded bg-light">
+                        <div class="col-12">
+                                <textarea class="form-control border-primary border-opacity-50 shadow-sm @(isReadOnly ? "readonly-field" : "")" name="DistrictProfile_two" rows="3" id="distprofile2" placeholder="अपना उत्तर यहाँ लिखें..." @(isReadOnly ? "readonly" : "")>@Model.DistrictProfile_two</textarea>
+                        </div>
+                    </div>                    
+                </div>
+
+                <!-- TABLE: चिन्हित पंच गौरव -->
+                <h5 class="fw-bold mt-4">3. चिन्हित पंच गौरव का विवरण</h5>
+
+                <table class="table table-bordered table-striped mt-2">
+                    <thead class="table-primary">
+                        <tr>
+                            <th style="width: 180px;">Gaurav</th>
+                            <th>चयनित गौरव का नाम</th>
+                            <th>विवरण</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.list.Any())
+                        {
+                            @for (int i = 0; i < Model.list.Count; i++)
+                            {
+                                <tr>
+                                        <td>@Model.list[i].GauravItem</td>
+
+                                    <td>
+                                            <input type="text" class="form-control @(isReadOnly ? "readonly-field" : "")" "
+                                                   name="list[@i].GauravItem"
+                                                   value="@Model.list[i].name" readonly />
+                                    </td>
+
+                                    <td>
+                                            <textarea rows="2" class="form-control @(isReadOnly ? "readonly-field" : "")" "
+                                              name="list[@i].GauravVivran" @(isReadOnly ? "readonly" : "")>@Model.list[i].GauravVivran</textarea>
+                                    </td>
+
+                                    <input type="hidden" name="list[@i].Id" value="@Model.list[i].Id" />
+                                    <input type="hidden" name="list[@i].name" value="@Model.list[i].name" />
+                                </tr>
+                            }
+                        }    
+                    </tbody>
+                </table>
+
+                @if (userlevel == "2") // District Level
+                {
+                    <!-- STEP 1 SAVE BUTTON -->
+                    @if(Model.FinalSubmit == 0 || Model.FinalSubmit == null)
+                    {
+                         <div class="text-end">
+                            <button type="submit" class="btn btn-success px-4 fw-semibold" name="submitType" value="Save">
+                                Save
+                            </button>
+
+                            <button type="submit" class="btn btn-warning px-4 fw-semibold m-2" name="submitType" value="Verify">
+                                Final Submit <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    }
+                }                         
+               </form>
+            </div>            
+        </div>
+    </div>
+</div>
+@* @section Scripts {
+    <script nonce="@nonce">
+        $(function () {
+            common.BindDropdown("/Master/BindGauravDropDown", "Gaurav", "Gaurav", $('#hiddengauravid').val());
+            common.BindDropdown("/Master/BindDistrictDropDown", "District", "District", $('#hiddendistrictid').val());
+        });
+    </script>
+} *@

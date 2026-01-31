@@ -1,0 +1,503 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="color-header headercolor7">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="pragma" content="no-cache" />
+    @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery
+    <meta name="csrf-token" content="@antiforgery.GetAndStoreTokens(Context).RequestToken" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 minimum-scale=1.0">
+    <title>Panch Gaurav Programme (PGP) Rajasthan  </title>
+    <meta name="title" content="Panch Gaurav Programme (PGP) Rajasthan ">
+    <meta name="description" content="Panch Gaurav Programme Rajasthan">
+    <meta name="description" content="The Panch Gaurav Programme (PGP)">
+    <meta name="keyword" content="Panch Gaurav Programme (PGP) Rajasthan, PGP Rajasthan">
+
+    <!--favicon-->
+    <link rel="icon" href="assets/images/favicon-32x32.png" type="image/png" />
+    <!--plugins-->
+    <link rel="shortcut icon" href="~/Landing/images/favicon.ico" type="image/x-icon">
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    @* <link href="~/lib/jquery-toast-plugin/demos/css/jquery.toast.css" rel="stylesheet" />
+    <link href="~/lib/jquery-toast-plugin/demos/css/jquery.toast.min.css" rel="stylesheet" /> *@
+    @* <script src="~/js/jquery-3.7.1.min.js"></script> *@
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Landing/css/banner.css">
+    <link rel="stylesheet" href="~/Landing/css/swiper.css" />
+    @* <link href="~/landing/css/styles_newdashboard.css" rel="stylesheet" /> *@
+    <link href="~/landing/css/stylesheet.css" rel="stylesheet" />
+    <!--data table css-->
+    <link href="~/lib/datatables.net-dt/css/datatables.datatables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/sweetalert2/dist/sweetalert2.min.css" />
+    <link href="~/vertical/assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+    <link href="~/vertical/assets/css/app.css" rel="stylesheet" asp-append-version="true">
+    <title>@ViewData["Title"] - PGP</title>
+</head>
+
+<body>
+    @{
+        var nonce = Context.Items["CSPNonce"]?.ToString();
+    }
+    <style type="text/css" nonce="@nonce">
+        .headerCont-1 {
+            width: 100%;
+            float: left;
+            padding: 15px 0 0 0;
+        }
+
+        .headerTop ul {
+            display: inline-block;
+            margin: 0;
+            padding: 1px 0 0 0;
+            float: right;
+        }
+
+            .headerTop ul li {
+                display: inline-block;
+                color: #fff;
+                padding: 0 6px;
+                float: left;
+            }
+
+        .colorTheme a {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin: 0 3px;
+            padding: 0;
+            float: left;
+        }
+
+        .colr3 {
+            background: #0d5b65;
+        }
+
+        .colr2 {
+            background: #dbdbdb;
+            background: -moz-linear-gradient(-45deg, #dbdbdb 0, #fff 48%, #2c2c2c 48%, #3f3f3f 49%, #131313 100%);
+            background: -webkit-linear-gradient(-45deg, #dbdbdb 0, #fff 48%, #2c2c2c 48%, #3f3f3f 49%, #131313 100%);
+            background: linear-gradient(135deg, #dbdbdb 0, #fff 48%, #2c2c2c 48%, #3f3f3f 49%, #131313 100%);
+        }
+
+        .colr1 {
+            background: #018fa1;
+        }
+
+        .fontplus a {
+            float: left;
+            color: #131313;
+            padding: 2px 7px;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 15px;
+        }
+
+        .skipdiv a {
+            color: #131313;
+            font-size: 14px;
+            float: left;
+            font-weight: 400;
+            line-height: 19px;
+            padding: 1px 2px;
+        }
+
+            .skipdiv a p {
+                margin: 0;
+                line-height: 1;
+                font-weight: 400;
+                font-size: 13px;
+            }
+
+        .headerButton {
+            text-align: right;
+            padding: 8px 0 0 0;
+            width: 100%;
+            float: left;
+        }
+
+        .logodiv a {
+            padding: 0;
+        }
+
+        .logodiv img {
+            max-width: 390px;
+        }
+
+        .cm-photoSection {
+            float: left;
+            width: 34%;
+        }
+
+        .cm-photos {
+            font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            padding: 0;
+            position: relative;
+        }
+
+        .cm-imgsec {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        #menu {
+            max-height: 500px; /* Adjust the height as needed */
+            overflow-y: auto; /* Enables vertical scrolling */
+            overflow-x: hidden; /* Hides horizontal scrollbar */
+            border: 1px solid #ddd; /* Optional: Add a border */
+        }
+
+            /* Optional: Style scrollbar for better UI */
+            #menu::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            #menu::-webkit-scrollbar-thumb {
+                background-color: #888;
+                border-radius: 4px;
+            }
+
+                #menu::-webkit-scrollbar-thumb:hover {
+                    background-color: #555;
+                }
+
+        .font_size_16 {
+            font-size: 16px;
+        }
+
+        .cm__content {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .logo_name {
+            color: #243a73 !important;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .cm_photo {
+            border-radius: 50%;
+        }
+
+        .footer_top_border {
+            margin-top: -6px !important;
+            border-top: 9px solid #fa8620 !important;
+        }
+
+        .text_align {
+            font-size: 20px !important;
+            justify-content: center !important;
+        }
+
+        .font_size_18 {
+            font-size: 18px;
+        }
+    </style>
+    @using Microsoft.AspNetCore.Http
+    @using System.Security.Claims
+    @inject IHttpContextAccessor HttpContextAccessor
+    @{
+        var user = HttpContextAccessor.HttpContext.User;
+        var isAuthenticated = user.Identity.IsAuthenticated;
+        var district = user.FindFirst("DistrictName")?.Value;
+        var name = user.FindFirst("UserName")?.Value;
+        var role = user.FindFirst("Role")?.Value;
+        var Fytext = user.FindFirst("Financialtext")?.Value;
+        var Fy = user.FindFirst("FinancialYear")?.Value;
+        var groupId = user.FindFirst("GroupId")?.Value;
+    }
+    <!-- Bootstrap JS -->
+    <script nonce="@nonce" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- Toast CSS -->
+    <link nonce="@nonce" href="~/lib/jquery-toast-plugin/dist/jquery.toast.min.css" rel="stylesheet" />
+    @* <link nonce="@nonce" href="~/lib/jquery-toast-plugin/demos/css/jquery.toast.min.css" rel="stylesheet" /> *@
+    <!-- Toast JS -->
+    <script nonce="@nonce" src="~/lib/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
+    @* <script nonce="@nonce" src="~/lib/jquery-toast-plugin/demos/js/jquery.toast.min.js"></script> *@
+    <style nonce="@nonce">
+        /* Center Logout */
+        .logout-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Bottom FY Button */
+        .fy-wrapper {
+            margin-top: auto;
+        }
+        .float-right{
+            
+            background-color : #122b6d;
+            border:1px solid #122b6d;
+            color : #fff;
+            padding : 5px 5px 1px 5px;
+        }
+    </style>
+    <script nonce="@nonce" src="~/custom/toast.helper.js"></script>
+    <div class="loader-layout" id="dvLoader">
+        <div class="dot-opacity-loader">
+            <div></div>
+
+        </div>
+    </div>
+    <!--wrapper-->
+    <div class="wrapper">
+        <div class="topbarheader">
+            @* <div class="header-strip screen__reader"> <img src="~/Landing/images/footerline.png" alt="Strip Line"> </div> *@
+            <div class="header d-flex align-items-center header-top screen__reader">
+                <div class="header-left screen__reader">
+                    <a action="Index" asp-controller="Home" title="SDG Logo" class="screen__reader logo__topsec">
+                        <img src="~/Landing/images/indian.png" class="Rajasthan_logo" alt="Govt Logo" width="80" height="100">
+                        <div class="d-flex flex-column logo_left_sec">
+                            <div class="logo_below_text">
+                                <p class="m-0 font_size_18">  <strong>Department of Statistics</strong> </p>
+                                <p class="m-0 font_size_18">  <strong>Directorate of Economics & Statistics</strong> </p>
+                                <p class="m-0 font_size_18">  <strong>Government of Rajasthan</strong></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="header-center screen__reader">
+                    <div class="cm__content">
+                        <h2 class="logo_name">
+                            Panch Gaurav Programme
+                        </h2>
+                    </div>
+                </div>
+                <div class="header-right screen__reader">
+                    <div class="cm__section">
+                        <div class="pl-15">
+                            <div>
+                                <img src="~/Landing/images/cm-photo.jpeg" alt="Shri BhajanLal Sharma" width="75" height="74" class="cm_photo">
+                            </div>
+                            <div class="cm__content">
+                                <label> <strong>Shri BhajanLal Sharma </strong></label>
+                                <p> Hon'ble Chief Minister </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-end flex-column bg-hed">
+                        <div class="top_head_right">
+                            <div class="pe-3 mob__hide screen__reader" tabindex="7">
+                                <!-- Logout -->
+                                @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-warning btn-sm" title="LogOut">Logout</button>
+                                }                                
+                            </div>
+                            <div class="logo-headpartner screen__reader">
+                            </div>
+                        </div>
+                        <!-- side setiing stickybar -->
+                    </div>
+                    <!-- Change Financial Year Button -->
+                    
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <a asp-action="ChangeFinancialyear" asp-controller="Master" type="button"
+                    class="float-right"
+                    title="Change Financial Year">
+                Financial Year : @Fytext
+            </a>
+            <!--sidebar wrapper -->
+            <div class="sidebar-wrapper" data-simplebar="true">               
+                <div class="sidebar-header">
+                    <div>
+                        <img src="~/vertical/assets/images/avatars/avatar-admin.png" class="user-img" alt="user avatar">
+                    </div>
+                    <div b-cuxf7clalm="" class="user-info">
+                        <p b-cuxf7clalm="" class="user-name mb-0">@name</p>
+                        <p b-cuxf7clalm="" class="designattion mb-0">@role @(!string.IsNullOrEmpty(district) ? (" - " + district) : "")</p>
+                    </div>
+                    <div class="toggle-icon ms-auto">
+                        <i class='bx bx-arrow-to-left'></i>
+                    </div>
+                </div>
+                <!--navigation-->
+                @await  Component.InvokeAsync("PermissionMenu",groupId)
+               @*  <ul class="metismenu" id="menu">
+                    <li>
+                        <a asp-controller="Indicator" asp-action="Dashboard">
+                            <div class="parent-icon">
+                                <i class='fa fa-dashboard'></i>
+                            </div>
+                            <div class="menu-title">Dashboard</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Profile" asp-action="MainProfile">
+                            <div class="parent-icon">
+                                <i class='fa fa-briefcase'></i>
+                            </div>
+                            <div class="menu-title">District Profile</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Profile" asp-action="Dashboard">
+                            <div class="parent-icon">
+                                <i class='fa fa-pencil-square-o'></i>
+                            </div>
+                            <div class="menu-title">District Work Plan</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Profile" asp-action="PendingProfileVerification">
+                            <div class="parent-icon">
+                                <i class='fa fa-file-powerpoint-o'></i>
+                            </div>
+                            <div class="menu-title">Pending Verification</div>
+                        </a>
+                    </li>                    
+                    <li>
+                        <a class="has-arrow" href="javascript:;">
+                            <div class="parent-icon">
+                                <i class='fa fa-user'></i>
+                            </div>
+                            <div class="menu-title">User Master</div>
+                        </a>
+                        <ul>
+                            <li>
+                                <a asp-controller="UserProfile" asp-action="AddUser"><i class="bx bx-right-arrow-alt"></i>Add User</a>
+                            </li>
+                            <li>
+                                <a asp-controller="UserProfile" asp-action="ListUser"><i class="bx bx-right-arrow-alt"></i>List User</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:;">
+                            <div class="parent-icon">
+                                <i class='fa fa-cogs'></i>
+                            </div>
+                            <div class="menu-title">Master</div>
+                        </a>
+                        <ul>
+                            <li>
+                                <a asp-controller="Menu" asp-action="Menu"><i class="bx bx-right-arrow-alt"></i>Menu</a>
+
+                            </li>
+                            <li>
+                                <a asp-controller="Menu" asp-action="SubMenu"><i class="bx bx-right-arrow-alt"></i>SubMenu</a>
+                            </li>
+                            <li>
+                                <a asp-controller="GroupMaster" asp-action="Group"><i class="bx bx-right-arrow-alt"></i>Group</a>
+                                
+                            </li>
+                            <li>
+                                <a asp-controller="GroupMaster" asp-action="GroupPermission"><i class="bx bx-right-arrow-alt"></i>Group Permission</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Master" asp-action="Department"><i class="bx bx-right-arrow-alt"></i>Department</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Master" asp-action="Gaurav"><i class="bx bx-right-arrow-alt"></i>Gaurav</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Master" asp-action="GauravDepartment"><i class="bx bx-right-arrow-alt"></i>Gaurav Department Mapping</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Master" asp-action="GauravDistrictItem"><i class="bx bx-right-arrow-alt"></i>Gaurav District Item</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul> *@
+                <!--end navigation-->
+            </div>
+            <!--end sidebar wrapper -->
+            <!--start header -->
+            <!--end header -->
+            <!--start page wrapper -->
+            <div class="page-wrapper">
+                <div class="page-content">
+                    @RenderBody()
+                </div>
+            </div>
+            <!--end page wrapper -->
+            <!--start overlay-->
+            <div class="overlay toggle-icon"></div>
+            <!--end overlay-->
+            <!--Start Back To Top Button-->
+            <a href="javaScript:;" class="back-to-top"><i class='fa fa-arrow-up'></i></a>
+            <!--End Back To Top Button-->
+            <footer class="page-footer">
+                <p class="mb-0">Copyright © 2025. All right reserved.</p>
+            </footer>
+        </div>
+        <!--end wrapper-->
+    </div>
+
+    <script nonce="@nonce" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    @* <link nonce="@nonce" href="~/lib/jquery-toast-plugin/demos/css/jquery.toast.css" rel="stylesheet" /> *@
+    <!-- Date Time Picker -->
+
+    <script nonce="@nonce" src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <!-- DataTables JS -->
+    <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.min.js"></script>
+    <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.js"></script>
+    @* <script nonce="@nonce" src="~/lib/jquery-toast-plugin/demos/js/jquery.toast.js"></script> *@
+    <!--Datatable js-->
+    <script nonce="@nonce" src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script nonce="@nonce" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script nonce="@nonce" src="~/lib/jquery-validation-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+
+    <script nonce="@nonce" src="~/landing/sweetalert/sweetalert2.min.js"></script>
+    @* <script nonce="@nonce" src="~/custom/common.js"></script> *@
+
+    <script nonce="@nonce" src="~/vertical/assets/js/app.js"></script>
+    <script nonce="@nonce" src="~/vertical/assets/plugins/simplebar/js/simplebar.min.js"></script>
+    <script nonce="@nonce" src="~/vertical/assets/plugins/metismenu/js/metisMenu.min.js"></script>
+    <script nonce="@nonce" src="~/vertical/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+    <script nonce="@nonce" src="~/vertical/assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+    <script nonce="@nonce" src="~/vertical/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+
+    <!--app JS-->
+    <!-- DataTables JS -->
+
+    <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.min.js"></script>
+    <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.js"></script>
+    <script nonce="@nonce" src="~/Landing/js/wow.min.js" defer></script>
+
+
+    <script nonce="@nonce" src="~/lib/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script nonce="@nonce" src="~/Landing/js/swiper-bundle-min.js"></script>
+
+    <script nonce="@nonce" src="~/custom/Common.js"></script>
+    <script nonce="@nonce" src="~/custom/notify.js"></script> <!-- Uses `common` -->
+
+    <script nonce="@nonce" src="~/custom/table.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    <script nonce="@nonce">
+         document.addEventListener('DOMContentLoaded', function () {
+          var el = document.getElementById('dvLoader');
+          if (el) el.style.display = 'none';
+        });
+
+    </script>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script nonce="@nonce">
+            document.addEventListener("DOMContentLoaded", () => {
+                window.toast.showToast('Success','@TempData["SuccessMessage"]','success');
+            });
+        </script>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script nonce="@nonce">
+            document.addEventListener("DOMContentLoaded", () => {
+                window.toast.showToast('Error','@TempData["ErrorMessage"]','error');
+            });
+        </script>
+    }
+
+</body>
+</html>

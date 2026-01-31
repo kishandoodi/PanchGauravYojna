@@ -1,0 +1,237 @@
+﻿@using MO.Common
+@model MO.GroupMaster.GroupMO
+@{
+    ViewData["Title"] = "Group";
+    Layout = "~/Views/Shared/_LayoutIn.cshtml";
+
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+    MenuPermissionMO p = ViewBag.Permission as MenuPermissionMO ?? new MenuPermissionMO();
+}
+<style nonce="@nonce">
+    div.dt-search {
+        float: right !important;
+        text-align: right !important;
+        margin-bottom: 5px;
+    }
+
+        div.dt-search input {
+            margin-left: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            padding: 3px 6px;
+        }
+</style>
+<div class="">
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <div class="card radius-10">
+                <!-- ===================== FORM SECTION ===================== -->
+                @if (p?.CanAdd == true || p?.CanEdit == true)
+                {
+                    <div class="card-header color-header headercolor7">
+                        <div class="d-flex align-items-center">
+                            <h6 class="mb-0">Manage Group</h6>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <form asp-action="Group" asp-controller="GroupMaster" method="post">
+                            <input type="hidden" asp-for="Guid" />
+                            <div class="row g-3">                               
+                                <div class="col-lg-3">
+                                    <label>Name<span class="text-danger">*</span></label>
+                                    <input asp-for="Name" class="form-control form-control-sm" maxlength="200" placeholder="Enter Name" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div> 
+                                <div class="col-lg-3">
+    <label>Description <span class="text-danger">*</span></label>
+    <textarea asp-for="Description"
+              class="form-control form-control-sm"
+              maxlength="200"
+              placeholder="Enter Description"
+              rows="3"></textarea>
+    <span asp-validation-for="Description" class="text-danger"></span>
+</div>
+                                <div class="col-lg-3 d-flex align-items-center mt-4">
+                                    <div class="form-check mt-3">
+                                        <input asp-for="IsActive" class="form-check-input" type="checkbox" id="IsActive" />
+                                        <label for="IsActive" class="form-check-label">Is Active</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button type="submit" class="btn btn-primary me-2">@Model.BtnSave</button>
+                                    <a asp-action="Group" asp-asp-controller="Group" class="btn btn-light">Cancel</a>
+                                </div>
+                            </div>                            
+                        </form>
+                    </div>
+                }
+
+                <!-- ===================== LIST SECTION ===================== -->
+                @if (p?.CanList == true)
+                {
+                    <div class="card-header color-header headercolor7">
+                        <div class="d-flex align-items-center">
+                            <h6 class="mb-0">Department List</h6>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+
+                        <table id="tbl_list" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>S.No.</th>
+                                    <th>Name</th>  
+                                    <th>Description</th>  
+                                    <th>Status</th>
+                                    <th>Change Status</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                             @if (Model != null && Model.list.Any())
+                                {
+                                    int sr = 1;
+                                    foreach (var item in Model.list)
+                                            {
+                                                <tr>
+                                                    <td>@sr</td>
+                                                    <td>@item.Name</td>  
+                                                     <td>@item.Description</td>  
+                                                    <td>
+                                                        @if (item.IsActive)
+                                                        {
+                                                            <span class="badge bg-success">Active</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge bg-danger">Inactive</span>
+                                                        }
+                                                    </td>
+
+                                                     <td>
+                                                @if (p?.CanActiveDeactive == true)
+                                                {
+                                                    <button class="btn btn-sm toggle-active-btn @(item.IsActive ? "btn-danger" : "btn-success")"
+                                                            data-guid="@item.Guid"
+                                                            data-isactive="@item.IsActive">
+                                                        @(item.IsActive ? "Deactivate" : "Activate")
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning">No Access</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (p?.CanEdit == true)
+                                                {
+                                                    <a asp-action="Group" asp-controller="GroupMaster" asp-route-guid="@item.Guid" class="btn btn-sm btn-success">
+                                                        Edit
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning">No Access</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (p?.CanDelete == true)
+                                                {
+                                                    <button class="btn btn-sm btn-danger delete-btn"
+                                                            data-guid="@item.Guid">
+                                                        Delete
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning">No Access</span>
+                                                }
+                                            </td>
+                                                </tr>
+                                                sr++;
+                                            }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4" class="text-center">No records found</td>
+                                    </tr>
+                                }
+                             </tbody>
+                        </table>
+
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+<script nonce="@Context.Items["CSPNonce"]">
+    document.addEventListener("DOMContentLoaded", () => {
+
+        table.dataTable('tbl_list');
+        // Attach event listener to all buttons with .toggle-active-btn
+        document.querySelectorAll(".toggle-active-btn").forEach(button => {
+            button.addEventListener("click", (event) => {
+                const guid = event.target.getAttribute("data-guid");
+                if (!guid) return;
+
+                // Example confirmation (no Swal)
+                if (!confirm("Are you sure you want to activate this record?")) return;
+
+                // Call backend to toggle active status
+                common.ShowLoader();
+
+                const data = { guid: guid };
+                ajax.doPostAjax(`${domain.getdomain()}/GroupMaster/ToggleActive`, data, function (response) {
+                    common.HideLoader();
+                    if (response.status) {
+                        toast.showToast('success', response.message, 'success');
+                         setTimeout(function () {
+                            var data = {};
+                            location.reload();
+                        }, 2000);
+                    } else {
+                        toast.showToast('error', response.message, 'error');
+                    }
+                });
+            });
+        });
+
+        // Attach event listener to all buttons with .toggle-active-btn
+        document.querySelectorAll(".delete-btn").forEach(button => {
+            button.addEventListener("click", (event) => {
+                const guid = event.target.getAttribute("data-guid");
+                if (!guid) return;
+
+                // Example confirmation (no Swal)
+                if (!confirm("Are you sure you want to delete this record?")) return;
+
+                // Call backend to toggle active status
+                common.ShowLoader();
+
+                const data = { guid: guid };
+                ajax.doPostAjax(`${domain.getdomain()}/GroupMaster/Delete`, data, function (response) {
+                    common.HideLoader();
+                    if (response.status) {
+                        toast.showToast('success', response.message, 'success');
+                        setTimeout(function () {
+                            var data = {};
+                            location.reload();
+                        }, 2000);
+                        //location.reload();
+                    } else {
+                        toast.showToast('error', response.message, 'error');
+                    }
+                });
+            });
+        });
+    });
+</script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />   
+}

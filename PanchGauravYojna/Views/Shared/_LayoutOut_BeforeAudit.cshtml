@@ -1,0 +1,396 @@
+﻿
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="pragma" content="no-cache" />
+    @* <link rel="canonical" href="https://sdg.CMFP.gov.in/" /> *@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 minimum-scale=1.0">
+    <title>Panch Gaurav Programme (PGP) Rajasthan </title>
+    <meta name="title" content="Panch Gaurav Programme PRajasthan">
+    <meta name="description" content="The Chief Minister Fellowship Programme (PGP)">
+    <meta name="keyword" content="Panch Gaurav Programme (PGP) Rajasthan, PGP Rajasthan">
+    <link rel="shortcut icon" href="~/Landing/images/favicon.ico" type="image/x-icon">
+    <link href="~/css/fonts.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet" asp-append-version="true" />
+  @*   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"> *@
+    <link rel="stylesheet" type="text/css" href="~/Landing/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Landing/css/custom.css" asp-append-version="true">
+    <link rel="stylesheet" type="text/css" href="~/Landing/css/banner.css">
+    <link rel="stylesheet" href="~/Landing/css/swiper.css" />
+    <link href="~/landing/css/stylesheet.css" rel="stylesheet" />
+    <script src="~/Landing/js/jquery-3.3.1.min.js"></script>  
+     
+    <style>       
+        .header-top-fix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            z-index: 1000;
+            box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-fixed {
+            position: fixed;
+            top: 135px; /* Adjust based on header height */
+            left: 0;
+            width: 100%;
+            background: #343a40; /* Dark menu background */
+            z-index: 999;
+        }
+
+        .menuqw .bg-darkmenu {
+            background: rgb(13,110,253);
+            background: linear-gradient(90deg, rgba(13,110,253,1) 0%, rgba(18,108,161,1) 0%, rgba(128,70,110,1) 49%, rgba(229,35,62,1) 100%);
+            font-weight: 300;
+        }
+
+        /* .menuqw .dropdown-toggle a {
+                            color:#fff;
+                        } */
+
+        .menuqw .nav-item .nav-link a {
+            color: #fff !important;
+        }
+        .btnmenu {
+            background-color: #1f64b8;
+            color: #fff;
+        }
+
+        .btnmenu:hover {
+            background-color: #fff;
+                color: #1f64b8;
+        }
+        .footer__sec ul li {
+            list-style-type: none;
+            margin-bottom: 8px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-layout" id="dvLoader" style="display:none">
+        <div class="dot-opacity-loader">
+            <div></div>
+            @* <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div> *@
+        </div>
+    </div>
+    <div class="Page-content">
+        <div class="my-portlet header-top-fix">
+           @*  <div class="header-strip screen__reader"> <img src="~/Landing/images/footerline.png" alt="Strip Line"> </div> *@
+            <div class="header d-flex align-items-center header-top screen__reader">
+                <div class="header-left screen__reader">
+                    <a asp-action="Index" asp-controller="Home" title="SDG Logo" class="screen__reader logo__topsec">
+                        <img src="~/Landing/images/indian.png" class="Rajasthan_logo" alt="Govt Logo">
+                        <div class="d-flex flex-column logo_left_sec">
+                            <div class="logo_below_text">
+                                <p class="m-0" style="font-size:16px">  <strong> Department of Statistics </strong> </p>
+                                <p class="m-0" style="font-size:16px">  <strong> Directorate of Economics & Statistics </strong> </p>
+                                <small style="font-size:16px">Government of Rajasthan</small>
+                            </div>
+                            @*  <div class="first-logo light-theme">
+                            <img src="~/Landing/images/cmfp-logo.png" alt="Panch Gaurav " width="350" height="50">
+                            </div>
+                            <div class="first-logo dark-theme">
+                            <img src="~/Landing/images/logo_white.svg" alt="Panch Gaurav Programme" width="350" height="50" loading="lazy">
+                            </div> *@
+                        </div>
+                    </a>
+                </div>
+                <div class="header-center screen__reader">
+                    <a asp-action="Index" asp-controller="Home" title="PGP Logo" class="screen__reader" style="display: flex; justify-content: center;">
+                        @* <img src="~/Landing/images/cmfp-logo.png" class="Rajasthan_logo" alt="Panch Gaurav Programme" width="80"> *@
+                    </a>
+                    <div class="cm__content" style="display: flex;justify-content: center;">
+                        <h3 style="color: #243a73  !important;/* font-family: 'Poppins'; */text-transform: uppercase;">
+                            Panch Gaurav Programme
+                        </h3>
+                    </div>
+                </div>
+                <div class="header-right screen__reader">
+                    <div class="cm__section">
+                        @* <div>
+                        <div>
+                        <img src="~/Landing/images/cm_uppernew.png" alt="Shri Kanak Vardhan Singh Deo">
+                        </div>
+                        <div class="cm__content">
+                        <label> Shri Kanak Vardhan Singh Deo </label>
+                        <p> Hon'ble Deputy Chief Minister </p>
+                        </div>
+                        </div> *@
+                        <div class="pl-15">
+                            <div>
+                                <img src="~/Landing/images/cm-photo.jpeg" alt="Shri BhajanLal Sharma" width="75" height="74" style="border-radius:50%">
+                            </div>
+                            <div class="cm__content">
+                                <label>Shri BhajanLal Sharma </label>
+                                <p> Hon'ble Chief Minister </p>
+                            </div>
+                        </div>
+                        @* <div>
+                        <div>
+                        <img src="~/Landing/images/cm_upper.png" alt="Smt. Pravati Parida">
+                        </div>
+                        <div class="cm__content">
+                        <label> Smt. Pravati Parida </label>
+                        <p> Hon'ble Deputy Chief Minister  </p>
+                        </div>
+                        </div> *@
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <!-- Gradient Navigation Menu -->
+            <div class="primary-menu gradient-menu element-with-gradient-top">
+                <nav class="navbar navbar-expand-lg">
+                    <!-- Mobile Menu Toggler -->
+                    <button class="navbar-toggler"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#navMenu"
+                            aria-controls="navMenu"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- Collapsible Menu -->
+                    <div class="collapse navbar-collapse" id="navMenu">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="AboutUs" asp-controller="Home">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Event" asp-controller="Home">Gallery</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Landing/GuidLine/Revised _Guidelines_Panch.pdf" target="_blank">Panch Gaurav Guideline</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="#">Publications</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="DistrictBooks">District Panch Gaurav BookLet</a>                     
+                                </div>
+                            </li>  
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="#">Contact Us</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="ContactUsState">State Office</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="ContactUsDistrict">District Office</a>
+                                </div>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="SignIn" asp-controller="Account">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+            @* <div class="primary-menu menuqw">
+                <nav class="navbar navbar-expand-md bg-darkmenu navbar-dark">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Main" asp-controller="Home" style="color:#fff"> Home   </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-controller="About" style="color:#fff">About US </a>
+                            </li>
+                            <!--<li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Reports </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="RajasthanSDGIndex">Rajasthan SDG Index</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="StateSdgStatus">Rajasthan SDG Status Report</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="RajasthanCoreIndicator">Rajasthan Core Indicator </a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="DistrictSourceReport">District SDGs Status Report </a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="OtherReports">Other Reports </a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Indicator Framework </a>
+                                <div class="dropdown-menu">
+
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="NationalIndicatorFramwork">National Indicator Framework(NIF)</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="StateIndicatorFramework">State Indicator Framework(SIF)</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="DistrictIndicatorFramework">District Indicator Framework (DIF)</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" asp-controller="Home" asp-action="#" id="navbardrop" data-toggle="dropdown">IEC </a>
+                                <div class="dropdown-menu">
+
+
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="IECHandBook">Hand Books</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="PhotoGallery">Photo Gallery</a>
+                                </div>
+                            </li>-->
+                            <li class="nav-item">
+                                <a id="Lnk_Btn_CircularandOrder" class="nav-link" asp-controller="Home" asp-action="CircularsandOrders" style="color:#fff">Circulars &amp; Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="LatestNews" style="color:#fff">Latest News </a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" asp-controller="Home" asp-action="FAQ" style="color:#fff">FAQ </a>
+
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="ContactUs" style="color:#fff">Contact Us </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://sso.rajasthan.gov.in/signin" style="color:#fff">SSO Login </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div> *@
+     
+        <div>
+            @RenderBody()
+
+        </div>
+        <!-- Footer Pattern section Start-->
+        <div class="pattern">
+            <img src="~/Landing/images/footerline.png" alt="Strip Line" class="screen__reader">
+        </div>
+        <!-- Footer section Start-->
+        <footer class="footer animatedParent screen__reader" style="margin-top:-6px">
+            <div class="my-container">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                        <div class="footer__sec links-all screen__reader">
+                            <h3> Useful Links</h3>
+                            <ul>
+                                <li class="screen__reader"> <a target="_blank" href="~/Account/SignIn" title="Home"> <i class="fa fa-minus pe-1"></i> Login</a></li>
+                                <li class="screen__reader"> <a target="" asp-action="Disclaimer" asp-controller="Home" title="Privacy Policy"> <i class="fa fa-minus pe-1"></i>  Disclaimer </a></li>
+                                <li class="screen__reader"> <a asp-action="Land" asp-controller="Home" title="Disclaimer"> <i class="fa fa-minus pe-1"></i>  Site Map  </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                        <div class="footer__sec screen__reader">
+                            <h3 class="screen__reader">Contact Us</h3>
+                            <div class="d-flex">
+                                <div class="pe-3">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                                <div class="screen__reader">
+                                    <p class="m-0">  <strong> Department of Statistics </strong> </p>
+                                    <p class="m-0">  <strong> Directorate of Economics and Statistics </strong> </p>    
+                                    <p class="m-0"><strong> Government of Rajasthan </strong></p>
+                                     Yojna Bhawan, Tilak Marg C- Scheme, <br>
+                                    Jaipur, Rajsthan Pin-302005
+                                </div>
+                            </div>
+                            <div class="d-flex screen__reader mt-2">
+                                <div class="pe-3"> <i class="bi bi-phone"></i> </div>
+                                <div class="mail-link">
+                                    <a href="mailto:PGP.des@rajasthan.gov.in" class="fw-normal" title="E-mail">  0141-2850227  </a>
+                                </div>
+                            </div>
+                            <div class="d-flex screen__reader mt-2">
+                                <div class="pe-3"> <i class="bi bi-envelope-open"></i> </div>
+                                <div class="mail-link">
+                                    <a href="mailto:PGP.des@rajasthan.gov.in" class="fw-normal" title="E-mail">jdcoord[dot]des[at]rajasthan[dot]gov[dot]in</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                        <div class="footer__sec screen__reader">
+                            <h3 class="screen__reader">Nodal Officer</h3>
+                            <div class="d-flex">
+                                <div class="pe-3">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                                <div class="screen__reader">
+                                    <p class="m-0">  <strong> Shri Ranveer Singh </strong> </p>
+                                    <p class="m-0">  <strong> Joint Director </strong> </p>
+                                </div>
+                            </div>
+                            <div class="d-flex screen__reader mt-2">
+                                <div class="pe-3"> <i class="bi bi-phone"></i> </div>
+                                <div class="moblie-link">
+                                    <a href="mailto:PGP.des@rajasthan.gov.in" class="fw-normal" title="Mobile Number"> 9413209999  </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-footer screen__reader">
+                    <div id="currentYear"></div>
+                    <div class="footer-right">
+                        @* <ul class="social__media">
+                        <li class="screen__reader"> <a href="https://instagram.com/sdgodisha?igshid=NzZlODBkYWE4Ng==" target="_blank" title="Instagram"> <i class="bi bi-instagram"></i>  </a> </li>
+                        <li class="screen__reader"> <a href="https://x.com/SDGOdisha?t=n2RZgxWfTc04gUGVLnlKJw&s=08" target="_blank" title="Twitter"> <i class="fa-brands bi bi-twitter-x"></i> </a> </li>
+                        </ul> *@
+                        <div id="visitorCount23">No. of Visitor <strong>0</strong></div>
+                    </div>
+                </div>
+                <div class="show-scrollTop screen__reader">
+                    <div title="Go to Top " class="screen_top" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Previous"><i class="bi bi-arrow-up"></i></div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer section Start-->
+    </div>
+    <!-- Container Section End-->
+    <div class="clearfix"></div>
+    <link rel="stylesheet" type="text/css" href="~/Landing/css/variable.css" asp-append-version="true">
+    <link rel="stylesheet" type="text/css" href="~/Landing/css/fontawesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Landing/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Landing/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/Landing/css/icomoon.css" />
+    <script src="~/Landing/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/custom/common.js" asp-append-version="true"></script>
+    <script src="~/Landing/js/wow.min.js" defer></script>
+    <script src="~/Landing/js/fontawesome.min.js" defer></script>
+    @* <script src="~/Landing/js/html5lightbox.js" defer></script> *@
+    <script src="~/Landing/js/owl.carousel.min.js" defer></script>
+  
+    <script src="~/Landing/js/swiper-bundle-min.js"></script>
+    <script src="~/Landing/js/custom-home.js"></script>
+    <script src="~/Landing/toast/jquery.toast.min.js"  asp-append-version="true"></script>
+	<script src="~/Landing/toast/toast/toast.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+<script>
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 150) {
+            $(".header-top").addClass("header-top-fix");
+            $(".primary-menu").addClass("menu-fixed");
+        } else {
+            $(".header-top").removeClass("header-top-fix");
+            $(".primary-menu").removeClass("menu-fixed");
+        }
+    });
+    // $(window).scroll(function () { $(this).scrollTop() > 150 ? $(".header-top").addClass("header-top-fix") : $(".header-top").removeClass("header-top-fix") });
+</script>
+<script>
+    function loginlink() {
+        window.location.href = "/Login/NewLogin";
+    }
+</script>
