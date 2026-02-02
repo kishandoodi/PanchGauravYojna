@@ -1,4 +1,4 @@
-﻿@model MO.WebsiteMaster.AnnouncementVM
+﻿@model MO.WebsiteMaster.Announcement
 @{
     ViewData["Title"] = "Announcement";
     Layout = "~/Views/Shared/_LayoutIn.cshtml";
@@ -6,7 +6,7 @@
 }
 <form asp-action="SaveAnnouncement" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="ExistingFilePath" />
+    <input type="hidden" asp-for="ExistingImage" />
 
     <div class="form-group">
         <label>Title</label>
@@ -15,7 +15,7 @@
 
     <div class="form-group">
         <label>Image / PDF</label>
-        <input asp-for="File" type="file" class="form-control"
+        <input asp-for="ImageFile" type="file" class="form-control"
                accept=".jpg,.jpeg,.png,.pdf" />
     </div>
 

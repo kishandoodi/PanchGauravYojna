@@ -13,7 +13,6 @@ namespace PanchGauravYojna.Controllers
         private readonly IWebHostEnvironment _env;
         private readonly ISliderVM _sliderService;
         #endregion
-
         #region Constructor
         public WebsiteMasterController(IWebHostEnvironment env , ISliderVM sliderService)
         {
@@ -97,17 +96,12 @@ namespace PanchGauravYojna.Controllers
         #region Announcement
         public async Task<IActionResult> Announcement()
         {
-            var list = await _sliderService.GetAllAnnouncement();
-
-            var model = list
-                .Where(x => x.IsActive)
-                .OrderBy(x => x.DisplayOrder ?? int.MaxValue)
-                .ToList();
-
+            var model = new Announcement();
+            model.AnnouncementList = await _sliderService.GetAllSliderImage();
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> SaveAnnouncement(AnnouncementVM model)
+        public async Task<IActionResult> SaveAnnouncement(Announcement model)
         {
             string filePath = model.ExistingFilePath;
             string fileType = "";
