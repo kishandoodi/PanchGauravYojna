@@ -2,7 +2,7 @@
 
 var gauravQuestion = {
     getdata: function () {
-        //debugger;
+      
         //alert("in");
         var status = true;
         var Gaurav = $('#Gaurav option:selected').val();
@@ -34,7 +34,7 @@ var gauravQuestion = {
         }
 
         common.ShowLoader();
-        //debugger;
+    
 
         ajax.doGetAjax(`${domain.getdomain()}/Indicator/GetGauravQuestion?gauravId=${Gaurav}&&districtId=${District}`, function (r) {
             console.log(r);
@@ -233,7 +233,7 @@ var gauravQuestion = {
     },
 
     savedata: function () {
-        //debugger;
+       
         var tableData = [];
         var gauravName = "";
 
@@ -265,7 +265,7 @@ var gauravQuestion = {
                 tableData.push(rowData);
             }
         });
-        //debugger;
+        
         console.log(tableData);
         common.ShowLoader();
         ajax.AjaxPost(`${domain.getdomain()}/Indicator/SaveIndicatorTargetMaster`, JSON.stringify(tableData), function (r) {
@@ -280,7 +280,7 @@ var gauravQuestion = {
     },
 
     getdatanw: function () {
-        //debugger;
+       
         //alert("in");
         var status = true;
         var Gaurav = $('#Gaurav option:selected').val();
@@ -312,7 +312,7 @@ var gauravQuestion = {
         }
 
         common.ShowLoader();
-        //debugger;
+       
         ajax.doGetAjax(`${domain.getdomain()}/Indicator/GetGauravQuestion?gauravId=${Gaurav}&&districtId=${District}`, function (r) {
             console.log(r);
             common.HideLoader();
@@ -633,7 +633,7 @@ var gauravQuestion = {
                         const $table = $(`.nested-table[data-qid="${block.questionId}"]`);
                         const $tbody = $table.find('tbody');
                         // 1) filter down to only question "13"
-                        //debugger;
+                        //
                         const qid = block.questionId;
                         const only13 = block.answers.filter(e => e.mainQuestionId === qid);
 
@@ -678,7 +678,7 @@ var gauravQuestion = {
                             // rowId is 1-based; convert to zero‐based index
                             const rowIndex = (sub.rowId || 1) - 1;
                             if (sub.rowId > 1) {
-                                //debugger;
+                                //
                             }
 
                             // pick that <tr>
@@ -695,7 +695,7 @@ var gauravQuestion = {
                         // helper: create one new empty <tr> for a given question
                         function createEmptyRow(qid) {
                             const colIds = subQuestionMap[1];
-                            //debugger;
+                            //
                             const $tr = $('<tr>');
                             colIds.forEach(subQId => {
                                 const rnd = Math.floor(Math.random() * 1e4);
@@ -797,7 +797,7 @@ var gauravQuestion = {
     //    });
 
     //    console.log("Final Saved Data:", resultData);
-    //    //debugger;
+    //    //
     //    alert(resultData);
     //    resultData = resultData.map(entry => {
     //        if (entry.questionId) {
@@ -870,14 +870,14 @@ var gauravQuestion = {
     GetGauravVivran: function () {
         var District = $('#District option:selected').val();
         // Get Gaurav Vivran
-        //debugger;
+       
         ajax.doGetAjax(`${domain.getdomain()}/GauravProfile/GetGauravVivran?districtId=${District}`, function (r) {
             console.log(r);
-            debugger;
+            
             common.HideLoader();
             if (r.status && r.data.data.length > 0) {
                 r.data.data.forEach(item => {
-                    debugger;
+                    
                     const name = item.gauravName.toLowerCase();
                     const gauravDistName = item.gauravDistname.toLowerCase();
                     const mangal = item.mangalName || "";
@@ -907,7 +907,7 @@ var gauravQuestion = {
                         default:
                             console.warn('Unrecognized Gaurav:', item.gauravName);
                     }
-                    debugger;
+                    
                     if (item.finalSubmit) {
                         // Make all input and textarea fields in the Vivran table readonly
                         $('#tbl_GauravVivran').find('input, textarea')
@@ -936,7 +936,7 @@ var gauravQuestion = {
         });
     },
     getGauravVivranSavePayload: function (District) {
-        debugger;
+        
         return [
             {
                 gauravName: 'Crop',
@@ -992,7 +992,7 @@ var gauravQuestion = {
         common.ShowLoader();
         ajax.doGetAjax(`${domain.getdomain()}/GauravProfile/GetMainGauravProfile?districtId=${District}`, function (r) {
             console.log(r);
-            debugger;
+            
             common.HideLoader();
 
             if (r.status && r.data) {
@@ -1103,7 +1103,7 @@ var gauravQuestion = {
 
     //step 2
     getGauravQuestions: function (guid) {
-        debugger;
+        
         var status = true;
         var District = $('#District option:selected').val();
         if (District == "-1") {
@@ -1121,7 +1121,7 @@ var gauravQuestion = {
             return false;
         }
         $('.row.justify-content-end').show();
-        //debugger;
+       
         ajax.doGetAjax(`${domain.getdomain()}/Indicator/GetGauravQuestion?gauravId=${guid}&&districtId=${District}`, function (r) {
             console.log(r);
             common.HideLoader();
@@ -1611,7 +1611,7 @@ var gauravQuestion = {
         });
 
         console.log("Final Saved Data:", resultData);
-        //debugger;
+    
         //alert(resultData);
         resultData = resultData.map(entry => {
             if (entry.questionId) {
@@ -1637,7 +1637,7 @@ var gauravQuestion = {
     },
 
     getPrintPreview: function (guid) {
-        debugger;
+        
         //alert("in");
         var status = true;
         var District = $('#District option:selected').val();
@@ -1659,7 +1659,7 @@ var gauravQuestion = {
         gauravQuestion.getStep2_FinalStatus(guid);
 
 
-        //debugger;
+      
         ajax.doGetAjax(`${domain.getdomain()}/Indicator/GetGauravQuestion?gauravId=${guid}&&districtId=${District}`, function (r) {
             console.log(r);
             //common.HideLoader();
@@ -1929,7 +1929,7 @@ var gauravQuestion = {
                         const $table = $(`.nested-table[data-qid="${block.questionId}"]`);
                         const $tbody = $table.find('tbody');
                         // 1) filter down to only question "13"
-                        //debugger;
+                        //
                         const qid = block.questionId;
                         const only13 = block.answers.filter(e => e.mainQuestionId === qid);
 
@@ -2013,14 +2013,14 @@ var gauravQuestion = {
     GetGauravVivranPrint: function () {
         var District = $('#District option:selected').val();
         // Get Gaurav Vivran
-        //debugger;
+       
         ajax.doGetAjax(`${domain.getdomain()}/GauravProfile/GetGauravVivran?districtId=${District}`, function (r) {
             console.log(r);
-            debugger;
+            
             common.HideLoader();
             if (r.status && r.data.data.length > 0) {
                 r.data.data.forEach(item => {
-                    debugger;
+                    
                     const name = item.gauravName.toLowerCase();
                     const gauravDistName = item.gauravDistname.toLowerCase();
                     const mangal = item.mangalName || "";
@@ -2063,7 +2063,7 @@ var gauravQuestion = {
         common.ShowLoader();
         ajax.doGetAjax(`${domain.getdomain()}/GauravProfile/GetMainGauravProfile?districtId=${District}`, function (r) {
             console.log(r);
-            debugger;
+            
             common.HideLoader();
 
             if (r.status && r.data) {
@@ -2116,7 +2116,7 @@ var gauravQuestion = {
     },
 
     getStep2_FinalStatus: function (guid) {
-        debugger;
+        
         //alert("in");
         var status = true;
         //var Gaurav = $('#Gaurav option:selected').val();

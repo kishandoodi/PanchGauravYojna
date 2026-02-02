@@ -170,7 +170,7 @@ var table = {
 
     },
     BindPostTable: function (url, tblId, data) {
-        debugger;
+      
         var column = [];
         var sringArray = [];
         $('#' + tblId + ' thead tr th').each(function () {
