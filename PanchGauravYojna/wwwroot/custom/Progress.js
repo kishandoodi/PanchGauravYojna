@@ -1,6 +1,6 @@
 ﻿var progress = {
     getdata: function () {
-        //debugger;
+        
         //alert("in");
         var status = true;
         var Gaurav = $('#Gaurav option:selected').val();
@@ -32,7 +32,7 @@
         }
         
         common.ShowLoader();
-        //debugger;
+        
 
         ajax.doGetAjax(`${domain.getdomain()}/Indicator/GetProgressReport?Id=${Gaurav}&&districtId=${District}`, function (r) {
             console.log(r);

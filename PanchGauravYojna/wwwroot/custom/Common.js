@@ -385,7 +385,7 @@ var common = {
     },
     BindDropdown: function (url, id, select, seletedid) {
         ajax.doGetAjax(url, function (result) {
-            debugger;
+            
             var selectOption = "";
 
             if (select != undefined) {

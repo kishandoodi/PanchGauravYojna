@@ -13,22 +13,22 @@ namespace MO.WebsiteMaster
         [ValidateNever]
         public int? Id { get; set; }
         [ValidateNever]
-        public string ExistingImage { get; set; }
+        public string? ExistingImage { get; set; }
         [ValidateNever]
         public IFormFile ImageFile { get; set; }
         public string Title { get; set; }
-        public int? IsNew { get; set; }
+        public bool IsNew { get; set; }
         public bool IsActive { get; set; }
         public int? DisplayOrder { get; set; }
         [ValidateNever]
-        public List<AnnouncementList> AnnouncementList { get; set; }
+        public List<AnnouncementList>? AnnouncementList { get; set; }
     }
     public class mst_Announcement
     {
         public int? Id { get; set; }
         public string ImageBase64 { get; set; }
         public string Title { get; set; }
-        public bool? IsNew { get; set; }
+        public bool IsNew { get; set; }
         public bool IsActive { get; set; }
         public int? DisplayOrder { get; set; }
     }
@@ -36,23 +36,23 @@ namespace MO.WebsiteMaster
     {
         public int? Id { get; set; }
         public string Title { get; set; }
-        public bool? IsNew { get; set; }
+        public bool IsNew { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
         public string ImageBase64 { get; set; }
         public int? DisplayOrder { get; set; }
     }
-    public class HomeSliderVM
+    public class HomeAnnouncement
     {
         public string ImageBase64 { get; set; }
         public string Title { get; set; }
         public int? DisplayOrder { get; set; }
-        public bool? IsNew { get; set; }
+        public bool IsNew { get; set; }
     }
-    public class ToggleSliderVM
+    public class ToggleAnnouncement
     {
         public int Id { get; set; }
-        public bool? IsActive { get; set; }
-        public bool? IsNew { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsNew { get; set; }
     }
 }
