@@ -3,6 +3,8 @@
     ViewData["Title"] = "Announcement";
     Layout = "~/Views/Shared/_LayoutIn.cshtml";
     var nonce = Context.Items["CSPNonce"]?.ToString();
+    var message = TempData["Message"] as string;
+    bool? status = TempData["Status"] as bool?;
 }
 <style nonce="@nonce">
     /* Overlay */
@@ -52,6 +54,12 @@
         .manual-close:hover {
             color: red;
         }
+
+    .action-btn {
+        min-width: 90px;
+        text-align: center;
+    }
+
 </style>
 <div class="card radius-10">
     <div class="card-header color-header headercolor1">
@@ -76,11 +84,13 @@
     <div class="form-group">
         <label>Title</label>
         <input type="text" asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label>Display Order</label>
-        <input type="number" asp-for="DisplayOrder" class="form-control" />
+                <input type="number" asp-for="DisplayOrder" class="form-control" />
+                <span asp-validation-for="DisplayOrder"class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -117,6 +127,7 @@
                 <th>Title</th>
                 <th>Display Order</th>
                 <th>Is Active</th>
+                <th>Is New</th>
                 <th >Action</th>
             </tr>
         </thead>
@@ -150,26 +161,35 @@
                         <td class="text-center">
                             @(item.IsActive ? "Active" : "Inactive")
                         </td>
+                                <td class="text-center">
+                                    @(item.IsNew ? "New" : "NotNew")
+                                </td>
                         <td class="text-center">
                             @*   <button class="btn btn-sm btn-warning">Edit</button> *@
                             <button type="button"
-                                    class="btn btn-sm btn-warning edit-btn-Announcement"
+                                            class="btn btn-sm action-btn btn-warning edit-btn-Announcement"
                                     data-id="@item.Id"
                                     data-title="@item.Title"
                                     data-order="@item.DisplayOrder"
                                     data-active="@item.IsActive"
+                                    data-isnew="@item.IsNew"
                                     data-image="@item.ImageBase64">
                                 Edit
                             </button>
 
-                            <button class="btn btn-sm btn-danger del-btn-Announcement" data-sliderid="@item.Id">Delete</button>
+                                    <button class="btn btn-sm action-btn btn-danger del-btn-Announcement" data-sliderid="@item.Id">Delete</button>
                             <button type="button"
-                                    class="btn btn-sm toggle-status-btn-Announcement @(item.IsActive ? "btn-secondary" : "btn-success")"
+                                            class="btn btn-sm action-btn toggle-status-btn-Announcement @(item.IsActive ? "btn-secondary" : "btn-success")"
                                     data-id="@item.Id"
                                     data-status="@item.IsActive">
                                 @(item.IsActive ? "Deactivate" : "Activate")
                             </button>
-
+                                    <button type="button"
+                                            class="btn btn-sm action-btn toggle-IsNew-btn-Announcement @(item.IsNew ? "btn-secondary" : "btn-success")"
+                                            data-id="@item.Id"
+                                            data-isnew="@item.IsNew">
+                                        @(item.IsNew ? "NotNew" : "New")
+                                    </button>
 
                         </td>
                     </tr>
@@ -208,3 +228,21 @@
 <script nonce="@nonce"
         src="~/custom/announcement.js"
         asp-append-version="true"></script>
+<script nonce="@nonce">
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var hasMessage = @(message != null ? "true" : "false");
+
+        if (hasMessage) {
+            var msg = "@message";
+            var stat = @(status == true ? "true" : "false");
+
+            if (stat) {
+                toast.showToast('success', msg, 'Success');
+            } else {
+                toast.showToast('error', msg, 'Error');
+            }
+        }
+
+    });
+</script>

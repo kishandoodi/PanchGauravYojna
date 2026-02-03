@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,9 +17,12 @@ namespace MO.WebsiteMaster
         public string? ExistingImage { get; set; }
         [ValidateNever]
         public IFormFile ImageFile { get; set; }
+        [Required(ErrorMessage = "Title required")]
         public string Title { get; set; }
         public bool IsNew { get; set; }
         public bool IsActive { get; set; }
+        [Required(ErrorMessage = "Display order is required")]
+        [Range(1, int.MaxValue,ErrorMessage = "Display order must be > 0")]
         public int? DisplayOrder { get; set; }
         [ValidateNever]
         public List<AnnouncementList>? AnnouncementList { get; set; }

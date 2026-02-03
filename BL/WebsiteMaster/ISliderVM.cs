@@ -7,20 +7,24 @@ namespace BL.WebsiteMaster
 {
     public interface ISliderVM
     {
+        #region slider image master
         Task<result> SaveSliderAsync(mst_Slider model);
         Task<List<SliderListVM>> GetAllSliderImage();
         Task<result> UpdateSliderAsync(mst_Slider entity);
         Task<result> deleteSliderRow(int rowId);
         Task<result> ToggleStatusAsync(int id, bool isActive);
-        #region Accouncement
+        #endregion
+        #region Accouncement master
         Task<List<AnnouncementList>> GetAllAnnouncement();
         Task<result> SaveAnnouncement(mst_Announcement model);
         Task<result> UpdateAnnouncement(mst_Announcement entity);
         Task<result> deleteAnnouncementRow(int rowId);
         Task<result> ToggleAnnouncementStatus(int id, bool? isActive);
-        Task<result> ToggleAnnouncementIsnew(int id, bool? isnew);
+        Task<result> ToggleAnnouncementIsNew(int id, bool? isnew);
         #endregion
-
+        #region Home Page Component
+        Task<HomePageVM> GetHomePageComponent();
+        #endregion
 
     }
 }

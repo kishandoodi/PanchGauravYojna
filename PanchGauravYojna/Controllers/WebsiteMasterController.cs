@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MO.Common;
 using MO.WebsiteMaster;
 using System.Threading.Tasks;
 
@@ -93,7 +94,7 @@ namespace PanchGauravYojna.Controllers
         }
 
         #endregion
-        #region Announcement
+        #region Announcement list save & update
         public async Task<IActionResult> Announcement()
         {
             var model = new Announcement();
@@ -145,11 +146,14 @@ namespace PanchGauravYojna.Controllers
                 IsNew = model.IsNew,
                 ImageBase64 = imageBase64
             };
-
+            result apiResult;
             if (model.Id > 0)
-                await _sliderService.UpdateAnnouncement(entity);   // 👈 UPDATE
+                apiResult =await _sliderService.UpdateAnnouncement(entity);   // 👈 UPDATE
             else
-                await _sliderService.SaveAnnouncement(entity);     // 👈 INSERT
+                apiResult =await _sliderService.SaveAnnouncement(entity);     // 👈 INSERT
+
+            TempData["Status"] = apiResult.status;
+            TempData["Message"] = apiResult.message;
 
             return RedirectToAction(nameof(Announcement));
         }
@@ -175,11 +179,12 @@ namespace PanchGauravYojna.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ToggleAnnouncementIsnew([FromBody] ToggleAnnouncement model)
+        public async Task<IActionResult> ToggleAnnouncementIsNew([FromBody] ToggleAnnouncement model)
         {
-            var result = await _sliderService.ToggleAnnouncementIsnew(model.Id, model.IsNew);
+            var result = await _sliderService.ToggleAnnouncementIsNew(model.Id, model.IsNew);
             return Json(result);
         }
+     
         #endregion
     }
 }

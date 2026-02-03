@@ -23,7 +23,7 @@ namespace BL.WebsiteMaster
             _iSql = iSql;
         }
         #endregion
-
+        #region slider image save , get & update,delete methods
         public async Task<result> SaveSliderAsync(mst_Slider model)
         {
             result res = new result();
@@ -94,7 +94,6 @@ namespace BL.WebsiteMaster
 
             return list;
         }
-
         public async Task<result> UpdateSliderAsync(mst_Slider entity)
         {
             result res = new result();
@@ -142,7 +141,6 @@ namespace BL.WebsiteMaster
 
             return res;
         }
-
         public async Task<result> deleteSliderRow(int rowId)
         {
             result res = new result();
@@ -226,6 +224,8 @@ namespace BL.WebsiteMaster
 
             return res;
         }
+        #endregion
+        #region Announcement save,get,& update,delete methods
         public async Task<result> SaveAnnouncement(mst_Announcement model)
         {
             result res = new result();
@@ -285,7 +285,7 @@ namespace BL.WebsiteMaster
                             Title = row.Field<string>("Title"),
                             DisplayOrder = row.Field<int?>("DisplayOrder"),
                             IsActive = row.Field<bool>("IsActive"),
-                            IsNew = row.Field<bool>("IsNew"),
+                            IsNew = row.Field<bool?>("IsNew") ?? false,
                             CreatedDate = row.Field<DateTime>("CreatedDate"),
                             ImageBase64 = row.Field<string>("ImageBase64")
                         });
@@ -355,7 +355,6 @@ namespace BL.WebsiteMaster
 
             return res;
         }
-
         public async Task<result> deleteAnnouncementRow(int rowId)
         {
             result res = new result();
@@ -439,8 +438,7 @@ namespace BL.WebsiteMaster
 
             return res;
         }
-
-        public async Task<result> ToggleAnnouncementIsnew(int id, bool? isnew)
+        public async Task<result> ToggleAnnouncementIsNew(int id, bool? isnew)
         {
             result res = new result();
 
@@ -450,7 +448,7 @@ namespace BL.WebsiteMaster
                 {
               new SqlParameter("@Action", "ToggleStatusIsnew"),
         new SqlParameter("@Id", id),
-        new SqlParameter("@IsActive", isnew)
+        new SqlParameter("@IsNew", isnew)
                 };
 
 
@@ -482,6 +480,52 @@ namespace BL.WebsiteMaster
 
             return res;
         }
+        #endregion
+        #region Home page Related
+        public async Task<HomePageVM> GetHomePageComponent()
+        {
+            HomePageVM model = new();
 
+            try
+            {
+                DataSet ds = await _iSql.ExecuteProcedure("sp_GetHomePageData");
+
+                // ---------- Slider ----------
+                if (ds.Tables.Count > 0)
+                {
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        model.Sliders.Add(new HomePageSliderVM
+                        {
+                            Title = row.Field<string?>("Title"),
+                            DisplayOrder = row.Field<int?>("DisplayOrder"),
+                            ImageBase64 = row.Field<string?>("ImageBase64")
+                        });
+                    }
+                }
+
+                // ---------- Announcement ----------
+                if (ds.Tables.Count > 1)
+                {
+                    foreach (DataRow row in ds.Tables[1].Rows)
+                    {
+                        model.Announcements.Add(new AnnouncementVM
+                        {
+                            Title = row.Field<string?>("Title"),
+                            DisplayOrder = row.Field<int?>("DisplayOrder"),
+                            FileBase64 = row.Field<string?>("ImageBase64"),
+                            IsNew = row.Field<bool?>("IsNew") ?? false
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching homepage data", ex);
+            }
+
+            return model;
+        }
+        #endregion
     }
 }

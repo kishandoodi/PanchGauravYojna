@@ -9,31 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const closeBtn = document.querySelector(".manual-close");
     const btnCancel = document.getElementById("btnCancelAnnouncement");
     const btnSave = document.getElementById("btnAnnouncement");
-    // Open modal
-    //document.addEventListener("click", function (e) {
-    //    const btn = e.target.closest(".view-Announcement-btn");
-    //    if (!btn) return;
-
-    //    modalImg.src = btn.dataset.image;
-    //    modal.style.display = "flex";
-    //});
-    //document.addEventListener("click", function (e) {
-    //    const btn = e.target.closest(".view-Announcement-btn");
-    //    if (!btn) return;
-
-    //    const fileSrc = btn.dataset.image;
-    //    modalContent.innerHTML = "";
-
-    //    if (fileSrc.includes("application/pdf")) {
-    //        modalContent.innerHTML =
-    //            `<iframe src="${fileSrc}" width="800" height="600"></iframe>`;
-    //    } else {
-    //        modalContent.innerHTML =
-    //            `<img src="${fileSrc}" class="manual-modal-image"/>`;
-    //    }
-
-    //    modal.style.display = "flex";
-    //});
     document.addEventListener("click", function (e) {
 
         const btn = e.target.closest(".download-Announcement-btn");
@@ -89,7 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("DisplayOrder").value = btn.dataset.order;
         document.getElementById("IsActive").checked =
             btn.dataset.active === "True" || btn.dataset.active === "true";
-
+        document.getElementById("IsNew").checked =
+            btn.dataset.isnew === "True" || btn.dataset.isnew === "true";
         document.getElementById("ExistingImage").value = btn.dataset.image;
 
         // Change button text
@@ -140,6 +116,38 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    document.querySelectorAll(".toggle-IsNew-btn-Announcement").forEach(btn => {
+        btn.addEventListener("click", function () {
+
+            const sliderId = this.dataset.id;
+            const isnew = this.dataset.isnew === "True";
+
+            if (!confirm("Are you sure you want to change this?")) return;
+
+            fetch('/WebsiteMaster/ToggleAnnouncementIsNew', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken':
+                        document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({
+                    id: sliderId,
+                    IsNew: !isnew
+                })
+            })
+                .then(r => r.json())
+                .then(res => {
+                    if (res.status) {
+                        toast.showToast('success', res.message, 'success');
+                        location.reload();
+                    } else {
+                        toast.showToast('error', res.message, 'error');
+                    }
+                });
+        });
+    });
+
     btnCancel.addEventListener("click", function () {
 
         // 🔹 Clear text fields
@@ -149,6 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 🔹 Uncheck checkbox
         document.getElementById("IsActive").checked = false;
 
+        document.getElementById("IsNew").checked = false;
         // 🔹 Clear file input (important)
         const fileInput = document.querySelector("input[type='file']");
         if (fileInput) fileInput.value = "";

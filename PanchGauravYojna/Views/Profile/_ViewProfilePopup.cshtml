@@ -272,32 +272,31 @@
      //  });
      //side popup
 
-     document.addEventListener("click", function (e) {
+        document.addEventListener("click", function (e) {
 
-         const btn = e.target.closest(".btn-view-last-remark");
-         if (!btn) return;
+        const btn = e.target.closest(".btn-view-last-remark");
+        if (!btn) return;
 
-         const gauravGuid = btn.getAttribute("data-guid");
+        const gauravGuid = btn.getAttribute("data-guid");
 
-         $.ajax({
-             url: '/Profile/ViewTrail',
-             type: 'GET',
-             data: { gauravGuid: gauravGuid },
-             success: function (response) {
+        $.ajax({
+            url: '/Profile/ViewTrail',
+            type: 'GET',
+            data: { gauravGuid: gauravGuid },
+            success: function (response) {
 
-                 // load content
-                 $('#trailOffcanvasBody').html(response);
+                $('#trailOffcanvasBody').html(response);
 
-                 // show popup
-                 const canvasEl = document.getElementById('trailOffcanvas');
-                 const offcanvas = new bootstrap.Offcanvas(canvasEl);
-                 offcanvas.show();
-             },
-             error: function () {
-                 alert('Failed to load remark history');
-             }
-         });
-     });
+                const canvasEl = document.getElementById('trailOffcanvas');
+
+                const offcanvas =
+                    bootstrap.Offcanvas.getOrCreateInstance(canvasEl);
+
+                offcanvas.show();
+            }
+        });
+    });
+
 </script>
 
 
