@@ -1,4 +1,5 @@
-﻿@model List<MO.WebsiteMaster.HomeSliderVM>
+﻿@* @model List<MO.WebsiteMaster.HomePagecomponent> *@
+@model MO.WebsiteMaster.HomePageVM
 
 
 
@@ -73,18 +74,36 @@
                             <h5>Announcements</h5>
                         </div>
                         <div class="announcements_box">
-                            <p>
+                           @*  <p>
                                <a href="~/Landing/GuidLine/Revised _Guidelines_Panch.pdf" target="_blank">
                                    Click here for Panch Gaurav  Programme (PGP) 2025 Guideline
                                    <span class="new-icon"></span>
                                </a>
-                            </p>
+                            </p> *@
                             @*<p>
                                 <a href="~/Landing/GuidLine/Revised _Guidelines_Panch.pdf" target="_blank">
                                     Click here for Panch Gaurav  Programme (PGP) 2025 Details
                                     <span class="new-icon"></span>
                                 </a> 
                               </p>*@
+                            @foreach (var item in Model.Announcements
+                                                        .OrderBy(x => x.DisplayOrder))
+                            {
+                                <p>
+                                    <a href="@item.FileBase64"
+                                       target="_blank"
+                                       download="Announcement.pdf">
+
+                                        @item.Title
+
+                                        @if (item.IsNew)
+                                        {
+                                            <span class="new-icon"></span>
+                                        }
+
+                                    </a>
+                                </p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -95,127 +114,19 @@
 
 
 </div>
-<!-- slider section -->
-@* <script nonce="@nonce">
-    // let slide_data = [
-    //     { src: '/Landing/images/slider/28th_March_Bhilwara_2.jpeg', title: 'Slide 1', copy: 'Panch Gaurav Programme (PGP) 2024-25' },
-    //     { src: '/Landing/images/slider/Panch_Gaurav_Program_28th_March_Bhilwara_1.jpeg', title: 'Slide 2', copy: 'Panch Gaurav Programme (PGP) 2024-25' },
-    //     { src: '/Landing/images/slider/41_3.jpeg', title: 'Slide 3', copy: 'Panch Gaurav Programme (PGP) 2024-25' },
-    //     { src: '/Landing/images/slider/PanchGauravSlider1_4.jpeg', title: 'Slide 4', copy: 'Panch Gaurav Programme (PGP) 2024-25' },
-    // ];
-        let slide_data = [
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        <text>
-        {
-            src: '@Html.Raw(Model[i].ImageBase64)',
-            title: '@Model[i].Title',
-            copy: '@Model[i].Title'
-        }@(i < Model.Count - 1 ? "," : "")
-        </text>
-    }
-    ];
 
-    let slides = [], captions = [];
-
-    let autoplay = setInterval(nextSlide, 5000);
-    let container = document.getElementById('container');
-    let leftSlider = document.getElementById('left-col');
-    let down_button = document.getElementById('down_button');
-
-    down_button.addEventListener('click', function (e) {
-        e.preventDefault();
-        clearInterval(autoplay);
-        nextSlide();
-    });
-
-    for (let i = 0; i < slide_data.length; i++) {
-        let slide = document.createElement('div');
-        let caption = document.createElement('div');
-        let slide_title = document.createElement('div');
-
-        slide.classList.add('slide');
-        slide.style.backgroundImage = `url('${slide_data[i].src}')`;  // ✅ FIXED
-
-        caption.classList.add('caption');
-        slide_title.classList.add('caption-heading');
-        //slide_title.innerHTML = `<h1>${slide_data[i].title}</h1>`; // ✅ FIXED
-
-        if (i === 0) {
-            slide.classList.add('current');
-            caption.classList.add('current-caption');
-        } else if (i === 1) {
-            slide.classList.add('next');
-            caption.classList.add('next-caption');
-        } else if (i === slide_data.length - 1) {
-            slide.classList.add('previous');
-            caption.classList.add('previous-caption');
-        }
-
-        caption.appendChild(slide_title);
-        caption.insertAdjacentHTML('beforeend', `<div class="caption-subhead"><span>${slide_data[i].copy}</span></div>`);
-        slides.push(slide);
-        captions.push(caption);
-
-        leftSlider.appendChild(slide);
-        container.appendChild(caption);
-    }
-
-    function nextSlide() {
-        slides[0].classList.remove('current');
-        slides[0].classList.add('previous', 'change');
-        slides[1].classList.remove('next');
-        slides[1].classList.add('current');
-        slides[2].classList.add('next');
-        slides[slides.length - 1].classList.remove('previous');
-
-        captions[0].classList.remove('current-caption');
-        captions[0].classList.add('previous-caption', 'change');
-        captions[1].classList.remove('next-caption');
-        captions[1].classList.add('current-caption');
-        captions[2].classList.add('next-caption');
-        captions[captions.length - 1].classList.remove('previous-caption');
-
-        slides.push(slides.shift());
-        captions.push(captions.shift());
-    }
-
-    // ✅ Use first caption element to attach transition listener
-    function whichTransitionEvent() {
-        let el = document.createElement("fakeelement");
-        let transitions = {
-            "transition": "transitionend",
-            "OTransition": "oTransitionEnd",
-            "MozTransition": "transitionend",
-            "WebkitTransition": "webkitTransitionEnd"
-        };
-        for (let t in transitions) {
-            if (el.style[t] !== undefined) return transitions[t];
-        }
-    }
-
-    let transitionEvent = whichTransitionEvent();
-    let firstCaption = document.querySelector('.caption.current-caption');
-
-    if (firstCaption) {
-        firstCaption.addEventListener(transitionEvent, function customFunction(event) {
-            firstCaption.removeEventListener(transitionEvent, customFunction);
-            console.log('Animation ended');
-        });
-    }
-</script> *@
 
 
 <script nonce="@nonce">
-    let slide_data = [
-    @for (int i = 0; i < Model.Count; i++)
+        let slide_data = [
+    @for (int i = 0; i < Model.Sliders.Count; i++)
     {
             <text>
             {
-                src: '@Html.Raw(Model[i].ImageBase64)',
-                title: '@Model[i].Title',
-                copy: '@Model[i].Title'
-            }@(i < Model.Count - 1 ? "," : "")
+                src: '@Html.Raw(Model.Sliders[i].ImageBase64)',
+                title: '@Model.Sliders[i].Title',
+                copy: '@Model.Sliders[i].Title'
+            }@(i < Model.Sliders.Count - 1 ? "," : "")
             </text>
     }
     ];
@@ -228,11 +139,7 @@
     let leftSlider = document.getElementById('left-col');
     let down_button = document.getElementById('down_button');
 
-    // down_button.addEventListener('click', function (e) {
-    //     e.preventDefault();
-    //     clearInterval(autoplay);
-    //     nextSlide();
-    // });
+  
         if (down_button) {
         down_button.addEventListener('click', function (e) {
             e.preventDefault();
@@ -277,30 +184,7 @@
         container.appendChild(caption);
     }
 
-    // function nextSlide() {
-    //     if (slides.length < 3) return;
-
-    //     slides[0].classList.remove('current');
-    //     slides[0].classList.add('previous', 'change');
-
-    //     slides[1].classList.remove('next');
-    //     slides[1].classList.add('current');
-
-    //     slides[2].classList.add('next');
-    //     slides[slides.length - 1].classList.remove('previous');
-
-    //     captions[0].classList.remove('current-caption');
-    //     captions[0].classList.add('previous-caption', 'change');
-
-    //     captions[1].classList.remove('next-caption');
-    //     captions[1].classList.add('current-caption');
-
-    //     captions[2].classList.add('next-caption');
-    //     captions[captions.length - 1].classList.remove('previous-caption');
-
-    //     slides.push(slides.shift());
-    //     captions.push(captions.shift());
-    // }
+   
 
         function nextSlide() {
 

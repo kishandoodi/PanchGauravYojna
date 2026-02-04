@@ -16,30 +16,11 @@ namespace PanchGauravYojna.Controllers
             _sliderService = sliderService;
         }
 
-
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
         public async Task<IActionResult> Index()
         {
-            var sliders = await _sliderService.GetAllSliderImage();
-
-            var model = sliders
-                .Where(x => x.IsActive)
-                .OrderBy(x => x.DisplayOrder ?? int.MaxValue)
-                .Select(x => new HomeSliderVM
-                {
-                    ImageBase64 = x.ImageBase64,
-                    Title = x.Title,
-                    DisplayOrder = x.DisplayOrder
-                })
-                .ToList();
-
+            var model = await _sliderService.GetHomePageComponent();
             return View(model);
         }
-
-
 
         public IActionResult AboutUs()
         {

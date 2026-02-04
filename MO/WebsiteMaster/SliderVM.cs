@@ -39,12 +39,25 @@ namespace MO.WebsiteMaster
         public DateTime CreatedDate { get; set; }
         public string ImageBase64 { get; set; }
     }
-    public class HomeSliderVM
+    public class HomePageVM
     {
-        public string ImageBase64 { get; set; }
-        public string Title { get; set; }
+        public List<HomePageSliderVM> Sliders { get; set; } = new();
+        public List<AnnouncementVM> Announcements { get; set; } = new();
+    }
+    public class HomePageSliderVM
+    {
+        public string? ImageBase64 { get; set; }
+        public string? Title { get; set; }
         public int? DisplayOrder { get; set; }
     }
+    public class AnnouncementVM
+    {
+        public string? FileBase64 { get; set; }
+        public string? Title { get; set; }
+        public int? DisplayOrder { get; set; }
+        public bool IsNew { get; set; }
+    }
+
     public class ToggleSliderVM
     {
         public int Id { get; set; }

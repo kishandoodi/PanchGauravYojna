@@ -52,6 +52,11 @@
         .manual-close:hover {
             color: red;
         }
+
+    .action-btn {
+        min-width: 90px;
+        text-align: center;
+    }
 </style>
 <div class="card radius-10">
     <div class="card-header color-header headercolor1">
@@ -80,7 +85,7 @@
 
     <div class="form-group">
         <label>Display Order</label>
-        <input type="number" asp-for="DisplayOrder" class="form-control" />
+                <input type="number" asp-for="DisplayOrder" class="form-control" min="1" />
     </div>
 
     <div class="form-group">
@@ -139,7 +144,7 @@
                         <td class="text-center">
                           @*   <button class="btn btn-sm btn-warning">Edit</button> *@
                             <button type="button"
-                                    class="btn btn-sm btn-warning edit-btn"
+                                            class="btn btn-sm action-btn btn-warning edit-btn"
                                     data-id="@item.Id"
                                     data-title="@item.Title"
                                     data-order="@item.DisplayOrder"
@@ -148,9 +153,9 @@
                                 Edit
                             </button>
 
-                            <button class="btn btn-sm btn-danger del-btn" data-sliderid="@item.Id">Delete</button>
+                                    <button class="btn btn-sm action-btn btn-danger del-btn" data-sliderid="@item.Id">Delete</button>
                             <button type="button"
-                                    class="btn btn-sm toggle-status-btn @(item.IsActive ? "btn-secondary" : "btn-success")"
+                                            class="btn btn-sm action-btn toggle-status-btn @(item.IsActive ? "btn-secondary" : "btn-success")"
                                     data-id="@item.Id"
                                     data-status="@item.IsActive">
                                 @(item.IsActive ? "Deactivate" : "Activate")
