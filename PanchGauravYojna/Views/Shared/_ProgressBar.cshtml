@@ -170,16 +170,24 @@
 </div>
 
 <!-- Progress bar se alag button -->
-<div class="remark-bar">
-    <div class="remark-text">
-        <strong>Last Remark:</strong>
-        <span id="lastRemarkText">Loading...</span>
-    </div>
+@{
 
-    <button class="view-trail-btn application-trail">
-        View All
-    </button>
-</div>
+    if (Model.statusClass != "status-firsttime")
+    {
+        <div class="remark-bar">
+            <div class="remark-text">
+                <strong>Last Remark:</strong>
+                <span id="lastRemarkText">Loading...</span>
+            </div>
+
+            <button class="view-trail-btn application-trail">
+                View All
+            </button>
+        </div>
+    }
+
+}
+
 
 <div class="modal fade" id="TrailModal" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">

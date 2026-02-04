@@ -21,6 +21,7 @@ namespace MO.GauravProfile
     {
         public int CurrentStep { get; set; }
         public string GauravGuid { get; set; }
+        public string statusClass { get; set; }
   
         public List<MainQuestionMO> Questions { get; set; }
     }
@@ -40,7 +41,7 @@ namespace MO.GauravProfile
     {
         public int CurrentStep { get; set; }
         public string GauravGuid { get; set; }
-  
+        public string statusClass { get; set; }
         public List<QuestionModel_step2> mainquestion { get; set; }
     }
     public class QuestionModel_step2
@@ -84,7 +85,7 @@ namespace MO.GauravProfile
     {
         public int CurrentStep { get; set; }
         public string GauravGuid { get; set; }
-  
+        public string statusClass { get; set; }
         public List<MainQuestionStep3MO> mainQuestionStep3MOs { get; set; }
     }
 

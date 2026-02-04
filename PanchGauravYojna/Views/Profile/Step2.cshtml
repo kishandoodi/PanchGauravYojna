@@ -21,7 +21,7 @@
             @await Html.PartialAsync("_ProgressBar", new MO.GauravProfile.Step1MO
             {
                 CurrentStep = Model.CurrentStep,
-                        GauravGuid = Model.GauravGuid
+                        GauravGuid = Model.GauravGuid,statusClass = Model.statusClass
                         })  
         </div>
 
@@ -139,22 +139,26 @@
         }
 
         // Event listeners
-        [
-            'TotalProposed',
-            'NodalAmount',
-            'MPLADAmount',
-            'CSRAmount',
-            'OtherAmount'
-        ].forEach(function (id) {
+        // [
+        //     'TotalProposed',
+        //     'NodalAmount',
+        //     'MPLADAmount',
+        //     'CSRAmount',
+        //     'OtherAmount'
+        // ].forEach(function (id) {
 
-            var el = document.getElementById(id);
-            if (el) {
-                el.addEventListener('input', calculatePanchGaurav);
-                el.addEventListener('change', calculatePanchGaurav);
-            }
-        });
+        //     var el = document.getElementById(id);
+        //     if (el) {
+        //         el.addEventListener('input', calculatePanchGaurav);
+        //         el.addEventListener('change', calculatePanchGaurav);
+        //     }
+        // });
 
-  
+      $(document).on(
+        "input change",
+        "#TotalProposed,#NodalAmount,#MPLADAmount,#CSRAmount,#OtherAmount",
+        calculatePanchGaurav
+    );
 
    
 </script>

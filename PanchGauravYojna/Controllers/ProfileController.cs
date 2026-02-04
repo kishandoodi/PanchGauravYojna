@@ -98,7 +98,7 @@ namespace PanchGauravYojna.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CheckAndRedirect(string guid, int gauravId)
+        public async Task<IActionResult> CheckAndRedirect(string guid, int gauravId,string statusClass)
         {
             int districtId = Convert.ToInt32(User.FindFirst("DistrictId")?.Value);
 
@@ -113,7 +113,7 @@ namespace PanchGauravYojna.Controllers
             else
             {
                 // If step-2 does not exist → redirect to profile form
-                return RedirectToAction("Step1", new { guid = guid });
+                return RedirectToAction("Step1", new { guid = guid , statusClass = statusClass });
             }
         }
         #endregion
@@ -158,7 +158,7 @@ namespace PanchGauravYojna.Controllers
 
         #region Step1
         [HttpGet]
-        public async Task<IActionResult> Step1(string guid)
+        public async Task<IActionResult> Step1(string guid,string statusClass)
         {
             int districtId = Convert.ToInt32(User.FindFirst("DistrictId")?.Value);
 
@@ -168,7 +168,8 @@ namespace PanchGauravYojna.Controllers
             model.GauravGuid = guid;
             var _questionlist = await _igauravProfileAnswer.GetStep1Questions(districtId,guid);
             model.Questions = _questionlist.data;
-           // model.LastRemark = _questionlis;
+            model.statusClass = statusClass;
+            // model.LastRemark = _questionlis;
             return View(model);
         }
         [HttpPost]
