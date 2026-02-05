@@ -1,5 +1,6 @@
 ﻿using BL;
 using BL.Account;
+using BL.BudgetMaster;
 using BL.Common;
 using BL.Department;
 using BL.FinancialYear;
@@ -38,7 +39,9 @@ namespace PanchGauravYojna
             services.AddScoped(typeof(IFinancialYear), typeof(FinancialYear));
             services.AddScoped(typeof(ISliderVM), typeof(SliderVM));
             services.AddScoped<IAuthorizationHandler, PageAccessHandler>();
+            services.AddScoped<IBudgetMaster, BudgetMaster>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+          
 
             services.AddHttpContextAccessor();          
         }
