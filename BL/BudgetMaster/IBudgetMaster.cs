@@ -9,7 +9,8 @@ namespace BL.BudgetMaster
     {
         Task<result> BindGauravDropDownVetting(string userId);
         Task<result> BindDistrictDropDownVetting();
-        Task<List<VettingList>> GetVettingList(int garauvId, int districtId,int FyId);
+        Task<List<VettingList>> GetVettingList(int garauvId, int districtId, int FyId);
+
 
     }
 }

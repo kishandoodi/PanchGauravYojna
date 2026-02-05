@@ -11,10 +11,18 @@ function onDistrictChange() {
 
     if (!districtId) return;
 
-    ajax.doPostAjax("/Budget/BindBlockDropDown", { garauvId: garauvId, districtId: districtId }, function (response) {)
-};
-    
+    ajax.doPostAjaxHtml(
+        "/Budget/GetVettingList",
+        { garauvId: garauvId, districtId: districtId },
+        function (response) {
+            document.getElementById("vettingContainer").innerHTML = response;
+            
+        }
+    );
 }
+
+    
+
 
 
 function bindGarauv() {

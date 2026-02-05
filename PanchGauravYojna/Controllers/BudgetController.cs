@@ -2,6 +2,7 @@
 using BL.Progres;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MO.BudgetMaster;
 using MO.WebsiteMaster;
 
 namespace PanchGauravYojna.Controllers
@@ -46,14 +47,14 @@ namespace PanchGauravYojna.Controllers
         [HttpPost]
         public async Task<IActionResult> GetVettingList(int garauvId, int districtId)
         {
-            var model = new SliderCreateVM();
-
             int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
-            var data = await _iBudgetMaster.GetVettingList(garauvId, districtId, FyId);
-            return View(model);
-          
 
+            var data = await _iBudgetMaster.GetVettingList(garauvId, districtId, FyId);
+
+            return PartialView("_VettingList", data);
         }
+
+
 
     }
 }
