@@ -308,6 +308,27 @@ var ajax = {
             }
         });
     },
+    doPostAjaxHtml: function (url, data, callback) {
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+            dataType: "html",   // ⭐ FIX
+            headers: {
+                "RequestVerificationToken": $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (result) {
+                callback(result);
+            },
+            error: function (xhr) {
+                let message = "Something went wrong";
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                callback({ status: false, message: message });
+            }
+        });
+    },
     doPostheaderAjax: function (url, data, header, callback) {
         $.ajax({
             type: 'POST',

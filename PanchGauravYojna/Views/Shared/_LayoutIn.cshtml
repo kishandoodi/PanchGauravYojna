@@ -18,21 +18,21 @@
     <!--plugins-->
     <link rel="shortcut icon" href="~/Landing/images/favicon.ico" type="image/x-icon">
 
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true"/>
+    <link href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" asp-append-version="true" />
     @* <link href="~/lib/jquery-toast-plugin/demos/css/jquery.toast.css" rel="stylesheet" />
     <link href="~/lib/jquery-toast-plugin/demos/css/jquery.toast.min.css" rel="stylesheet" /> *@
     @* <script src="~/js/jquery-3.7.1.min.js"></script> *@
-    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="~/Landing/css/banner.css">
-    <link rel="stylesheet" href="~/Landing/css/swiper.css" />
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/Landing/css/banner.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Landing/css/swiper.css" asp-append-version="true" />
     @* <link href="~/landing/css/styles_newdashboard.css" rel="stylesheet" /> *@
-    <link href="~/landing/css/stylesheet.css" rel="stylesheet" />
+    <link href="~/landing/css/stylesheet.css" rel="stylesheet" asp-append-version="true" />
     <!--data table css-->
-    <link href="~/lib/datatables.net-dt/css/datatables.datatables.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/lib/sweetalert2/dist/sweetalert2.min.css" />
-    <link href="~/vertical/assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+    <link href="~/lib/datatables.net-dt/css/datatables.datatables.min.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/sweetalert2/dist/sweetalert2.min.css" asp-append-version="true" />
+    <link href="~/vertical/assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/vertical/assets/css/app.css" rel="stylesheet" asp-append-version="true">
     <title>@ViewData["Title"] - PGP</title>
 </head>
@@ -433,69 +433,85 @@
         <!--end wrapper-->
     </div>
 
-    <script nonce="@nonce" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script nonce="@nonce" src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     @* <link nonce="@nonce" href="~/lib/jquery-toast-plugin/demos/css/jquery.toast.css" rel="stylesheet" /> *@
     <!-- Date Time Picker -->
 
-    <script nonce="@nonce" src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-    <!-- DataTables JS -->
+    <script nonce="@nonce" src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" asp-append-version="true"></script>
+@*     <!-- DataTables JS -->
     <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.min.js"></script>
-    <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.js"></script>
+    <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.js"></script> duplicate k vagah se remove kishan *@
+
     @* <script nonce="@nonce" src="~/lib/jquery-toast-plugin/demos/js/jquery.toast.js"></script> *@
     <!--Datatable js-->
-    <script nonce="@nonce" src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script nonce="@nonce" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script nonce="@nonce" src="~/lib/jquery-validation-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script nonce="@nonce" src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
+    <script nonce="@nonce" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+    <script nonce="@nonce" src="~/lib/jquery-validation-unobtrusive/jquery.unobtrusive-ajax.js" asp-append-version="true"></script>
 
-    <script nonce="@nonce" src="~/landing/sweetalert/sweetalert2.min.js"></script>
+    <script nonce="@nonce" src="~/landing/sweetalert/sweetalert2.min.js" asp-append-version="true"></script>
     @* <script nonce="@nonce" src="~/custom/common.js"></script> *@
 
-    <script nonce="@nonce" src="~/vertical/assets/js/app.js"></script>
-    <script nonce="@nonce" src="~/vertical/assets/plugins/simplebar/js/simplebar.min.js"></script>
-    <script nonce="@nonce" src="~/vertical/assets/plugins/metismenu/js/metisMenu.min.js"></script>
-    <script nonce="@nonce" src="~/vertical/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-    <script nonce="@nonce" src="~/vertical/assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
-    <script nonce="@nonce" src="~/vertical/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script nonce="@nonce" src="~/vertical/assets/js/app.js" asp-append-version="true"></script>
+    <script nonce="@nonce" src="~/vertical/assets/plugins/simplebar/js/simplebar.min.js" asp-append-version="true"></script>
+    <script nonce="@nonce" src="~/vertical/assets/plugins/metismenu/js/metisMenu.min.js" asp-append-version="true"></script>
+    <script nonce="@nonce" src="~/vertical/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js" asp-append-version="true"></script>
+    <script nonce="@nonce" src="~/vertical/assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js" asp-append-version="true"></script>
+    <script nonce="@nonce" src="~/vertical/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js" asp-append-version="true"></script>
 
     <!--app JS-->
     <!-- DataTables JS -->
 
-    <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.min.js"></script>
-    <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.js"></script>
-    <script nonce="@nonce" src="~/Landing/js/wow.min.js" defer></script>
+   @*  <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.min.js" asp-append-version="true"></script> *@
+    <script src="~/lib/datatables.net/js/datatables.min.js" asp-append-version="true"></script>
+
+    <script nonce="@nonce" src="~/Landing/js/wow.min.js" defer asp-append-version="true"></script>
 
 
-    <script nonce="@nonce" src="~/lib/sweetalert2/dist/sweetalert2.min.js"></script>
-    <script nonce="@nonce" src="~/Landing/js/swiper-bundle-min.js"></script>
+    <script nonce="@nonce" src="~/lib/sweetalert2/dist/sweetalert2.min.js" asp-append-version="true"></script>
+    <script nonce="@nonce" src="~/Landing/js/swiper-bundle-min.js" asp-append-version="true"></script>
 
-    <script nonce="@nonce" src="~/custom/Common.js"></script>
-    <script nonce="@nonce" src="~/custom/notify.js"></script> <!-- Uses `common` -->
+    <script nonce="@nonce" src="~/custom/Common.js" asp-append-version="true"></script>
+    <script nonce="@nonce" src="~/custom/notify.js" asp-append-version="true"></script> <!-- Uses `common` -->
 
-    <script nonce="@nonce" src="~/custom/table.js"></script>
+    <script nonce="@nonce" src="~/custom/table.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
     <script nonce="@nonce">
-         document.addEventListener('DOMContentLoaded', function () {
-          var el = document.getElementById('dvLoader');
-          if (el) el.style.display = 'none';
+        //  document.addEventListener('DOMContentLoaded', function () {
+        //   var el = document.getElementById('dvLoader');
+        //   if (el) el.style.display = 'none';
+        // });
+                window.addEventListener('load', function () {
+            var el = document.getElementById('dvLoader');
+            if (el) el.style.display = 'none';
         });
 
     </script>
     @if (TempData["SuccessMessage"] != null)
     {
         <script nonce="@nonce">
-            document.addEventListener("DOMContentLoaded", () => {
+           @*  document.addEventListener("DOMContentLoaded", () => {
                 window.toast.showToast('Success','@TempData["SuccessMessage"]','success');
+            }); *@
+                        window.addEventListener('load', function () {
+                var el = document.getElementById('dvLoader');
+                if (el) el.style.display = 'none';
             });
+
         </script>
     }
 
     @if (TempData["ErrorMessage"] != null)
     {
         <script nonce="@nonce">
-            document.addEventListener("DOMContentLoaded", () => {
+            @* document.addEventListener("DOMContentLoaded", () => {
                 window.toast.showToast('Error','@TempData["ErrorMessage"]','error');
+            }); *@
+                        window.addEventListener('load', function () {
+                var el = document.getElementById('dvLoader');
+                if (el) el.style.display = 'none';
             });
+
         </script>
     }
 

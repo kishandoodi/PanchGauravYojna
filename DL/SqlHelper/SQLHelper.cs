@@ -18,7 +18,7 @@ namespace DL
         //Staging
        // public static string ConnectionString = "Server=10.70.232.77;Database=db_PGY; User Id=db_PGY;Password=pgy@2025;Integrated Security=False;";
         //Local
-        public static string ConnectionString = "Data Source=DESKTOP-312CTCR;Initial Catalog=db_PGY;Integrated Security=True";
+        public static string ConnectionString = "Data Source=.;Initial Catalog=db_PGY;Integrated Security=True";
         //public SqlConnection Connection { get; }
         public SqlConnection Connection = new SqlConnection(ConnectionString);
 

@@ -13,4 +13,5 @@ namespace MO.BudgetMaster
         public string GatividhiName { get; set; }
         public string Budget { get; set; }
     }
+
 }

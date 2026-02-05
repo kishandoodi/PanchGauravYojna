@@ -105,31 +105,44 @@ namespace BL.BudgetMaster
 
         public async Task<List<VettingList>> GetVettingList(int garauvId, int districtId, int FyId)
         {
-            List<VettingList> list = new List<VettingList>();
-
-            var param = new SqlParameter[]
+            try
             {
+                List<VettingList> list = new List<VettingList>();
+
+                var param = new SqlParameter[]
+                {
         new SqlParameter("@Action", "GetVettingList"),
-        new SqlParameter("@GarauvId", garauvId),
+        new SqlParameter("@GauravGuid", garauvId),
         new SqlParameter("@DistrictId", districtId),
         new SqlParameter("@FinancialYearId", FyId)
-            };
+                };
 
-            DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param);
+                DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param);
 
-            foreach (DataRow row in ds.Tables[0].Rows)
-            {
-                list.Add(new VettingList
+                if (ds.Tables.Count > 0)
                 {
-                    Id = row.Field<int>("Id"),
-                    Gatividhi = row.Field<string>("GarauvName"),
-                    GatividhiName = row.Field<string>("DistrictName"),
-                    Budget = row.Field<string>("Status")
-                });
-            }
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        list.Add(new VettingList
+                        {
+                            Id = row.Field<int>("RowId"),
+                            Gatividhi = row.Field<string>("Gatividhi"),
+                            GatividhiName = row.Field<string>("GatividhiName"),
+                            Budget = row.Field<string>("Budget")
+                        });
+                    }
+                }
 
-            return list;
+                return list;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
         }
+
 
     }
 }

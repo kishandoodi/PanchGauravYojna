@@ -1,4 +1,4 @@
-﻿@model MO.WebsiteMaster.SliderCreateVM
+﻿@model List<MO.BudgetMaster.VettingList>
 @{
     ViewData["Title"] = "Work Plan Vetting";
     Layout = "~/Views/Shared/_LayoutIn.cshtml";
@@ -70,22 +70,13 @@
     <select class="form-control" name="DistrictId" id="DistrictId">
     </select>
 </div>
-<div>
-<table class="table" id="vettingTable">
-    <thead>
-        <tr>
-                <th>गतिविधि</th>
-                <th>नाम</th>
-                <th>बजट</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+<hr/>
+<div id="vettingContainer">
+    <!-- table loads here -->
 </div>
 @section Scripts {
     <script nonce="@nonce"
-            src="~/custom/budgetmaster.js"
-            asp-append-version="true"></script>
+            src="~/custom/budgetmaster.js"asp-append-version="true"></script>
 }
 
 
