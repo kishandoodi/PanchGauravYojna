@@ -256,7 +256,7 @@ namespace PanchGauravYojna.Controllers
                 return RedirectToAction("Steps1");
             }
 
-            TempData["Success"] = "Step 1 answers saved successfully!";
+            TempData["Success"] = "Step 2 answers saved successfully!";
 
             // Redirect to Step 2
             return RedirectToAction("Step3", new { guid = guid });
