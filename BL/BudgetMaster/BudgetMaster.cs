@@ -1,13 +1,16 @@
 ﻿using DL;
 using MO.BudgetMaster;
 using MO.Common;
+using MO.GauravProfile;
 using MO.WebsiteMaster;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -103,46 +106,94 @@ namespace BL.BudgetMaster
 
         }
 
-        public async Task<List<VettingList>> GetVettingList(int garauvId, int districtId, int FyId)
+        public async Task<result> GetVettingList(int garauvId, int districtId, int FyId)
         {
+            result _result = new result();
             try
             {
-                List<VettingList> list = new List<VettingList>();
+                var param = new List<SqlParameter>
+        {
+                    new SqlParameter("@Action", "GetVettingList"),
+            new SqlParameter("@DistrictId", districtId),
+            new SqlParameter("@GauravGuid", garauvId),
+            new SqlParameter("@FinancialYearId", FyId)
+        };
 
-                var param = new SqlParameter[]
+                DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
-        new SqlParameter("@Action", "GetVettingList"),
-        new SqlParameter("@GauravGuid", garauvId),
-        new SqlParameter("@DistrictId", districtId),
-        new SqlParameter("@FinancialYearId", FyId)
-                };
-
-                DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param);
-
-                if (ds.Tables.Count > 0)
-                {
-                    foreach (DataRow row in ds.Tables[0].Rows)
+                    var list = ds.Tables[0].AsEnumerable().Select(row =>
                     {
-                        list.Add(new VettingList
+                        VettingList obj = new VettingList
                         {
-                            Id = row.Field<int>("RowId"),
-                            Gatividhi = row.Field<string>("Gatividhi"),
-                            GatividhiName = row.Field<string>("GatividhiName"),
-                            Budget = row.Field<string>("Budget")
-                        });
-                    }
-                }
+                            rowId = row["RowId"] != DBNull.Value ? Convert.ToInt32(row["RowId"]) : 0,
+                            SubQuestionMasterId = row["SubQuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["SubQuestionMasterId"]) : 0,
+                            AnswerValue = row["AnswerValue"]?.ToString() ?? "",
+                            QuestionMasterId = row["QuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["QuestionMasterId"]) : 0
+                        };
 
-                return list;
+                        if (obj.SubQuestionMasterId == 17)
+                        {
+                            int enumId = 0;
+                            int.TryParse(obj.AnswerValue, out enumId);
+
+                            EnumProfileQuestion enumValue =
+                                Enum.IsDefined(typeof(EnumProfileQuestion), enumId)
+                                ? (EnumProfileQuestion)enumId
+                                : EnumProfileQuestion.OtherActivity;
+
+                            obj.AnswerValue = GetDisplayName(enumValue);
+                        }
+
+                        return obj;
+                    }).ToList();
+
+                    //_result.status = true;
+                    //_result.message = "Answers fetched successfully.";
+                    //_result.data = list;
+                    var grouped = list
+     .GroupBy(x => x.rowId)
+     .Select(g => new VettingRowVM
+     {
+         RowId = (int)g.Key,
+         Columns = g
+             .GroupBy(x => x.SubQuestionMasterId)
+             .ToDictionary(
+                 x => x.Key,
+                 x => x.First().AnswerValue ?? ""
+             )
+     })
+     .ToList();
+
+
+                    _result.status = true;
+                    _result.message = "Answers fetched successfully.";
+                    _result.data = grouped ?? new List<VettingRowVM>();
+                }
+                else
+                {
+                    _result.status = false;
+                    _result.message = "No answers found.";
+                }
             }
             catch (Exception ex)
             {
-
-                throw;
+                _result.status = false;
+                _result.message = "Error: " + ex.Message;
             }
-           
+
+            return _result;
         }
 
+        public static string GetDisplayName(Enum enumValue)
+        {
+            return enumValue.GetType()
+                .GetMember(enumValue.ToString())[0]
+                .GetCustomAttribute<DisplayAttribute>()?
+                .GetName()
+                ?? enumValue.ToString();
+        }
 
     }
 }

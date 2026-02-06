@@ -1,34 +1,67 @@
-﻿@model List<MO.BudgetMaster.VettingList>
+﻿@model List<MO.BudgetMaster.VettingRowVM>
 
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>#</th>
-            <th>Gatividhi</th>
-            <th>GatividhiName</th>
-            <th>Budget</th>
+            <th>गतिविधि</th>
+            <th>गतिविधि नाम</th>
+            <th>स्वीकृत बजट</th>
+         @*    <th>MP/MLA</th>
+            <th>CSR</th>
+            <th>अन्य</th>
+            <th>जन-सहयोग</th>
+            <th>समय</th> *@
+            <th>कार्यवाही</th>
         </tr>
     </thead>
+
     <tbody>
+
         @if (Model != null && Model.Count > 0)
         {
             int i = 1;
-            foreach (var item in Model)
+
+            foreach (var row in Model)
             {
                 <tr>
                     <td>@i</td>
-                    <td>@item.Gatividhi</td>
-                    <td>@item.GatividhiName</td>
-                    <td>@item.Budget</td>
+                    <td>@(row.Columns.ContainsKey(17) ? row.Columns[17] : "")</td>
+                    <td>@(row.Columns.ContainsKey(1) ? row.Columns[1] : "")</td>
+                    <td>@(row.Columns.ContainsKey(2) ? row.Columns[2] : "")</td>
+                  @*   <td>@(row.Columns.ContainsKey(3) ? row.Columns[3] : "")</td>
+                    <td>@(row.Columns.ContainsKey(4) ? row.Columns[4] : "")</td>
+                    <td>@(row.Columns.ContainsKey(5) ? row.Columns[5] : "")</td>
+                    <td>@(row.Columns.ContainsKey(6) ? row.Columns[6] : "")</td>
+                    <td>@(row.Columns.ContainsKey(7) ? row.Columns[7] : "")</td> *@
+
+                    <td>
+                        <button class="btn btn-primary btn-sm verify-btn-vetting"
+                                data-rowid="@row.RowId"
+                                data-rowid="@row."
+                                data-rowid="@row.RowId"
+                                data-rowid="@row.RowId"
+                                >
+                            Verify
+                        </button>
+
+                    </td>
                 </tr>
+
                 i++;
             }
         }
         else
         {
             <tr>
-                <td colspan="4">No record found</td>
+                <td colspan="10" class="text-center text-danger">
+                    No data available for selected district
+                </td>
             </tr>
         }
+
     </tbody>
 </table>
+
+
+

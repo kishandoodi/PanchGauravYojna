@@ -433,7 +433,10 @@
         <!--end wrapper-->
     </div>
 
-    <script nonce="@nonce" src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    <!-- ✅ CHANGED: bootstrap.bundle use kiya (modal/backdrop fix) -->
+    <script nonce="@nonce" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+
+    @* <script nonce="@nonce" src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script> *@
     @* <link nonce="@nonce" href="~/lib/jquery-toast-plugin/demos/css/jquery.toast.css" rel="stylesheet" /> *@
     <!-- Date Time Picker -->
 
@@ -462,7 +465,9 @@
     <!-- DataTables JS -->
 
    @*  <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.min.js" asp-append-version="true"></script> *@
-    <script src="~/lib/datatables.net/js/datatables.min.js" asp-append-version="true"></script>
+   @*  <script src="~/lib/datatables.net/js/datatables.min.js" asp-append-version="true"></script> *@
+    <!-- ✅ CHANGED: nonce added -->
+    <script nonce="@nonce" src="~/lib/datatables.net/js/datatables.min.js" asp-append-version="true"></script>
 
     <script nonce="@nonce" src="~/Landing/js/wow.min.js" defer asp-append-version="true"></script>
 
@@ -487,6 +492,16 @@
         });
 
     </script>
+    <!-- ✅ CHANGED: permanent modal cleanup -->
+    <script nonce="@nonce">
+        document.addEventListener('hidden.bs.modal', function () {
+            document.body.classList.remove('modal-open');
+
+            document.querySelectorAll('.modal-backdrop')
+                .forEach(el => el.remove());
+        });
+    </script>
+
     @if (TempData["SuccessMessage"] != null)
     {
         <script nonce="@nonce">
