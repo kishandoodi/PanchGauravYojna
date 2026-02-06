@@ -49,11 +49,10 @@ namespace PanchGauravYojna.Controllers
         {
             int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
 
-            var data = await _iBudgetMaster.GetVettingList(garauvId, districtId, FyId);
+            var result = await _iBudgetMaster.GetVettingList(garauvId, districtId, FyId);
 
-            return PartialView("_VettingList", data);
+            return PartialView("_VettingList", result.data);
         }
-
 
 
     }

@@ -57,26 +57,77 @@
         min-width: 90px;
         text-align: center;
     }
+
+    .modal-backdrop.fade.show {
+        display: none !important;
+    }
+
+    body.modal-open.vetting-active .modal-backdrop {
+        display: none !important;
+    }
+
 </style>
 
-<div class="form-group">
-    <label>Garauv</label>
-    <select class="form-control" name="GarauvId" id="GarauvId">
-    </select>
-</div>
+    <div class="form-group">
+        <label>Garauv</label>
+        <select class="form-control" name="GarauvId" id="GarauvId">
+        </select>
+    </div>
 
-<div class="form-group">
-    <label>District</label>
-    <select class="form-control" name="DistrictId" id="DistrictId">
-    </select>
-</div>
-<hr/>
-<div id="vettingContainer">
-    <!-- table loads here -->
-</div>
+    <div class="form-group">
+        <label>District</label>
+        <select class="form-control" name="DistrictId" id="DistrictId">
+        </select>
+    </div>
+    <hr />
+    <div id="vettingContainer">
+        <!-- table loads here -->
+    </div>
+    <div class="modal fade" id="verifyModalvetting" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+
+                @*   <div class="modal-header">
+                <h5 class="modal-title">Verify Work Plan</h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div> *@
+
+                <div class="modal-body">
+                    <div class="row">
+
+                        <!-- LEFT (Readonly) -->
+                        <div class="col-md-6">
+                            <h6>Work Plan Submitted By District</h6>
+                            <div id="readonlyData"></div>
+                        </div>
+
+                        <!-- RIGHT (Editable) -->
+                        <div class="col-md-6">
+                            <h6>Vetted By Department</h6>
+                            <div id="editableData"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" id="saveVerify">
+                        Save
+                    </button>
+                    <button class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 @section Scripts {
     <script nonce="@nonce"
-            src="~/custom/budgetmaster.js"asp-append-version="true"></script>
+            src="~/custom/budgetmaster.js" asp-append-version="true"></script>
 }
 
 

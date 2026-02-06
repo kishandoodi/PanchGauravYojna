@@ -12,6 +12,16 @@ namespace MO.BudgetMaster
         public string Gatividhi { get; set; }
         public string GatividhiName { get; set; }
         public string Budget { get; set; }
+        public int QuestionMasterId { get; set; }
+        public int SubQuestionMasterId { get; set; }
+        public string AnswerValue { get; set; }
+        public long GauravId { get; set; }
+        public long CreatedBy { get; set; }
+        public long rowId { get; set; }
     }
-
+    public class VettingRowVM
+    {
+        public int RowId { get; set; }
+        public Dictionary<int, string> Columns { get; set; } = new();
+    }
 }
