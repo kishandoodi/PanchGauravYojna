@@ -12,7 +12,10 @@
             <th>अन्य</th>
             <th>जन-सहयोग</th>
             <th>समय</th> *@
-            <th>कार्यवाही</th>
+              @if (ViewBag.ShowVerifyButton ?? true)
+            {
+                <th>कार्यवाही</th>
+            }
         </tr>
     </thead>
 
@@ -34,18 +37,21 @@
                     <td>@(row.Columns.ContainsKey(5) ? row.Columns[5] : "")</td>
                     <td>@(row.Columns.ContainsKey(6) ? row.Columns[6] : "")</td>
                     <td>@(row.Columns.ContainsKey(7) ? row.Columns[7] : "")</td> *@
-
-                    <td>
-                        <button class="btn btn-primary btn-sm verify-btn-vetting"
+        @if (ViewBag.ShowVerifyButton ?? true)
+                    {
+                        <td>
+                            <button class="btn btn-primary btn-sm verify-btn-vetting"
                                 data-rowid="@row.RowId"
-                                data-rowid="@row."
-                                data-rowid="@row.RowId"
-                                data-rowid="@row.RowId"
-                                >
+                                data-gauravid="@row.GauravId"
+                                data-DistrictId="@row.DistrictId"
+                                data-SubQuestionMasterId="@row.SubQuestionMasterId"
+                                data-QuestionMasterId="@row.QuestionMasterId">
                             Verify
                         </button>
 
+
                     </td>
+                    }
                 </tr>
 
                 i++;

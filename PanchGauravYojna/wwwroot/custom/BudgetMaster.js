@@ -10,83 +10,7 @@
     const modalEl = document.getElementById("verifyModalvetting");
     const verifyModal = new bootstrap.Modal(modalEl);
 
-    //let currentRow = null;
-
-    //// verify click
-    //document.addEventListener("click", function (e) {
-
-    //    if (!e.target.classList.contains("verify-btn")) return;
-
-    //    currentRow = e.target.closest("tr");
-
-    //    var cols = JSON.parse(e.target.dataset.columns);
-
-    //    const columnMap = [
-    //        { id: 17, label: "गतिविधि" },
-    //        { id: 1, label: "लागत" },
-    //        { id: 2, label: "स्वीकृत बजट" }
-    //    ];
-
-    //    let readonlyHtml = "";
-    //    let editableHtml = "";
-
-    //    columnMap.forEach(col => {
-    //        let value = cols[col.id] || "";
-
-    //        readonlyHtml += `
-    //            <div class="mb-2">
-    //                <label>${col.label}</label>
-    //                <input class="form-control" value="${value}" readonly>
-    //            </div>`;
-
-    //        editableHtml += `
-    //            <div class="mb-2">
-    //                <label>${col.label}</label>
-    //                <input class="form-control edit-field"
-    //                       data-col="${col.id}"
-    //                       value="${value}">
-    //            </div>`;
-    //    });
-
-    //    document.getElementById("readonlyData").innerHTML = readonlyHtml;
-    //    document.getElementById("editableData").innerHTML = editableHtml;
-
-    //    verifyModal.show();
-    //});
-    // verify click
-    document.getElementById("verify-btn-vetting")
-        .addEventListener("click", function () {
-            const id = this.getAttribute("data-rowid");
-            const id = this.getAttribute("data-rowid");
-            const id = this.getAttribute("data-rowid");
-        });
-
-    // save click
-    document.getElementById("saveVerify")
-        .addEventListener("click", function () {
-
-            if (!currentRow) return;
-
-            const inputs = document.querySelectorAll(".edit-field");
-
-            let values = {};
-            inputs.forEach(i => {
-                values[i.dataset.col] = i.value;
-            });
-
-            currentRow.children[1].innerText = values[17] || "";
-            currentRow.children[2].innerText = values[1] || "";
-            currentRow.children[3].innerText = values[2] || "";
-
-            verifyModal.hide();
-        });
-
-    // cleanup
-    //modalEl.addEventListener("hidden.bs.modal", function () {
-    //    document.querySelectorAll(".modal-backdrop").forEach(b => b.remove());
-    //    document.body.classList.remove("modal-open");
-    //    document.body.style.removeProperty("padding-right");
-    //});
+   
 
 });
 function onDistrictChange() {
@@ -133,3 +57,97 @@ document.addEventListener('hidden.bs.modal', function () {
 
     document.body.classList.remove('modal-open');
 });
+
+document.addEventListener("click", function (e) {
+
+    const btn = e.target.closest(".verify-btn-vetting");
+    if (!btn) return;
+
+    const rawid = btn.getAttribute("data-rowid");
+    const gauravid = btn.getAttribute("data-gauravid");
+    const DistrictId = btn.getAttribute("data-districtid");
+    const SubQuestionMasterId = btn.getAttribute("data-subquestionmasterid");
+    const QuestionMasterId = btn.getAttribute("data-questionmasterid");
+
+    ajax.doPostAjaxHtml(
+        "/Budget/GetPendingVettingList",
+        {
+            RawId: rawid,
+            garauvId: gauravid,
+            DistrictId: DistrictId,
+            SubQuestionMasterId: SubQuestionMasterId,
+            QuestionMasterId: QuestionMasterId
+        },
+        function (response) {
+
+            // LEFT readonly table
+            document.getElementById("readonlyData").innerHTML = response;
+
+            // RIGHT editable version
+            document.getElementById("editableData").innerHTML = response;
+
+            // RIGHT side cells ko input me convert karo
+            document
+                .querySelectorAll("#editableData tr")
+                .forEach(tr => {
+
+                    tr.querySelectorAll("td").forEach((td, index) => {
+
+                        // index 0 = serial number column
+                        if (index === 0) return;
+
+                        // verify button wali cell skip
+                        if (td.querySelector("button")) return;
+
+                        const text = td.innerText.trim();
+                        if (!text) return;
+
+                        td.innerHTML =
+                            `<input class="form-control edit-field" data-col="${index}" value="${text}">`;
+                    });
+
+                });
+
+
+            const modal = new bootstrap.Modal(
+                document.getElementById("verifyModalvetting")
+            );
+            modal.show();
+        }
+    );
+});
+
+document.getElementById("saveVerify")
+    .addEventListener("click", function () {
+
+        let data = [];
+
+        document
+            .querySelectorAll("#editableData tr")
+            .forEach(tr => {
+
+                const rowId = document
+                    .querySelector(".verify-btn-vetting")
+                    ?.getAttribute("data-rowid");
+
+                tr.querySelectorAll(".edit-field")
+                    .forEach((input, index) => {
+
+                        data.push({
+                            RowId: rowId,
+                            ColumnIndex: index,
+                            Value: input.value
+                        });
+                    });
+            });
+
+        ajax.doPostAjax(
+            "/Budget/SaveVettingData",
+            { items: data },
+            function () {
+                alert("Saved successfully");
+                location.reload();
+            }
+        );
+    });
+

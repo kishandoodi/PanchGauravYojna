@@ -2,6 +2,7 @@
 using MO.BudgetMaster;
 using MO.Common;
 using MO.GauravProfile;
+using MO.ProfileUser;
 using MO.WebsiteMaster;
 using System;
 using System.Collections.Generic;
@@ -130,7 +131,9 @@ namespace BL.BudgetMaster
                             rowId = row["RowId"] != DBNull.Value ? Convert.ToInt32(row["RowId"]) : 0,
                             SubQuestionMasterId = row["SubQuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["SubQuestionMasterId"]) : 0,
                             AnswerValue = row["AnswerValue"]?.ToString() ?? "",
-                            QuestionMasterId = row["QuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["QuestionMasterId"]) : 0
+                            QuestionMasterId = row["QuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["QuestionMasterId"]) : 0,
+                            GauravId = row["GauravId"] != DBNull.Value ? Convert.ToInt64(row["GauravId"]) : 0,
+                            DistrictId = row["DistrictId"] != DBNull.Value ? Convert.ToInt32(row["DistrictId"]) : 0
                         };
 
                         if (obj.SubQuestionMasterId == 17)
@@ -149,22 +152,33 @@ namespace BL.BudgetMaster
                         return obj;
                     }).ToList();
 
-                    //_result.status = true;
-                    //_result.message = "Answers fetched successfully.";
-                    //_result.data = list;
+                    _result.status = true;
+                    _result.message = "Answers fetched successfully.";
+                    _result.data = list;
+
                     var grouped = list
-     .GroupBy(x => x.rowId)
-     .Select(g => new VettingRowVM
-     {
-         RowId = (int)g.Key,
-         Columns = g
-             .GroupBy(x => x.SubQuestionMasterId)
-             .ToDictionary(
-                 x => x.Key,
-                 x => x.First().AnswerValue ?? ""
-             )
-     })
-     .ToList();
+.GroupBy(x => new { x.rowId, x.GauravId, x.DistrictId })
+.Select(g => new VettingRowVM
+{
+    RowId = (int)g.Key.rowId,
+    GauravId = (int)g.Key.GauravId,
+    DistrictId = (int)g.Key.DistrictId,
+
+    QuestionMasterId = g.First().QuestionMasterId,
+    SubQuestionMasterId = g.First().SubQuestionMasterId,
+    AnswerValue = g.First().AnswerValue,
+    Fieldtype = g.First().Fieldtype,
+
+    Columns = g
+        .GroupBy(x => x.SubQuestionMasterId)
+        .ToDictionary(
+            x => x.Key,
+            x => x.First().AnswerValue ?? ""
+        )
+})
+.ToList();
+
+
 
 
                     _result.status = true;
@@ -193,6 +207,129 @@ namespace BL.BudgetMaster
                 .GetCustomAttribute<DisplayAttribute>()?
                 .GetName()
                 ?? enumValue.ToString();
+        }
+        public async Task<result> GetPendingVettingList(int RawId, int garauvId, int districtId, int FyId, int SubQuestionMasterId, int QuestionMasterId)
+        {
+            result _result = new result();
+            try
+            {
+                var param = new List<SqlParameter>
+        {
+                    new SqlParameter("@Action", "GetPendingVettingList"),
+                    new SqlParameter("@RawId", RawId),
+            new SqlParameter("@DistrictId", districtId),
+            new SqlParameter("@GauravGuid", garauvId),
+            new SqlParameter("@FinancialYearId", FyId),
+            //new SqlParameter("@SubQuestionMasterId", SubQuestionMasterId),
+            //new SqlParameter("@QuestionMasterId", QuestionMasterId)
+
+        };
+
+                DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    var list = ds.Tables[0].AsEnumerable().Select(row =>
+                    {
+                        VettingList obj = new VettingList
+                        {
+                            rowId = row["RowId"] != DBNull.Value ? Convert.ToInt32(row["RowId"]) : 0,
+                            SubQuestionMasterId = row["SubQuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["SubQuestionMasterId"]) : 0,
+                            AnswerValue = row["AnswerValue"]?.ToString() ?? "",
+                            QuestionMasterId = row["QuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["QuestionMasterId"]) : 0,
+                            GauravId = row["GauravId"] != DBNull.Value ? Convert.ToInt32(row["GauravId"]) : 0,
+                            Fieldtype = row["Fieldtype"]?.ToString() ?? ""
+
+                        };
+
+                        if (obj.SubQuestionMasterId == 17)
+                        {
+                            int enumId = 0;
+                            int.TryParse(obj.AnswerValue, out enumId);
+
+                            EnumProfileQuestion enumValue =
+                                Enum.IsDefined(typeof(EnumProfileQuestion), enumId)
+                                ? (EnumProfileQuestion)enumId
+                                : EnumProfileQuestion.OtherActivity;
+
+                            obj.AnswerValue = GetDisplayName(enumValue);
+                        }
+
+                        return obj;
+                    }).ToList();
+
+                    //_result.status = true;
+                    //_result.message = "Answers fetched successfully.";
+                    //_result.data = list;
+                    var grouped = list
+    .GroupBy(x => x.rowId)
+    .Select(g => new VettingRowVM
+    {
+        RowId = (int)g.Key,
+
+        // row level info
+        QuestionMasterId = g.First().QuestionMasterId,
+        SubQuestionMasterId = g.First().SubQuestionMasterId,
+        AnswerValue = g.First().AnswerValue,
+        Fieldtype = g.First().Fieldtype,
+
+        // table columns
+        Columns = g
+            .GroupBy(x => x.SubQuestionMasterId)
+            .ToDictionary(
+                x => x.Key,
+                x => x.First().AnswerValue ?? ""
+            )
+    })
+    .ToList();
+
+
+
+
+                    _result.status = true;
+                    _result.message = "Answers fetched successfully.";
+                    _result.data = grouped ?? new List<VettingRowVM>();
+                }
+                else
+                {
+                    _result.status = false;
+                    _result.message = "No answers found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _result.status = false;
+                _result.message = "Error: " + ex.Message;
+            }
+
+            return _result;
+        }
+        public async Task<result> SaveVettingData(List<VettingSaveVM> items)
+        {
+            result _result = new result();
+
+            try
+            {
+                foreach (var item in items)
+                {
+                    await _iSql.ExecuteProcedure(
+                        "SP_Manage_Budget",
+                        new SqlParameter("@RowId", item.RowId),
+                        new SqlParameter("@ColumnIndex", item.ColumnIndex),
+                        new SqlParameter("@Value", item.Value)
+                    );
+                }
+
+                _result.status = true;
+                _result.message = "Saved successfully";
+            }
+            catch (Exception ex)
+            {
+                _result.status = false;
+                _result.message = ex.Message;
+            }
+
+            return _result;
         }
 
     }
