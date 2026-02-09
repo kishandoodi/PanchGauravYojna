@@ -53,7 +53,23 @@ namespace PanchGauravYojna.Controllers
 
             return PartialView("_VettingList", result.data);
         }
+        [HttpPost]
+        public async Task<IActionResult> GetPendingVettingList(int RawId, int garauvId,int DistrictId,int SubQuestionMasterId,int QuestionMasterId)
+        {
+            int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
 
+            //int districtId = Convert.ToInt32(User.FindFirst("DistrictId")?.Value);
+            ViewBag.ShowVerifyButton = false;
+            var result = await _iBudgetMaster.GetPendingVettingList(RawId, garauvId, DistrictId, FyId, SubQuestionMasterId, QuestionMasterId);
+
+            return PartialView("_VettingList", result.data);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SaveVettingData(List<VettingSaveVM> items)
+        {
+            await _iBudgetMaster.SaveVettingData(items);
+            return Json(true);
+        }
 
     }
 }
