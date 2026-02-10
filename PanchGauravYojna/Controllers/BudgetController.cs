@@ -65,11 +65,27 @@ namespace PanchGauravYojna.Controllers
             return PartialView("_VettingList", result.data);
         }
         [HttpPost]
-        public async Task<IActionResult> SaveVettingData(List<VettingSaveVM> items)
+        public async Task<IActionResult> SaveVettingData(VettingSaveVM obj)
         {
-            await _iBudgetMaster.SaveVettingData(items);
-            return Json(true);
+            int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
+
+            obj.FinancialYear_Id = FyId;
+
+            var result= await _iBudgetMaster.SaveVettingData(obj);
+
+            return Json(result);
         }
+        public async Task<IActionResult> GetPendingVettingList(VettingSaveVM obj)
+        {
+            var result = await _iBudgetMaster.GetPendingVettingList(obj);
+
+            if (result.status)
+                return PartialView("_PendingVettingList",
+                    (List<VettingSaveVM>)result.data);
+
+            return PartialView("_PendingVettingList", null);
+        }
+
 
     }
 }

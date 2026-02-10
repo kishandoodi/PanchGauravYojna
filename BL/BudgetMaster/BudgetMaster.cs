@@ -106,7 +106,6 @@ namespace BL.BudgetMaster
             }
 
         }
-
         public async Task<result> GetVettingList(int garauvId, int districtId, int FyId)
         {
             result _result = new result();
@@ -157,30 +156,26 @@ namespace BL.BudgetMaster
                     _result.data = list;
 
                     var grouped = list
-.GroupBy(x => new { x.rowId, x.GauravId, x.DistrictId })
-.Select(g => new VettingRowVM
-{
-    RowId = (int)g.Key.rowId,
-    GauravId = (int)g.Key.GauravId,
-    DistrictId = (int)g.Key.DistrictId,
+                    .GroupBy(x => new { x.rowId, x.GauravId, x.DistrictId })
+                    .Select(g => new VettingRowVM
+                       {
+                 RowId = (int)g.Key.rowId,
+                 GauravId = (int)g.Key.GauravId,
+                 DistrictId = (int)g.Key.DistrictId,
 
-    QuestionMasterId = g.First().QuestionMasterId,
-    SubQuestionMasterId = g.First().SubQuestionMasterId,
-    AnswerValue = g.First().AnswerValue,
-    Fieldtype = g.First().Fieldtype,
+                QuestionMasterId = g.First().QuestionMasterId,
+                 SubQuestionMasterId = g.First().SubQuestionMasterId,
+                 AnswerValue = g.First().AnswerValue,
+                  Fieldtype = g.First().Fieldtype,
 
-    Columns = g
-        .GroupBy(x => x.SubQuestionMasterId)
-        .ToDictionary(
-            x => x.Key,
-            x => x.First().AnswerValue ?? ""
-        )
-})
-.ToList();
-
-
-
-
+                    Columns = g
+                     .GroupBy(x => x.SubQuestionMasterId)
+                      .ToDictionary(
+                          x => x.Key,
+                             x => x.First().AnswerValue ?? ""
+                              )
+                          })
+                                .ToList();
                     _result.status = true;
                     _result.message = "Answers fetched successfully.";
                     _result.data = grouped ?? new List<VettingRowVM>();
@@ -199,7 +194,6 @@ namespace BL.BudgetMaster
 
             return _result;
         }
-
         public static string GetDisplayName(Enum enumValue)
         {
             return enumValue.GetType()
@@ -262,26 +256,26 @@ namespace BL.BudgetMaster
                     //_result.message = "Answers fetched successfully.";
                     //_result.data = list;
                     var grouped = list
-    .GroupBy(x => x.rowId)
-    .Select(g => new VettingRowVM
-    {
-        RowId = (int)g.Key,
+                      .GroupBy(x => x.rowId)
+                       .Select(g => new VettingRowVM
+                        {
+                      RowId = (int)g.Key,
 
-        // row level info
-        QuestionMasterId = g.First().QuestionMasterId,
-        SubQuestionMasterId = g.First().SubQuestionMasterId,
-        AnswerValue = g.First().AnswerValue,
-        Fieldtype = g.First().Fieldtype,
+                         // row level info
+                            QuestionMasterId = g.First().QuestionMasterId,
+                             SubQuestionMasterId = g.First().SubQuestionMasterId,
+                             AnswerValue = g.First().AnswerValue,
+                                   Fieldtype = g.First().Fieldtype,
 
-        // table columns
-        Columns = g
-            .GroupBy(x => x.SubQuestionMasterId)
-            .ToDictionary(
-                x => x.Key,
-                x => x.First().AnswerValue ?? ""
-            )
-    })
-    .ToList();
+                        // table columns
+                            Columns = g
+                              .GroupBy(x => x.SubQuestionMasterId)
+                                                    .ToDictionary(
+                             x => x.Key,
+                                            x => x.First().AnswerValue ?? ""
+                                      )
+                                     })
+                               .ToList();
 
 
 
@@ -304,24 +298,89 @@ namespace BL.BudgetMaster
 
             return _result;
         }
-        public async Task<result> SaveVettingData(List<VettingSaveVM> items)
+        public async Task<result> SaveVettingData(VettingSaveVM obj)
         {
             result _result = new result();
 
             try
             {
-                foreach (var item in items)
-                {
-                    await _iSql.ExecuteProcedure(
-                        "SP_Manage_Budget",
-                        new SqlParameter("@RowId", item.RowId),
-                        new SqlParameter("@ColumnIndex", item.ColumnIndex),
-                        new SqlParameter("@Value", item.Value)
-                    );
-                }
+                var param = new List<SqlParameter>
+                    {
+                    new SqlParameter("@Action", "SavePendingVetted"),
+                       new SqlParameter("@RawId", obj.RowId),
+                        new SqlParameter("@ActivityName", obj.ActivityName),
+                        new SqlParameter("@Budget", obj.Budget),
+                        new SqlParameter("@Activity", obj.Activity),
+                        new SqlParameter("@DistrictId", obj.DistrictId),
+                        new SqlParameter("@GauravGuid", obj.GauravId),
+                        new SqlParameter("@SubQuestionMasterId", obj.SubQuestionMasterId),
+                        new SqlParameter("@QuestionMasterId", obj.QuestionMasterId),
+                        new SqlParameter("@FinancialYearId", obj.FinancialYear_Id)
+                    };
 
-                _result.status = true;
-                _result.message = "Saved successfully";
+                DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+
+                    _result.status = true;
+                    _result.message = "Saved successfully";
+                }
+                else 
+                {
+                    _result.status = false;
+                    _result.message = "Somthing Error";
+                }
+            }
+            catch (Exception ex)
+            {
+                _result.status = false;
+                _result.message = "Enter Valid Value In Budget ";
+            }
+
+            return _result;
+        }
+        public async Task<result> GetPendingVettingList(VettingSaveVM obj)
+        {
+            result _result = new result();
+
+            try
+            {
+                var param = new List<SqlParameter>
+                    {
+                    new SqlParameter("@Action", "GetPendingVettedList"),
+                      new SqlParameter("@RawId", obj.RowId),
+                    new SqlParameter("@DistrictId", obj.DistrictId),
+                        new SqlParameter("@GauravGuid", obj.GauravId),
+                        new SqlParameter("@SubQuestionMasterId", obj.SubQuestionMasterId),
+                        new SqlParameter("@QuestionMasterId", obj.QuestionMasterId)
+                    };
+
+                DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    var list = ds.Tables[0].AsEnumerable().Select(row =>
+                    {
+                        VettingSaveVM obj = new VettingSaveVM
+                        {
+                           // RowId = row["RowId"] != DBNull.Value ? Convert.ToInt32(row["RowId"]) : 0,
+                            Activity = row["Activity"]?.ToString() ?? "",
+                            ActivityName = row["ActivityName"]?.ToString() ?? "",
+                            Budget = row["Budget"]?.ToString() ?? "",
+                        };
+
+                        return obj;
+                    }).ToList();
+
+                    _result.status = true;
+                    _result.message = "Answers fetched successfully.";
+                    _result.data = list;
+                }
+                else
+                {
+                    _result.status = false;
+                    _result.message = "Somthing Error";
+                }
             }
             catch (Exception ex)
             {
@@ -331,6 +390,5 @@ namespace BL.BudgetMaster
 
             return _result;
         }
-
     }
 }

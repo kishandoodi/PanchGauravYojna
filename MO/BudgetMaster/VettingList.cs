@@ -42,9 +42,15 @@ namespace MO.BudgetMaster
     }
     public class VettingSaveVM
     {
-        public int RowId { get; set; }
-        public int ColumnIndex { get; set; }
-        public string Value { get; set; }
+        public int? RowId { get; set; }
+        public string Activity { get; set; }
+        public string ActivityName { get; set; }
+        public string Budget { get; set; }
+        public int? GauravId { get; set; }
+        public int? DistrictId { get; set; }
+        public int? QuestionMasterId { get; set; }
+        public int? SubQuestionMasterId { get; set; }
+        public int? FinancialYear_Id { get; set; }
     }
 
 }

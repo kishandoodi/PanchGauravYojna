@@ -351,6 +351,19 @@ var ajax = {
             }
         });
     },
+    doGetAjaxVetting: function (url,  data, callback) {
+        $.ajax({
+            type: 'GET',
+            url: url,
+            data: data,
+            success: function (result) {
+
+                if (typeof callback === "function") {
+                    callback(result);
+                }
+            }
+        });
+    },
     AjaxPost: function (url, data, callback) {
         $.ajax({
             type: 'POST',
