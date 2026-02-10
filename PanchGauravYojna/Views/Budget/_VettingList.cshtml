@@ -1,5 +1,17 @@
 ﻿@model List<MO.BudgetMaster.VettingRowVM>
-
+@{
+    var nonce = Context.Items["CSPNonce"]?.ToString();
+}
+@* <style nonce="@nonce">
+    .table-input {
+        width: 100%;
+        border: none;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        outline: none;
+    }
+</style> *@
 <table class="table table-bordered">
     <thead>
         <tr>

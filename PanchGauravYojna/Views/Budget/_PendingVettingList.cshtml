@@ -1,0 +1,45 @@
+﻿@model List<MO.BudgetMaster.VettingSaveVM>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Activity</th>
+            <th>Activity Name</th>
+            <th>Budget</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null)
+        {
+            int i = 1;
+            foreach (var row in Model)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@row.Activity</td>
+                    <td>@row.ActivityName</td>
+                    <td>@row.Budget</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary edit-btn"
+                                data-id="@row.RowId">
+                            Edit
+                        </button>
+
+                        <button class="btn btn-sm btn-danger delete-btn"
+                                data-id="@row.RowId">
+                            Delete
+                        </button>
+                        <button class="btn btn-sm btn-danger cancel-btn"
+                                data-id="@row.RowId">
+                            Cancel
+                        </button>
+                    </td>
+                </tr>
+                i++;
+            }
+        }
+    </tbody>
+</table>
