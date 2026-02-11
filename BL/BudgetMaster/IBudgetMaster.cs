@@ -13,6 +13,9 @@ namespace BL.BudgetMaster
         Task<result> GetPendingVettingList(int RawId, int garauvId, int districtId, int FyId, int SubQuestionMasterId, int QuestionMasterId);
         Task<result> SaveVettingData(VettingSaveVM obj);
         Task<result> GetPendingVettingList(VettingSaveVM obj);
+        Task<result> DeleteVettedList(int RawId, int garauvId, int DistrictId, int SubQuestionMasterId, int QuestionMasterId);
+        Task<result> UpdateVettedList(VettingSaveVM obj);
+        Task<result> GetVettedQuestions(string GauravId);
 
     }
 }

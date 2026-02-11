@@ -3,7 +3,11 @@ using BL.Progres;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MO.BudgetMaster;
+using MO.Common;
+using MO.GauravProfile;
 using MO.WebsiteMaster;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace PanchGauravYojna.Controllers
 {
@@ -54,7 +58,7 @@ namespace PanchGauravYojna.Controllers
             return PartialView("_VettingList", result.data);
         }
         [HttpPost]
-        public async Task<IActionResult> GetPendingVettingList(int RawId, int garauvId,int DistrictId,int SubQuestionMasterId,int QuestionMasterId)
+        public async Task<IActionResult> GetPendingVettingList(int RawId, int garauvId, int DistrictId, int SubQuestionMasterId, int QuestionMasterId)
         {
             int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
 
@@ -71,7 +75,7 @@ namespace PanchGauravYojna.Controllers
 
             obj.FinancialYear_Id = FyId;
 
-            var result= await _iBudgetMaster.SaveVettingData(obj);
+            var result = await _iBudgetMaster.SaveVettingData(obj);
 
             return Json(result);
         }
@@ -85,7 +89,46 @@ namespace PanchGauravYojna.Controllers
 
             return PartialView("_PendingVettingList", null);
         }
+        public async Task<IActionResult> DeleteVettedList(int RawId, int garauvId, int DistrictId, int SubQuestionMasterId,int QuestionMasterId)
+        {
+            var result = await _iBudgetMaster.DeleteVettedList(RawId, garauvId, DistrictId, SubQuestionMasterId, QuestionMasterId);
 
+            return Json(result);
+        }
+        public async Task<IActionResult> UpdateVettedList(VettingSaveVM obj)
+        {
+            var result = await _iBudgetMaster.UpdateVettedList(obj);
 
+            return Json(result);
+        }
+
+        public async Task<IActionResult> VettedQuestions(string GauravId)
+        {
+            int districtId = Convert.ToInt32(User.FindFirst("DistrictId")?.Value);
+            int userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+            int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
+            VettedQuestions model = new VettedQuestions();
+            model.CurrentStep = 2;
+            model.GauravGuid = GauravId;
+            result res_model = await _iBudgetMaster.GetVettedQuestions(GauravId);
+            model.mainquestion = res_model.data;
+            ViewBag.ActivityTypes = Enum.GetValues(typeof(EnumProfileQuestion))
+               .Cast<EnumProfileQuestion>()
+               .Select(x => new SelectListItem
+               {
+                   Text = GetDisplayName(x),
+                   Value = ((int)x).ToString()
+               })
+               .ToList();
+            return PartialView("_VettedQuestionList", model);
+        }
+        public static string GetDisplayName(Enum enumValue)
+        {
+            return enumValue.GetType()
+                .GetMember(enumValue.ToString())[0]
+                .GetCustomAttribute<DisplayAttribute>()?
+                .GetName()
+                ?? enumValue.ToString();
+        }
     }
 }
