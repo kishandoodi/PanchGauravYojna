@@ -28,7 +28,24 @@ function onDistrictChange() {
         { garauvId: garauvId, districtId: districtId },
         function (response) {
             document.getElementById("vettingContainer").innerHTML = response;
-            
+            console.log(response)
+        }
+    );
+    loadPendingList(0, garauvId, districtId, 0, 0)
+}
+function onsavegetpendinglist(gauravid, districtId) {
+
+    //var garauvId = document.getElementById("GarauvId").value;
+    //var districtId = document.getElementById("DistrictId").value;
+    if (!gauravid) return;
+    if (!districtId) return;
+
+    ajax.doPostAjaxHtml(
+        "/Budget/GetVettingList",
+        { garauvId: gauravid, districtId: districtId },
+        function (response) {
+            document.getElementById("vettingContainer").innerHTML = response;
+
         }
     );
 }
@@ -234,7 +251,7 @@ document.getElementById("saveVerify")
                     bootstrap.Modal.getInstance(
                         document.getElementById("verifyModalvetting")
                     ).hide();
-
+                    onsavegetpendinglist(gauravid, districtId);
                     // 2 second baad reload
                     setTimeout(function () {
                         //location.reload();

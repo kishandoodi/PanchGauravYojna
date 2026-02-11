@@ -123,7 +123,7 @@ namespace BL.BudgetMaster
 
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
-                    var list = ds.Tables[0].AsEnumerable().Select(row =>
+                    var fullList = ds.Tables[0].AsEnumerable().Select(row =>
                     {
                         VettingList obj = new VettingList
                         {
@@ -151,35 +151,42 @@ namespace BL.BudgetMaster
                         return obj;
                     }).ToList();
 
-                    _result.status = true;
-                    _result.message = "Answers fetched successfully.";
-                    _result.data = list;
+                    // 🔹 Filter only SubQuestionMasterId = 17 for main rows
+                    var filteredList = fullList
+                        .Where(x => x.SubQuestionMasterId == 17)
+                        .ToList();
 
-                    var grouped = list
-                    .GroupBy(x => new { x.rowId, x.GauravId, x.DistrictId })
-                    .Select(g => new VettingRowVM
-                       {
-                 RowId = (int)g.Key.rowId,
-                 GauravId = (int)g.Key.GauravId,
-                 DistrictId = (int)g.Key.DistrictId,
+                    var grouped = filteredList
+                        .GroupBy(x => new { x.rowId, x.GauravId, x.DistrictId })
+                        .Select(g => new VettingRowVM
+                        {
+                            RowId = (int)g.Key.rowId,
+                            GauravId = (int)g.Key.GauravId,
+                            DistrictId = (int)g.Key.DistrictId,
 
-                QuestionMasterId = g.First().QuestionMasterId,
-                 SubQuestionMasterId = g.First().SubQuestionMasterId,
-                 AnswerValue = g.First().AnswerValue,
-                  Fieldtype = g.First().Fieldtype,
+                            QuestionMasterId = g.First().QuestionMasterId,
+                            SubQuestionMasterId = 17,
+                            AnswerValue = g.First().AnswerValue,
+                            Fieldtype = g.First().Fieldtype,
 
-                    Columns = g
-                     .GroupBy(x => x.SubQuestionMasterId)
-                      .ToDictionary(
-                          x => x.Key,
-                             x => x.First().AnswerValue ?? ""
-                              )
-                          })
-                                .ToList();
+                            // 🔹 Columns from FULL list
+                            Columns = fullList
+                                .Where(x => x.rowId == g.Key.rowId
+                                         && x.GauravId == g.Key.GauravId
+                                         && x.DistrictId == g.Key.DistrictId)
+                                .GroupBy(x => x.SubQuestionMasterId)
+                                .ToDictionary(
+                                    x => x.Key,
+                                    x => x.First().AnswerValue ?? ""
+                                )
+                        })
+                        .ToList();
+
                     _result.status = true;
                     _result.message = "Answers fetched successfully.";
                     _result.data = grouped ?? new List<VettingRowVM>();
-                }
+
+            }
                 else
                 {
                     _result.status = false;
