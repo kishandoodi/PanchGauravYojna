@@ -18,7 +18,7 @@
         justify-content: center;
         align-items: center;
     }
-          
+
     /* Modal box */
     .manual-modal-content {
         position: relative;
@@ -66,119 +66,119 @@
         </div>
     </div>
     <div class="card-body">
-<form asp-action="SliderVM" asp-controller="WebsiteMaster"
-      method="post" enctype="multipart/form-data">
+        <form asp-action="SliderVM" asp-controller="WebsiteMaster"
+              method="post" enctype="multipart/form-data">
 
-    <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="ExistingImage" />
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ExistingImage" />
 
-    <div class="form-group">
-        <label>Slider Image</label>
+            <div class="form-group">
+                <label>Slider Image</label>
                 <input type="file" asp-for="ImageFile" class="form-control" accept="image/*" data-val="false" />
-        <small class="text-muted">On updation Leave empty to keep old file(only image)</small>
-    </div>
+                <small class="text-muted">On updation Leave empty to keep old file(only image)</small>
+            </div>
 
-    <div class="form-group">
-        <label>Title</label>
-        <input type="text" asp-for="Title" class="form-control" />
-    </div>
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" asp-for="Title" class="form-control" />
+            </div>
 
-    <div class="form-group">
-        <label>Display Order</label>
+            <div class="form-group">
+                <label>Display Order</label>
                 <input type="number" asp-for="DisplayOrder" class="form-control" min="1" />
-    </div>
+            </div>
 
-    <div class="form-group">
-        <label>
-            <input type="checkbox" asp-for="IsActive" />
-            Is Active
-        </label>
-    </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" asp-for="IsActive" />
+                    Is Active
+                </label>
+            </div>
 
-    <button type="submit" class="btn btn-primary" id="btnSave">
-        Save
-    </button>
-    <button type="button"
-            class="btn btn-secondary d-none"
-            id="btnCancel">
-        Cancel
-    </button>
-</form>
+            <button type="submit" class="btn btn-primary" id="btnSave">
+                Save
+            </button>
+            <button type="button"
+                    class="btn btn-secondary d-none"
+                    id="btnCancel">
+                Cancel
+            </button>
+        </form>
 
-<hr />
+        <hr />
 
-<div class="table-responsive shadow-sm">
-    <table class="table table-bordered table-hover align-middle" id="slider_Table">
-        <thead class="table-success text-center">
-            <tr>
-                <th>#</th>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Display Order</th>
-                <th>Is Active</th>
-                <th style="width:100px;">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.SliderList != null && Model.SliderList.Any())
-            {
-                int i = 1;
-                foreach (var item in Model.SliderList)
-                {
+        <div class="table-responsive shadow-sm">
+            <table class="table table-bordered table-hover align-middle" id="slider_Table">
+                <thead class="table-success text-center">
                     <tr>
-                        <td class="text-center">@i</td>
-                        <td class="text-center">
-                            @* <img src="@item.ImageBase64"
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Display Order</th>
+                        <th>Is Active</th>
+                        <th style="width:100px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.SliderList != null && Model.SliderList.Any())
+                    {
+                        int i = 1;
+                        foreach (var item in Model.SliderList)
+                        {
+                            <tr>
+                                <td class="text-center">@i</td>
+                                <td class="text-center">
+                                    @* <img src="@item.ImageBase64"
                                  style="height:60px;" /> *@
-                            <button type="button"
-                                    class="btn btn-sm btn-info view-image-btn"
-                                    data-image="@item.ImageBase64">
-                                View
-                            </button>
-                        </td>
-                        <td>@item.Title</td>
-                        <td class="text-center">@item.DisplayOrder</td>
-                        <td class="text-center">
-                            @(item.IsActive ? "Active" : "Inactive")
-                        </td>
-                        <td class="text-center">
-                          @*   <button class="btn btn-sm btn-warning">Edit</button> *@
-                            <button type="button"
+                                    <button type="button"
+                                            class="btn btn-sm btn-info view-image-btn"
+                                            data-image="@item.ImageBase64">
+                                        View
+                                    </button>
+                                </td>
+                                <td>@item.Title</td>
+                                <td class="text-center">@item.DisplayOrder</td>
+                                <td class="text-center">
+                                    @(item.IsActive ? "Active" : "Inactive")
+                                </td>
+                                <td class="text-center">
+                                    @*   <button class="btn btn-sm btn-warning">Edit</button> *@
+                                    <button type="button"
                                             class="btn btn-sm action-btn btn-warning edit-btn"
-                                    data-id="@item.Id"
-                                    data-title="@item.Title"
-                                    data-order="@item.DisplayOrder"
-                                    data-active="@item.IsActive"
-                                    data-image="@item.ImageBase64">
-                                Edit
-                            </button>
+                                            data-id="@item.Id"
+                                            data-title="@item.Title"
+                                            data-order="@item.DisplayOrder"
+                                            data-active="@item.IsActive"
+                                            data-image="@item.ImageBase64">
+                                        Edit
+                                    </button>
 
                                     <button class="btn btn-sm action-btn btn-danger del-btn" data-sliderid="@item.Id">Delete</button>
-                            <button type="button"
+                                    <button type="button"
                                             class="btn btn-sm action-btn toggle-status-btn @(item.IsActive ? "btn-secondary" : "btn-success")"
-                                    data-id="@item.Id"
-                                    data-status="@item.IsActive">
-                                @(item.IsActive ? "Deactivate" : "Activate")
-                            </button>
+                                            data-id="@item.Id"
+                                            data-status="@item.IsActive">
+                                        @(item.IsActive ? "Deactivate" : "Activate")
+                                    </button>
 
 
-                        </td>
-                    </tr>
-                    i++;
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="6" class="text-center text-danger">
-                        No record found
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-</div>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center text-danger">
+                                No record found
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 @* <div class="modal fade" id="imageModal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">

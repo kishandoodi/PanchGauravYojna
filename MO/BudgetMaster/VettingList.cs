@@ -52,5 +52,35 @@ namespace MO.BudgetMaster
         public int? SubQuestionMasterId { get; set; }
         public int? FinancialYear_Id { get; set; }
     }
+    public class VettedQuestions
+    {
+        public int CurrentStep { get; set; }
+        public string GauravGuid { get; set; }
+        public string statusClass { get; set; }
+        public List<QuestionModel_VettedQuestions> mainquestion { get; set; }
+    }
+    public class QuestionModel_VettedQuestions
+    {
+        public int CurrentStep { get; set; }
+        public long QuestionMasterId { get; set; }
+        public string Guid { get; set; }
+        public string DisplayNumber { get; set; }
+        public int OrderNumber { get; set; }
+        public string QuestionText { get; set; }
+        public int QuestionType { get; set; }
 
+
+        public List<SubQuestionModel_VettedQuestions> SubQuestions { get; set; } = new();
+    }
+
+    public class SubQuestionModel_VettedQuestions
+    {
+        public long SubQuestionMasterId { get; set; }
+        public string Guid { get; set; }
+        public string DisplayNumber { get; set; }
+        public int OrderNumber { get; set; }
+        public string QuestionText { get; set; }
+        public string Fieldtype { get; set; }
+        public int QuestionType { get; set; }
+    }
 }

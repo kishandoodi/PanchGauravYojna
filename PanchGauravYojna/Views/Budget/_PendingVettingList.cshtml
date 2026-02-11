@@ -1,39 +1,68 @@
 ﻿@model List<MO.BudgetMaster.VettingSaveVM>
-<h4>Vetted List</h4>
+
+<button class="btn btn-primary"
+        id="openVettedPopup">
+    Vetted Entries
+</button>
+<input type="hidden" id="GauravId"
+       value="@(Model?.FirstOrDefault()?.GauravId)">
+
 <table class="table table-bordered">
     <thead>
+        <tr>  <th colspan="5" class="text-center"> All Entries After Department Vetting </th></tr>
         <tr>
             <th>#</th>
-            <th>Activity</th>
-            <th>Activity Name</th>
-            <th>Budget</th>
-            <th>Action</th>
+            <th>गतिविधि</th>
+            <th>गतिविधि नाम</th>
+            <th>स्वीकृत बजट</th>
+            <th>कार्यवाही</th>
         </tr>
     </thead>
 
     <tbody>
         @if (Model != null)
         {
+
             int i = 1;
             foreach (var row in Model)
             {
                 <tr>
+                    <input type="hidden" class="GauravId" value="@row.GauravId">
                     <td>@i</td>
                     <td>@row.Activity</td>
                     <td>@row.ActivityName</td>
                     <td>@row.Budget</td>
                     <td>
                         <button class="btn btn-sm btn-primary edit-btn"
-                                data-id="@row.RowId">
+                                data-rowid="@row.RowId"
+                            data-DistrictId="@row.DistrictId"
+                            data-GauravId="@row.GauravId"
+                            data-QuestionMasterId="@row.QuestionMasterId"
+                            data-SubQuestionMasterId="@row.SubQuestionMasterId">
                             Edit
                         </button>
-
+                        <button class="btn btn-sm btn-primary update-btn d-none"
+                                data-rowid="@row.RowId"
+                                data-DistrictId="@row.DistrictId"
+                                data-GauravId="@row.GauravId"
+                                data-QuestionMasterId="@row.QuestionMasterId"
+                                data-SubQuestionMasterId="@row.SubQuestionMasterId">
+                            Update
+                        </button>
                         <button class="btn btn-sm btn-danger delete-btn"
-                                data-id="@row.RowId">
+                                data-rowid="@row.RowId"
+                                data-DistrictId="@row.DistrictId"
+                                data-GauravId="@row.GauravId"
+                                data-QuestionMasterId="@row.QuestionMasterId"
+                                data-SubQuestionMasterId="@row.SubQuestionMasterId">
                             Delete
                         </button>
-                        <button class="btn btn-sm btn-danger cancel-btn"
-                                data-id="@row.RowId">
+                        <button class="btn btn-sm btn-secondary cancel-btn"
+                                data-rowid="@row.RowId"
+                                data-DistrictId="@row.DistrictId"
+                                data-GauravId="@row.GauravId"
+                                data-QuestionMasterId="@row.QuestionMasterId"
+                                data-SubQuestionMasterId="@row.SubQuestionMasterId">
                             Cancel
                         </button>
                     </td>
@@ -43,3 +72,5 @@
         }
     </tbody>
 </table>
+
+

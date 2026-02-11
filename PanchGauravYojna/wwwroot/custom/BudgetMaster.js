@@ -28,7 +28,7 @@ function onDistrictChange() {
         { garauvId: garauvId, districtId: districtId },
         function (response) {
             document.getElementById("vettingContainer").innerHTML = response;
-            console.log(response)
+           
         }
     );
     loadPendingList(0, garauvId, districtId, 0, 0)
@@ -78,64 +78,7 @@ document.addEventListener('hidden.bs.modal', function () {
     document.body.classList.remove('modal-open');
 });
 
-//document.addEventListener("click", function (e) {
 
-//    const btn = e.target.closest(".verify-btn-vetting");
-//    if (!btn) return;
-
-//    const rawid = btn.getAttribute("data-rowid");
-//    const gauravid = btn.getAttribute("data-gauravid");
-//    const DistrictId = btn.getAttribute("data-districtid");
-//    const SubQuestionMasterId = btn.getAttribute("data-subquestionmasterid");
-//    const QuestionMasterId = btn.getAttribute("data-questionmasterid");
-
-//    ajax.doPostAjaxHtml(
-//        "/Budget/GetPendingVettingList",
-//        {
-//            RawId: rawid,
-//            garauvId: gauravid,
-//            DistrictId: DistrictId,
-//            SubQuestionMasterId: SubQuestionMasterId,
-//            QuestionMasterId: QuestionMasterId
-//        },
-//        function (response) {
-
-//            // LEFT readonly table
-//            document.getElementById("readonlyData").innerHTML = response;
-
-//            // RIGHT editable version
-//            document.getElementById("editableData").innerHTML = response;
-
-//            // RIGHT side cells ko input me convert karo
-//            document
-//                .querySelectorAll("#editableData tr")
-//                .forEach(tr => {
-
-//                    tr.querySelectorAll("td").forEach((td, index) => {
-
-//                        // index 0 = serial number column
-//                        if (index === 0) return;
-
-//                        // verify button wali cell skip
-//                        if (td.querySelector("button")) return;
-
-//                        const text = td.innerText.trim();
-//                        if (!text) return;
-
-//                        td.innerHTML =
-//                            `<input class="form-control edit-field" data-col="${index}" value="${text}">`;
-//                    });
-
-//                });
-
-
-//            const modal = new bootstrap.Modal(
-//                document.getElementById("verifyModalvetting")
-//            );
-//            modal.show();
-//        }
-//    );
-//});
 document.addEventListener("click", function (e) {
 
     const btn = e.target.closest(".verify-btn-vetting");
@@ -246,6 +189,7 @@ document.getElementById("saveVerify")
             function (res) {
                
                 if (res.status) {
+
                     toast.showToast('success', res.message, 'success');
 
                     bootstrap.Modal.getInstance(
@@ -270,8 +214,6 @@ document.getElementById("saveVerify")
             }
         );
     });
-
-
 function bindReadonly(data) {
     document.getElementById("readonlyData").innerHTML = `
         <div><strong>गतिविधि :</strong> ${data.activity}</div>
@@ -323,17 +265,20 @@ document.addEventListener("click", function (e) {
 
     const tr = btn.closest("tr");
 
-    const activityName = tr.children[2].innerText.trim();
+    //const activityName = tr.children[2].innerText.trim();
     const budget = tr.children[3].innerText.trim();
 
-    tr.children[2].innerHTML =
-        `<input class="act-name table-input" value="${activityName}">`;
+    //tr.children[2].innerHTML =
+    //    `<input class="act-name table-input" value="${activityName}">`;
 
     tr.children[3].innerHTML =
         `<input class="budget table-input" value="${budget}">`;
+    // Edit → Update
+    // buttons toggle
+    btn.classList.add("d-none");
+    tr.querySelector(".update-btn")
+        .classList.remove("d-none");
 });
-
-
 document.addEventListener("click", function (e) {
 
     const btn = e.target.closest(".cancel-btn");
@@ -341,11 +286,257 @@ document.addEventListener("click", function (e) {
 
     const tr = btn.closest("tr");
 
-    const actInput = tr.querySelector(".act-name");
+    //const actInput = tr.querySelector(".act-name");
     const budgetInput = tr.querySelector(".budget");
 
-    if (!actInput || !budgetInput) return;
-
-    tr.children[2].innerHTML = actInput.defaultValue;
+    //if (!actInput || !budgetInput) return;
+    if (!budgetInput) return;
+    // original values restore
+    //tr.children[2].innerHTML = actInput.defaultValue;
     tr.children[3].innerHTML = budgetInput.defaultValue;
+
+    // buttons toggle
+    tr.querySelector(".update-btn")
+        .classList.add("d-none");
+
+    tr.querySelector(".edit-btn")
+        .classList.remove("d-none");
+
+    //btn.classList.add("d-none"); // cancel hide
 });
+document.addEventListener("click", function (e) {
+
+    const btn = e.target.closest(".delete-btn");
+    if (!btn) return;
+
+    const rawid = btn.getAttribute("data-rowid");
+    const gauravid = btn.getAttribute("data-GauravId");
+    const districtId = btn.getAttribute("data-DistrictId");
+    const subQuestionId = btn.getAttribute("data-SubQuestionMasterId");
+    const questionId = btn.getAttribute("data-QuestionMasterId");
+
+
+    ajax.doPostAjax(
+        "/Budget/DeleteVettedList",
+        {
+            RawId: rawid,
+            garauvId: gauravid,
+            DistrictId: districtId,
+            SubQuestionMasterId: subQuestionId,
+            QuestionMasterId: questionId
+        },
+        function (res) {
+            if (res.status) {
+                onsavegetpendinglist(gauravid, districtId);
+
+                loadPendingList(rawid,gauravid,districtId,subQuestionId,questionId);
+                
+                toast.showToast('success', res.message, 'success');
+            } else {
+                toast.showToast('error', res.message, 'error');
+            }
+            
+        }
+    );
+});
+document.addEventListener("click", function (e) {
+
+    const btn = e.target.closest(".update-btn");
+    if (!btn) return;
+
+    const rawid = btn.getAttribute("data-rowid");
+    const gauravid = btn.getAttribute("data-GauravId");
+    const districtId = btn.getAttribute("data-DistrictId");
+    const subQuestionId = btn.getAttribute("data-SubQuestionMasterId");
+    const questionId = btn.getAttribute("data-QuestionMasterId");
+    //
+    const tr = btn.closest("tr");
+
+    //const activityName =
+        //tr.querySelector(".act-name").value;
+
+    const budget =
+        tr.querySelector(".budget").value;
+
+    //tr.children[2].innerText = activityName;
+   // tr.children[3].innerText = budget;
+
+    ajax.doPostAjax(
+        "/Budget/UpdateVettedList",
+        {
+            RowId: rawid,
+            GauravId: gauravid,
+            DistrictId: districtId,
+            SubQuestionMasterId: subQuestionId,
+            QuestionMasterId: questionId,
+            Budget: budget
+        },
+        function (res) {
+            if (res.status) {
+                onsavegetpendinglist(gauravid, districtId);
+
+                loadPendingList(rawid, gauravid, districtId, subQuestionId, questionId);
+
+                toast.showToast('success', res.message, 'success');
+            } else {
+                toast.showToast('error', res.message, 'error');
+            }
+
+        }
+    );
+});
+document.addEventListener("click", function (e) {
+
+    const btn = e.target.closest("#openVettedPopup");
+    if (!btn) return;
+
+    const gauravId =
+        document.getElementById("GauravId").value;
+
+    ajax.doPostAjaxHtml(
+        "/Budget/VettedQuestions",
+        { GauravId: gauravId },
+        function (response) {
+
+            // Partial View ko modal body me daalo
+            document.querySelector(
+                "#vettedModal .modal-body"
+            ).innerHTML = response;
+
+            // Modal open karo
+            new bootstrap.Modal(
+                document.getElementById("vettedModal")
+            ).show();
+        }
+    );
+});
+
+function loadDynamicForm() {
+    let container = document.getElementById("dynamicFormContainervetted");
+    container.innerHTML = "";
+    //alert(container);
+    questions.forEach(q => {
+        let card = `
+            <div class="p-3 mb-3 shadow-sm">
+                <h5 class="fw-bold">${q.displayNumber}. ${q.questionText}</h5>      
+                ${renderSubQuestionsVetted(q)}
+            </div>
+        `;
+         
+        container.innerHTML += card;
+    });
+}
+function renderSubQuestionsVetted(q) {
+    let html = `<div class="row">`;
+    q.subQuestions.forEach(sub => {
+
+        let name = `Q_${q.questionMasterId}_${sub.subQuestionMasterId}`;
+
+        // dropdown
+        if (sub.fieldtype === "DropDown") {
+            let opts = "";
+            opts = `<option value="">-- Select --</option>`;
+            activityList.forEach(o => {
+                opts += `<option value="${o.value}">${o.text}</option>`;
+            });
+
+            html += `
+                <div class="col-md-4 p-2">
+                    <label class="fw-bold">${sub.questionText}</label>
+                    <select name="${name}" class="form-select">${opts}</select>
+                </div>
+            `;
+        }
+        // textarea
+        else if (sub.fieldtype === "TextArea") {
+            html += `
+                <div class="col-md-12 p-2">
+                    <label class="fw-bold">${sub.questionText}</label>
+                    <textarea class="form-control alphaspace" name="${name}" rows="2" placeholder="अपना उत्तर यहाँ लिखें..."></textarea>
+                </div>
+            `;
+        }
+        else if (sub.fieldtype === "DateTime") {
+
+            let id = `DT_${q.questionMasterId}_${sub.subQuestionMasterId}`;
+
+            html += `
+        <div class="col-md-4 p-2">
+            <label class="fw-bold">${sub.questionText}</label>
+            <input 
+                type="text"
+                class="form-control datepicker"
+                id="${id}"
+                name="${name}"
+                placeholder="dd/mm/yyyy"
+                autocomplete="off"
+            />
+        </div>
+    `;
+        }
+
+        else {
+            if (sub.questionText == "नोडल विभाग का व्यय") {
+                html += `
+                <div class="col-md-4 p-2">
+                    <label class="fw-bold">${sub.questionText}</label>
+                    <input class="form-control numberonly" id="NodalAmount" name="${name}" type="text" placeholder="अपना उत्तर यहाँ लिखें..." />
+                </div>
+            `;
+            }
+            else if (sub.questionText == "MPLAD, MLALAD से व्यय") {
+                html += `
+                <div class="col-md-4 p-2">
+                    <label class="fw-bold">${sub.questionText}</label>
+                    <input class="form-control numberonly" id="MPLADAmount" name="${name}" type="text" placeholder="अपना उत्तर यहाँ लिखें..." />
+                </div>
+            `;
+            }
+            else if (sub.questionText == "CSR मद से व्यय") {
+                html += `
+                <div class="col-md-4 p-2">
+                    <label class="fw-bold">${sub.questionText}</label>
+                    <input class="form-control numberonly" id="CSRAmount" name="${name}" type="text" placeholder="अपना उत्तर यहाँ लिखें..." />
+                </div>
+            `;
+            }
+            else if (sub.questionText == "अन्य मद द्वारा  व्यय") {
+                html += `
+                <div class="col-md-4 p-2">
+                    <label class="fw-bold">${sub.questionText}</label>
+                    <input class="form-control numberonly" id="OtherAmount" name="${name}" type="text" placeholder="अपना उत्तर यहाँ लिखें..." />
+                </div>
+            `;
+            }
+            else if (sub.questionText == "पंच-गौरव से बजट आवश्यकता") {
+                html += `
+                <div class="col-md-4 p-2">
+                    <label class="fw-bold">${sub.questionText}</label>
+                    <input class="form-control numberonly" id="PanchGauravAmount" name="${name}" type="text" placeholder="अपना उत्तर यहाँ लिखें..." readonly />
+                </div>
+            `;
+            }
+            else if (sub.questionText == "कूल प्रस्तावित व्यय") {
+                html += `
+                <div class="col-md-4 p-2">
+                    <label class="fw-bold">${sub.questionText}</label>
+                    <input class="form-control numberonly" id="TotalProposed" name="${name}" type="text" placeholder="अपना उत्तर यहाँ लिखें..." />
+                </div>
+            `;
+            }
+            else {
+                html += `
+                <div class="col-md-4 p-2">
+                    <label class="fw-bold">${sub.questionText}</label>
+                    <input class="form-control alphaspace" name="${name}" type="text" placeholder="अपना उत्तर यहाँ लिखें..." />
+                </div>
+            `;
+            }
+        }
+    });
+    html += `</div> <button type="button" id="btnSaveStep2" class="btn btn-success mt-3">
+        Add
+    </button>`;
+    return html;
+}
+
