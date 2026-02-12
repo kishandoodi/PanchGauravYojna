@@ -327,7 +327,7 @@ namespace BL.GauravMaster
         #endregion
 
         #region Gaurav for Dashboard
-        public async Task<List<GauravMasterMO>> GetAllGauravDashboard(int districtId, int FyId)
+        public async Task<List<GauravMasterMO>> GetAllGauravDashboard(int districtId, int FyId,int DeptId)
         {
             List<GauravMasterMO> list = new List<GauravMasterMO>();
 
@@ -337,6 +337,7 @@ namespace BL.GauravMaster
                 param.Add(new SqlParameter("@Action", "GetAllGauravDashboard"));
                 param.Add(new SqlParameter("@DistrictId", districtId));
                 param.Add(new SqlParameter("@FinancialYearId", FyId));
+                param.Add(new SqlParameter("@DepartmentId", DeptId));
 
                 DataSet ds = await _iSql.ExecuteProcedure("SP_ManageGaurav_Dashboard", param.ToArray());
 
@@ -351,15 +352,14 @@ namespace BL.GauravMaster
                             Name = row["Name"]?.ToString(),
                             MangalName = row["MangalName"]?.ToString(),
                             IsActive = row["IsActive"] != DBNull.Value && Convert.ToBoolean(row["IsActive"]),
-                            CreatedDate = row["CreatedDate"] == DBNull.Value ? null : Convert.ToDateTime(row["CreatedDate"]),
-                            CreatedBy = row["CreadtedBy"] == DBNull.Value ? null : Convert.ToInt64(row["CreadtedBy"]),
-                            UpdatedDate = row["UpdatedDate"] == DBNull.Value ? null : Convert.ToDateTime(row["UpdatedDate"]),
-                            UpdatedBy = row["UpdatedBy"] == DBNull.Value ? null : Convert.ToInt64(row["UpdatedBy"]),
+                            //CreatedDate = row["CreatedDate"] == DBNull.Value ? null : Convert.ToDateTime(row["CreatedDate"]),
+                            //CreatedBy = row["CreadtedBy"] == DBNull.Value ? null : Convert.ToInt64(row["CreadtedBy"]),
+                            //UpdatedDate = row["UpdatedDate"] == DBNull.Value ? null : Convert.ToDateTime(row["UpdatedDate"]),
+                            //UpdatedBy = row["UpdatedBy"] == DBNull.Value ? null : Convert.ToInt64(row["UpdatedBy"]),
                             StatusId = row["StatusId"] != DBNull.Value ? Convert.ToInt32(row["StatusId"]) : null,
                         });
                     }
                 }
-
                 return list;
             }
             catch (Exception ex)

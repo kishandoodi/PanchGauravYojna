@@ -26,7 +26,7 @@ namespace BL.GauravMaster
         #endregion
 
         #region Gaurav for Dashboard
-        Task<List<GauravMasterMO>> GetAllGauravDashboard(int districtId, int FyId);
+        Task<List<GauravMasterMO>> GetAllGauravDashboard(int districtId, int FyId,int DeptId);
         #endregion
     }
 }
