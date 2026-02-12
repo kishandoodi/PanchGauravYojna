@@ -101,7 +101,7 @@ namespace PanchGauravYojna.Controllers
 
             return Json(result);
         }
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> VettedQuestions(string GauravId)
         {
             int districtId = Convert.ToInt32(User.FindFirst("DistrictId")?.Value);
@@ -120,8 +120,8 @@ namespace PanchGauravYojna.Controllers
                    Value = ((int)x).ToString()
                })
                .ToList();
-            //return PartialView("_VettedQuestionList", model);
-            return View("VettedQuestions", model);
+            // return partial so client can inject into existing page and show modal
+            return PartialView("_VettedQuestionList", model);
         }
         public static string GetDisplayName(Enum enumValue)
         {

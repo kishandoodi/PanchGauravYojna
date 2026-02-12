@@ -390,8 +390,10 @@ document.addEventListener("click", function (e) {
     const btn = e.target.closest("#openVettedPopup");
     if (!btn) return;
 
-    //const gauravId = $("#GauravId").val();
+    // prefer data-gauravid on the button or fallback to hidden input
+    //const gauravId = btn.getAttribute('data-gauravid') || document.getElementById('GauravId')?.value;
     const gauravId = 1;
+    if (!gauravId) return;
 
     ajax.doPostAjaxHtml(
         "/Budget/VettedQuestions",
@@ -405,7 +407,9 @@ document.addEventListener("click", function (e) {
             );
             modal.show();
 
-            buildVettedForm(); // JS function
+            // if a separate manageMaster script exists use it, otherwise call local loader
+            if (typeof buildVettedForm === 'function') buildVettedForm();
+            if (typeof loadDynamicForm === 'function') loadDynamicForm();
         }
     );
 
@@ -435,11 +439,11 @@ function loadDynamicForm() {
     questions.forEach(q => {
         let card = `
             <div class="p-3 mb-3 shadow-sm">
-                <h5 class="fw-bold">${q.displayNumber}. ${q.questionText}</h5>      
-                ${renderSubQuestionsVetted(q)}
+                <h5 class="fw-bold">${q.questionText}</h5>      
+                ${buildQuestionHtml(q)}
             </div>
         `;
-         
+        
         container.innerHTML += card;
     });
 }

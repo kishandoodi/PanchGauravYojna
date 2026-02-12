@@ -9,7 +9,7 @@ function loadDynamicForm() {
     questions.forEach(q => {
         let card = `
             <div class="p-3 mb-3 shadow-sm">
-                <h5 class="fw-bold">${q.displayNumber}. ${q.questionText}</h5>      
+                <h5 class="fw-bold">${q.questionText}</h5>      
                 ${renderSubQuestionsvetted(q)}
             </div>
         `;
