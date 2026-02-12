@@ -57,7 +57,7 @@ namespace PanchGauravYojna.Controllers
             // GET BOTH LISTS
             var GauravDept_list = await _iIGauravMaster.GetAllGauravDepartment();
             //var Gaurav_list = await _iIGauravMaster.GetAllGaurav();
-            var Gaurav_list = await _iIGauravMaster.GetAllGauravDashboard(districtId, FyId);
+            var Gaurav_list = await _iIGauravMaster.GetAllGauravDashboard(districtId, FyId,DeptId);
 
             List<GauravMasterMO> filteredGaurav;
 
