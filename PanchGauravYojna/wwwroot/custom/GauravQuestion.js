@@ -58,11 +58,11 @@ var gauravQuestion = {
                             // If this question has sub-questions, render nested table
                             if (q.subQuestions && q.subQuestions.length > 0 && q.questionType != 0) {
                                 // Question header row
-                                let questionRow = $('<tr>').append(
-                                    $('<td>').text(q.displayNumber + ". " + q.questionText)
-                                        .addClass('font_text')
-                                    //.css({ 'font-weight': 'bold', 'padding-top': '15px' })
-                                );
+                        let questionRow = $('<tr>').append(
+                            $('<td>').text(q.questionText)
+                                .addClass('font_text')
+                            //.css({ 'font-weight': 'bold', 'padding-top': '15px' })
+                        );
                                 tbody.append(questionRow);
                                 let nestedTable = $('<table>').addClass('table table-bordered').css('margin-left', '20px');
                                 let thead = $('<thead>').append(
@@ -105,7 +105,7 @@ var gauravQuestion = {
                             else if (q.subQuestions && q.subQuestions.length > 0 && q.questionType == 0) {
                                 // Add a heading row for the main question
                                 let questionRow = $('<tr>').append(
-                                    $('<td>').text(q.displayNumber + ". " + q.questionText)
+                                    $('<td>').text(q.questionText)
                                         .addClass('font_text')
                                     //.css({ 'font-weight': 'bold', 'padding-top': '15px' })
                                 );
@@ -142,7 +142,7 @@ var gauravQuestion = {
                             else {
                                 // Question header row
                                 let questionRow = $('<tr>').append(
-                                    $('<td>').text(q.displayNumber + ". " + q.questionText)
+                                    $('<td>').text(q.questionText)
                                         .addClass('font_text')
                                     //.css({ 'font-weight': 'bold', 'padding-top': '15px' })
                                 );
@@ -335,7 +335,7 @@ var gauravQuestion = {
                             if (q.subQuestions && q.subQuestions.length > 0) {
                                 // Question header row
                                 let questionRow = $('<tr>').append(
-                                    $('<td>').text(q.displayNumber + ". " + q.questionText)
+                                    $('<td>').text(q.questionText)
                                         .addClass('font_text')
                                     //.css({ 'font-weight': 'bold', 'padding-top': '15px' })
                                 );
