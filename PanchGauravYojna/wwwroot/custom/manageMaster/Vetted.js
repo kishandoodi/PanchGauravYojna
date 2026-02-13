@@ -1,25 +1,23 @@
-﻿
-
-document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
     loadDynamicForm();
-    loadSavedTable();
+    //loadSavedTable();
 });
 function loadDynamicForm() {
-    let container = document.getElementById("dynamicFormContainer");
+    let container = document.getElementById("dynamicFormContainervetted");
     container.innerHTML = "";
     //alert(container);
     questions.forEach(q => {
         let card = `
             <div class="p-3 mb-3 shadow-sm">
                 <h5 class="fw-bold">${q.questionText}</h5>      
-                ${renderSubQuestions(q)}
+                ${renderSubQuestionsvetted(q)}
             </div>
         `;
-        
+
         container.innerHTML += card;
     });
 }
-function renderSubQuestions(q) {
+function renderSubQuestionsvetted(q) {
     let html = `<div class="row">`;
     q.subQuestions.forEach(sub => {
 
@@ -68,18 +66,18 @@ function renderSubQuestions(q) {
     `;
         }
 
-    //    else if (sub.fieldtype === "DateTime") {
-    //        html += `
-    //    <div class="col-md-4 p-2">
-    //        <label class="fw-bold">${sub.questionText}</label>
-    //        <input 
-    //            type="date"
-    //            class="form-control"
-    //            name="${name}"
-    //        />
-    //    </div>
-    //`;
-    //    }
+        //    else if (sub.fieldtype === "DateTime") {
+        //        html += `
+        //    <div class="col-md-4 p-2">
+        //        <label class="fw-bold">${sub.questionText}</label>
+        //        <input 
+        //            type="date"
+        //            class="form-control"
+        //            name="${name}"
+        //        />
+        //    </div>
+        //`;
+        //    }
         // textbox
         else {
             if (sub.questionText == "नोडल विभाग का व्यय") {
@@ -142,175 +140,6 @@ function renderSubQuestions(q) {
     });
     html += `</div> <button type="button" id="btnSaveStep2" class="btn btn-success mt-3">
         Add
-    </button>`; 
+    </button>`;
     return html;
 }
-function loadSavedTable() {
-    let tbody = document.querySelector("#savedTable tbody");
-    tbody.innerHTML = "";
-
-    if (!savedRows || savedRows.length === 0) return;
-
-    // ⭐ Group by RowId
-    let grouped = {};
-    savedRows.forEach(item => {
-        if (!grouped[item.rowId]) grouped[item.rowId] = [];
-        grouped[item.rowId].push(item);
-    });
-
-    // ⭐ Loop each RowId
-    Object.keys(grouped).forEach((rowId, index) => {
-
-        let rowItems = grouped[rowId];
-
-        // Convert SubQuestionMasterId → AnswerValue (column wise)
-        let columns = {};
-        rowItems.forEach(i => {
-            columns[i.subQuestionMasterId] = i.answerValue;
-        });
-
-        // Dynamic table row
-        let row = `
-            <tr data-rowid="${rowId}">
-                <td>${index+1}</td>
-                <td>${columns[17] ?? ""}</td>
-                <td>${columns[1] ?? ""}</td>  
-                <td>${columns[2] ?? ""}</td>
-                <td>${columns[3] ?? ""}</td>
-                <td>${columns[4] ?? ""}</td>
-                <td>${columns[5] ?? ""}</td>
-                <td>${columns[6] ?? ""}</td>
-                <td>${columns[7] ?? ""}</td>
-                <td>${columns[15] ?? ""}</td>
-                <td>${columns[16] ?? ""}</td>
-                <td>
-                    <button class="btn btn-primary btn-edit">Edit</button>
-                    <button class="btn btn-danger btn-delete">Delete</button>
-                </td>
-            </tr>
-        `;
-
-        tbody.innerHTML += row;
-    });
-}
-
-function deleteRow(index) {
-    if (!confirm("Are you sure to delete?")) return;
-    //alert(index);
-    //alert(gauravGuid);
-    //alert(savedRows[index].id);
-    $.ajax({
-        url: `/Profile/DeleteStep2`,
-        type: 'POST',
-        data: { rowId: index, guid: gauravGuid },
-        success: function (r) {
-            if (r.status) {
-                alert("Deleted Successfully!!");
-                location.reload();
-            }
-            else {
-                alert("Error Saving!");
-            }            
-        }
-    });
-}
-function editRow(index) {
-    debugger;
-    loadDynamicFormWithAnswers(index); 
-    setTimeout(() => {
-        calculatePanchGaurav();
-    }, 200);
-}
-
-function loadDynamicFormWithAnswers(rowId) {
-
-    $('#hiddenrowId').val(rowId);
-    //loadDynamicForm(); // Load dynamic form fresh
-
-    let items = savedRows.filter(x => x.rowId == rowId);
-    if (items.length === 0) return;
-
-    items.forEach(item => {
-
-        // Build dynamic input name
-        let inputName = `Q_${item.questionMasterId}_${item.subQuestionMasterId}`;
-
-        let input = document.querySelector(`[name='${inputName}']`);
-
-        if (!input) return;
-
-        // ---- CASE 1: If element is a dropdown ----
-        if (input.tagName === "SELECT") {
-
-            // Set dropdown exact value
-            input.value = item.answerValue;
-
-            // If value not found, try match by text
-            if (input.value !== item.answerValue) {
-
-                let option = Array.from(input.options)
-                    .find(opt => opt.text.trim() === item.answerValue.trim());
-
-                if (option) input.value = option.value;
-            }
-
-            // Trigger change event
-            input.dispatchEvent(new Event("change"));
-        }
-
-        // ---- CASE 2: Textbox or Textarea ----
-        else {
-            input.value = item.answerValue;
-        }
-    });
-
-    $("#btnSaveStep2").text("Update");
-    //alert("Dynamic form loaded with saved answers.");
-}
-
-function saveStep2() {
-    debugger;
-    var guid = $('#hiddenGauravGuid').val();
-    var rowId = $('#hiddenrowId').val();
-    let answers = [];
-
-    // Read all dynamic fields
-    $("[name^='Q_']").each(function () {
-
-        let fullName = $(this).attr("name"); // Q_10_3
-        let value = $(this).val();
-
-        let parts = fullName.split("_");
-        let questionId = parts[1];
-        let subQuestionId = parts[2];
-
-        answers.push({
-            QuestionMasterId: questionId,
-            SubQuestionMasterId: subQuestionId,
-            AnswerValue: value
-        });
-    });
-
-    console.log(answers); // Debug
-
-    // POST to server
-    $.ajax({
-        url: `/Profile/Step2?guid=${guid}&rowId=${rowId}`,
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(answers),
-        success: function (data) {
-            alert("Saved Successfully!");
-            location.reload(); // reload the page
-        },
-        error: function (xhr) {
-            alert("Error Saving!");
-        }
-    });
-
-}
-
-
-
-
-

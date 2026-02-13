@@ -1,9 +1,9 @@
 ﻿@model List<MO.BudgetMaster.VettingSaveVM>
 
-<button class="btn btn-primary"
-        id="openVettedPopup">
+<button id="openVettedPopup" class="btn btn-primary" data-gauravid="@(Model?.FirstOrDefault()?.GauravId)">
     Vetted Entries
 </button>
+
 <input type="hidden" id="GauravId"
        value="@(Model?.FirstOrDefault()?.GauravId)">
 

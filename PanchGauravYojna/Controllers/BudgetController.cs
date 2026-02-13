@@ -101,14 +101,14 @@ namespace PanchGauravYojna.Controllers
 
             return Json(result);
         }
-
+        [HttpPost]
         public async Task<IActionResult> VettedQuestions(string GauravId)
         {
             int districtId = Convert.ToInt32(User.FindFirst("DistrictId")?.Value);
             int userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
             int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
             VettedQuestions model = new VettedQuestions();
-            model.CurrentStep = 2;
+           // model.CurrentStep = 2;
             model.GauravGuid = GauravId;
             result res_model = await _iBudgetMaster.GetVettedQuestions(GauravId);
             model.mainquestion = res_model.data;
@@ -120,6 +120,7 @@ namespace PanchGauravYojna.Controllers
                    Value = ((int)x).ToString()
                })
                .ToList();
+            // return partial so client can inject into existing page and show modal
             return PartialView("_VettedQuestionList", model);
         }
         public static string GetDisplayName(Enum enumValue)

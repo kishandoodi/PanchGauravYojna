@@ -16,7 +16,7 @@
         height: 100%;
         background-color: rgba(0,0,0,0.7);
         justify-content: center;
-        align-items: center;
+        align-items:center;
     }
 
     /* Modal box */
@@ -85,9 +85,13 @@
     <div id="vettingContainer">
         <!-- table loads here -->
     </div>
+@* dynamic form will be generated inside the injected modal partial *@
     <hr/>
 
 <div id="pendingListContainer"></div>
+
+<!-- container for injected vetted modal partial -->
+<div id="vettedModalContainer"></div>
 
     <div class="modal fade" id="verifyModalvetting" tabindex="-1">
         <div class="modal-dialog modal-xl">
@@ -140,6 +144,65 @@
 @section Scripts {
     <script nonce="@nonce"
             src="~/custom/budgetmaster.js" asp-append-version="true"></script>
+    <script nonce="@nonce"
+            src="~/custom/budgetmaster-vetted.js" asp-append-version="true"></script>
 }
 
 
+<script nonce="@nonce">
+    $(document).on("click", "#btnSaveStep2", function () {
+        saveStep2();
+    });
+    $(document).on("click", ".btn-edit", function () {
+        let rowId = $(this).closest("tr").data("rowid");
+        editRow(rowId);
+    });
+    $(document).on("click", ".btn-delete", function () {
+        let rowId = $(this).closest("tr").data("rowid");
+        deleteRow(rowId);
+    });
+</script>
+<script nonce="@nonce">
+        $(document).on('focus', '.datepicker', function () {
+        $(this).datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+
+        function getVal(id) {
+            var el = document.getElementById(id);
+            return el && el.value ? parseFloat(el.value) : 0;
+        }
+
+        function calculatePanchGaurav() {
+
+            var totalProposed = getVal('TotalProposed');
+            var nodal = getVal('NodalAmount');
+            var mplad = getVal('MPLADAmount');
+            var csr = getVal('CSRAmount');
+            var other = getVal('OtherAmount');
+
+            var totalExpense = nodal + mplad + csr + other;
+            var panchGaurav = totalProposed - totalExpense;
+
+            // if (panchGaurav < 0) {
+            //     panchGaurav = 0;
+            // }
+
+            var pg = document.getElementById('PanchGauravAmount');
+            if (pg) {
+                pg.value = panchGaurav;
+            }
+        }
+
+
+      $(document).on(
+        "input change",
+        "#TotalProposed,#NodalAmount,#MPLADAmount,#CSRAmount,#OtherAmount",
+        calculatePanchGaurav
+    );
+
+
+</script>

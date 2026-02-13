@@ -266,12 +266,12 @@ document.addEventListener("click", function (e) {
     const tr = btn.closest("tr");
 
     //const activityName = tr.children[2].innerText.trim();
-    const budget = tr.children[3].innerText.trim();
+    const budget = tr.children[4].innerText.trim();
 
     //tr.children[2].innerHTML =
-    //    `<input class="act-name table-input" value="${activityName}">`;
+    //`<input class="act-name table-input" value="${activityName}">`;
 
-    tr.children[3].innerHTML =
+    tr.children[4].innerHTML =
         `<input class="budget table-input" value="${budget}">`;
     // Edit → Update
     // buttons toggle
@@ -293,7 +293,7 @@ document.addEventListener("click", function (e) {
     if (!budgetInput) return;
     // original values restore
     //tr.children[2].innerHTML = actInput.defaultValue;
-    tr.children[3].innerHTML = budgetInput.defaultValue;
+    tr.children[4].innerHTML = budgetInput.defaultValue;
 
     // buttons toggle
     tr.querySelector(".update-btn")
@@ -390,26 +390,47 @@ document.addEventListener("click", function (e) {
     const btn = e.target.closest("#openVettedPopup");
     if (!btn) return;
 
-    const gauravId =
-        document.getElementById("GauravId").value;
+    // prefer data-gauravid on the button or fallback to hidden input
+    //const gauravId = btn.getAttribute('data-gauravid') || document.getElementById('GauravId')?.value;
+    const gauravId = 1;
+    if (!gauravId) return;
 
     ajax.doPostAjaxHtml(
         "/Budget/VettedQuestions",
         { GauravId: gauravId },
         function (response) {
 
-            // Partial View ko modal body me daalo
-            document.querySelector(
-                "#vettedModal .modal-body"
-            ).innerHTML = response;
+            $("#vettedModalContainer").html(response);
 
-            // Modal open karo
-            new bootstrap.Modal(
+            let modal = new bootstrap.Modal(
                 document.getElementById("vettedModal")
-            ).show();
+            );
+            modal.show();
+
+            // if a separate manageMaster script exists use it, otherwise call local loader
+            if (typeof buildVettedForm === 'function') buildVettedForm();
+            if (typeof loadDynamicForm === 'function') loadDynamicForm();
         }
     );
+
 });
+
+function buildVettedForm() {
+
+    let container = $("#dynamicFormContainervetted");
+    container.empty();
+
+    questions.forEach(q => {
+        container.append(
+            `<div class="mb-2">
+                <label>${q.questionName}</label>
+                <input class="form-control" value="${q.answer ?? ''}">
+            </div>`
+        );
+    });
+}
+
+
 
 function loadDynamicForm() {
     let container = document.getElementById("dynamicFormContainervetted");
@@ -418,15 +439,15 @@ function loadDynamicForm() {
     questions.forEach(q => {
         let card = `
             <div class="p-3 mb-3 shadow-sm">
-                <h5 class="fw-bold">${q.displayNumber}. ${q.questionText}</h5>      
-                ${renderSubQuestionsVetted(q)}
+                <h5 class="fw-bold">${q.questionText}</h5>      
+                ${buildQuestionHtml(q)}
             </div>
         `;
-         
+        
         container.innerHTML += card;
     });
 }
-function renderSubQuestionsVetted(q) {
+function buildQuestionHtml(q) {
     let html = `<div class="row">`;
     q.subQuestions.forEach(sub => {
 
