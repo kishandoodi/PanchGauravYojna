@@ -1,6 +1,6 @@
 ﻿@model List<MO.BudgetMaster.VettingSaveVM>
 
-<button id="openVettedPopup" class="btn btn-primary" data-gauravid="@(Model?.FirstOrDefault()?.GauravId)">
+<button id="openVettedPopup" class="btn btn-primary" data-gauravid="@(Model?.FirstOrDefault()?.GauravId)" data-districtid="@(Model?.FirstOrDefault()?.DistrictId)">
     Vetted Entries
 </button>
 
@@ -27,7 +27,6 @@
             foreach (var row in Model)
             {
                 <tr>
-                    <input type="hidden" class="GauravId" value="@row.GauravId">
                     <td>@i</td>
                     <td>@row.Activity</td>
                     <td>@row.ActivityName</td>

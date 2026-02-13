@@ -33,6 +33,7 @@ function onDistrictChange() {
     );
     loadPendingList(0, garauvId, districtId, 0, 0)
 }
+//pending list based on gauravid and districtId
 function onsavegetpendinglist(gauravid, districtId) {
 
     //var garauvId = document.getElementById("GarauvId").value;
@@ -221,7 +222,6 @@ function bindReadonly(data) {
         <div><strong>बजट :</strong> ${data.budget}</div>
     `;
 }
-
 function bindEditable(data) {
     document.getElementById("editableData").innerHTML = `
         <div><strong>गतिविधि :</strong> ${data.activity}</div>
@@ -233,7 +233,7 @@ function bindEditable(data) {
         </div>
     `;
 }
-
+// vetted list
 function loadPendingList(rawid, gauravid, districtId,
     subQuestionId, questionId) {
 
@@ -257,7 +257,6 @@ function loadPendingList(rawid, gauravid, districtId,
         }
     );
 }
-
 document.addEventListener("click", function (e) {
 
     const btn = e.target.closest(".edit-btn");
@@ -391,8 +390,8 @@ document.addEventListener("click", function (e) {
     if (!btn) return;
 
     // prefer data-gauravid on the button or fallback to hidden input
-    //const gauravId = btn.getAttribute('data-gauravid') || document.getElementById('GauravId')?.value;
-    const gauravId = 1;
+    const gauravId = btn.getAttribute('data-gauravid') || document.getElementById('GauravId')?.value;
+    //const gauravId = 1;
     if (!gauravId) return;
 
     ajax.doPostAjaxHtml(
@@ -414,7 +413,6 @@ document.addEventListener("click", function (e) {
     );
 
 });
-
 function buildVettedForm() {
 
     let container = $("#dynamicFormContainervetted");
@@ -429,9 +427,6 @@ function buildVettedForm() {
         );
     });
 }
-
-
-
 function loadDynamicForm() {
     let container = document.getElementById("dynamicFormContainervetted");
     container.innerHTML = "";
@@ -464,7 +459,7 @@ function buildQuestionHtml(q) {
             html += `
                 <div class="col-md-4 p-2">
                     <label class="fw-bold">${sub.questionText}</label>
-                    <select name="${name}" class="form-select">${opts}</select>
+                    <select name="${name}" id="ActivityId" class="form-select">${opts}</select>
                 </div>
             `;
         }
@@ -473,7 +468,7 @@ function buildQuestionHtml(q) {
             html += `
                 <div class="col-md-12 p-2">
                     <label class="fw-bold">${sub.questionText}</label>
-                    <textarea class="form-control alphaspace" name="${name}" rows="2" placeholder="अपना उत्तर यहाँ लिखें..."></textarea>
+                    <textarea class="form-control alphaspace" id="WorkPlan" name="${name}" rows="2" placeholder="अपना उत्तर यहाँ लिखें..."></textarea>
                 </div>
             `;
         }
@@ -484,10 +479,11 @@ function buildQuestionHtml(q) {
             html += `
         <div class="col-md-4 p-2">
             <label class="fw-bold">${sub.questionText}</label>
-            <input 
+            <input
                 type="text"
                 class="form-control datepicker"
-                id="${id}"
+              
+                 id="CompletionDate"
                 name="${name}"
                 placeholder="dd/mm/yyyy"
                 autocomplete="off"
@@ -549,15 +545,51 @@ function buildQuestionHtml(q) {
                 html += `
                 <div class="col-md-4 p-2">
                     <label class="fw-bold">${sub.questionText}</label>
-                    <input class="form-control alphaspace" name="${name}" type="text" placeholder="अपना उत्तर यहाँ लिखें..." />
+                    <input class="form-control alphaspace" id="ActivityName" name="${name}" type="text" placeholder="अपना उत्तर यहाँ लिखें..." />
                 </div>
             `;
             }
         }
     });
-    html += `</div> <button type="button" id="btnSaveStep2" class="btn btn-success mt-3">
+    html += `</div> <button type="button" id="savevettedquestions" class="btn btn-success mt-3">
         Add
     </button>`;
     return html;
 }
+function savevettedquestions() {
+
+    var guid = $('#hiddenGauravGuid').val();
+    var rowId = $('#hiddenrowId').val();
+
+    var model = {
+        ActivityId: $('#ActivityId').val(),
+        activityText: $('#ActivityId option:selected').text(),
+        ActivityName: $('#ActivityName').val(),
+        TotalProposed: $('#TotalProposed').val(),
+        NodalAmount: $('#NodalAmount').val(),
+        MPLADAmount: $('#MPLADAmount').val(),
+        CSRAmount: $('#CSRAmount').val(),
+        OtherAmount: $('#OtherAmount').val(),
+        PanchGauravAmount: $('#PanchGauravAmount').val(),
+        WorkPlan: $('#WorkPlan').val(),
+        CompletionDate: $('#CompletionDate').val()
+    };
+
+    console.log(model);
+
+    $.ajax({
+        url: `/Budget/savevettedquestions?guid=${guid}&rowId=${rowId}`,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(model),
+
+        success: function (data) {
+            alert("Saved Successfully!");
+        },
+        error: function () {
+            alert("Error Saving!");
+        }
+    });
+}
+
 

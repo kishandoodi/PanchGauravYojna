@@ -82,18 +82,14 @@
         </select>
     </div>
     <hr />
-    <div id="vettingContainer">
-        <!-- table loads here -->
-    </div>
-@* dynamic form will be generated inside the injected modal partial *@
-    <hr/>
+<div id="vettingContainer"> <!-- table loads here pending budget list --></div>
+ <hr/>
+<div id="pendingListContainer"><!-- vetted list --></div>
 
-<div id="pendingListContainer"></div>
+<div id="vettedModalContainer"><!-- vetted quetion form popup --></div>
 
-<!-- container for injected vetted modal partial -->
-<div id="vettedModalContainer"></div>
-
-    <div class="modal fade" id="verifyModalvetting" tabindex="-1">
+<!-- pending list budget verfiy popup -->
+ <div class="modal fade" id="verifyModalvetting" tabindex="-1">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
 
@@ -142,6 +138,7 @@
 
 
 @section Scripts {
+    
     <script nonce="@nonce"
             src="~/custom/budgetmaster.js" asp-append-version="true"></script>
     <script nonce="@nonce"
@@ -150,8 +147,8 @@
 
 
 <script nonce="@nonce">
-    $(document).on("click", "#btnSaveStep2", function () {
-        saveStep2();
+    $(document).on("click", "#savevettedquestions", function () {
+        savevettedquestions();
     });
     $(document).on("click", ".btn-edit", function () {
         let rowId = $(this).closest("tr").data("rowid");

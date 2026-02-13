@@ -131,5 +131,17 @@ namespace PanchGauravYojna.Controllers
                 .GetName()
                 ?? enumValue.ToString();
         }
+        [HttpPost]
+        public async Task<IActionResult> savevettedquestions([FromBody] VettedQuestionsSaveModel obj, string guid, int rowId = 0)
+        {
+            int districtId = Convert.ToInt32(User.FindFirst("DistrictId")?.Value);
+            int userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+            int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
+            string gauravGuid = guid;
+            var result = await _iBudgetMaster.savevettedquestions(obj, FyId, districtId, guid, userId, rowId);
+
+            return Json(result);
+        }
+
     }
 }
