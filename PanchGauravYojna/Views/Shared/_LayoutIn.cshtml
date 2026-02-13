@@ -237,6 +237,10 @@
             color : #fff;
             padding : 5px 5px 1px 5px;
         }
+
+        #dvLoader {
+            display: block; /* ye hona chahiye */
+        }
     </style>
     <script nonce="@nonce" src="~/custom/toast.helper.js"></script>
     <div class="loader-layout" id="dvLoader">
@@ -505,27 +509,26 @@
     @if (TempData["SuccessMessage"] != null)
     {
         <script nonce="@nonce">
-           @*  document.addEventListener("DOMContentLoaded", () => {
+            document.addEventListener("DOMContentLoaded", () => {
                 window.toast.showToast('Success','@TempData["SuccessMessage"]','success');
-            }); *@
-                        window.addEventListener('load', function () {
+            });
+            @* window.addEventListener('load', function () {
                 var el = document.getElementById('dvLoader');
                 if (el) el.style.display = 'none';
-            });
-
+            }); *@
         </script>
     }
 
     @if (TempData["ErrorMessage"] != null)
     {
         <script nonce="@nonce">
-            @* document.addEventListener("DOMContentLoaded", () => {
+            document.addEventListener("DOMContentLoaded", () => {
                 window.toast.showToast('Error','@TempData["ErrorMessage"]','error');
-            }); *@
-                        window.addEventListener('load', function () {
+            });
+            @* window.addEventListener('load', function () {
                 var el = document.getElementById('dvLoader');
                 if (el) el.style.display = 'none';
-            });
+            }); *@
 
         </script>
     }

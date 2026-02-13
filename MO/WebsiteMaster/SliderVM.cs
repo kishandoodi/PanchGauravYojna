@@ -12,6 +12,7 @@ namespace MO.WebsiteMaster
     {
         [ValidateNever]
         public int? Id { get; set; }
+        public string? Guid { get; set; }
         [ValidateNever]
         public string ExistingImage { get; set; }
         [ValidateNever]
