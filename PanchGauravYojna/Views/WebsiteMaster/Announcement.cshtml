@@ -1,10 +1,12 @@
-﻿@model MO.WebsiteMaster.Announcement
+﻿@using MO.Common
+@model MO.WebsiteMaster.Announcement
 @{
     ViewData["Title"] = "Announcement";
     Layout = "~/Views/Shared/_LayoutIn.cshtml";
     var nonce = Context.Items["CSPNonce"]?.ToString();
     var message = TempData["Message"] as string;
     bool? status = TempData["Status"] as bool?;
+    MenuPermissionMO p = ViewBag.Permission as MenuPermissionMO ?? new MenuPermissionMO();
 }
 <style nonce="@nonce">
     /* Overlay */
@@ -69,144 +71,168 @@
         </div>
     </div>
     <div class="card-body">
-<form asp-action="Announcement" asp-controller="WebsiteMaster"
-      method="post" enctype="multipart/form-data">
+        @if (p?.CanAdd == true || p?.CanEdit == true)
+        {
+            <form asp-action="Announcement" asp-controller="WebsiteMaster"
+                  method="post" enctype="multipart/form-data">
 
-    <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="ExistingImage" />
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ExistingImage" />
 
-    <div class="form-group">
-        <label>Announcement File</label>
-                <input type="file" asp-for="ImageFile" class="form-control" accept="application/pdf" data-val="false" />
-        <small class="text-muted">On updation Leave empty to keep old file(pdf only)</small>
-    </div>
+                <div class="form-group">
+                    <label>Announcement File</label>
+                    <input type="file" asp-for="ImageFile" class="form-control" accept="application/pdf" data-val="false" />
+                    <small class="text-muted">On updation Leave empty to keep old file(pdf only)</small>
+                </div>
 
-    <div class="form-group">
-        <label>Title</label>
-        <input type="text" asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-    </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
 
-    <div class="form-group">
-        <label>Display Order</label>
-                <input type="number" asp-for="DisplayOrder" class="form-control" />
-                <span asp-validation-for="DisplayOrder"class="text-danger"></span>
-    </div>
+                <div class="form-group">
+                    <label>Display Order</label>
+                    <input type="number" asp-for="DisplayOrder" class="form-control" />
+                    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+                </div>
 
-    <div class="form-group">
-        <label>
-            <input type="checkbox" asp-for="IsActive" />
-            Is Active
-        </label>
-    </div>
-    <div class="form-group">
-        <label>
-            <input type="checkbox" asp-for="IsNew" />
-            IsNew
-        </label>
-    </div>
-    <button type="submit" class="btn btn-primary" 
-    id="btnAnnouncement" >
-        Save
-    </button>
-    <button type="button"
-            class="btn btn-secondary d-none"
-            id="btnCancelAnnouncement">
-        Cancel
-    </button>
-</form>
-
-<hr/>
-
-<div class="table-responsive shadow-sm">
-    <table class="table table-bordered table-hover align-middle" id="Announcemen_Table">
-        <thead class="table-success text-center">
-            <tr>
-                <th>#</th>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Display Order</th>
-                <th>Is Active</th>
-                <th>Is New</th>
-                <th >Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.AnnouncementList != null && Model.AnnouncementList.Any())
-            {
-                int i = 1;
-                foreach (var item in Model.AnnouncementList)
-                {
-                    <tr>
-                        <td class="text-center">@i</td>
-                        <td class="text-center">
-                            @* <img src="@item.ImageBase64"
-                                 style="height:60px;" /> *@
-                            @* <button type="button"
-                                    class="btn btn-sm btn-info view-Announcement-btn"
-                                    data-image="@item.ImageBase64">
-                                View
-                            </button> *@
-
-                            <button type="button"
-                                    class="btn btn-sm btn-success download-Announcement-btn"
-                                    data-file="@item.ImageBase64"
-                                    title="Download">
-                                ⬇
-                            </button>
-
-                        </td>
-                        <td>@item.Title</td>
-                        <td class="text-center">@item.DisplayOrder</td>
-                        <td class="text-center">
-                            @(item.IsActive ? "Active" : "Inactive")
-                        </td>
-                                <td class="text-center">
-                                    @(item.IsNew ? "New" : "NotNew")
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" asp-for="IsActive" />
+                        Is Active
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" asp-for="IsNew" />
+                        IsNew
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary"
+                        id="btnAnnouncement">
+                    Save
+                </button>
+                <button type="button"
+                        class="btn btn-secondary d-none"
+                        id="btnCancelAnnouncement">
+                    Cancel
+                </button>
+            </form>
+        }
+        <hr />
+        <!-- ===================== LIST SECTION ===================== -->
+        @if (p?.CanList == true)
+        {
+            <div class="table-responsive shadow-sm">
+                <table class="table table-bordered table-hover align-middle" id="Announcemen_Table">
+                    <thead class="table-success text-center">
+                        <tr>
+                            <th>#</th>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Display Order</th>
+                            <th>Status</th>
+                            <th>IsNew</th>
+                            <th>Change IsNew</th>
+                            <th>Change Status</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.AnnouncementList != null && Model.AnnouncementList.Any())
+                        {
+                            int i = 1;
+                            foreach (var item in Model.AnnouncementList)
+                            {
+                                <tr>
+                                    <td class="text-center">@i</td>
+                                    <td class="text-center">  
+                                        <button type="button"
+                                                class="btn btn-sm btn-success download-Announcement-btn"
+                                                data-file="@item.ImageBase64"
+                                                title="Download">
+                                            ⬇
+                                        </button>
+                                    </td>
+                                    <td>@item.Title</td>
+                                    <td class="text-center">@item.DisplayOrder</td>
+                                    <td class="text-center">
+                                        @(item.IsActive ? "Active" : "Inactive")
+                                    </td>
+                                    <td class="text-center">
+                                        @(item.IsNew ? "New" : "NotNew")
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button"
+                                                class="btn btn-sm action-btn toggle-IsNew-btn-Announcement @(item.IsNew ? "btn-secondary" : "btn-success")"
+                                                data-id="@item.Id"
+                                                data-isnew="@item.IsNew">
+                                            @(item.IsNew ? "NotNew" : "New")
+                                        </button>
+                                    </td>
+                                    <td class="text-center">
+                                        @if (p?.CanActiveDeactive == true)
+                                        {
+                                            <button type="button"
+                                                    class="btn btn-sm action-btn toggle-status-btn-Announcement @(item.IsActive ? "btn-secondary" : "btn-success")"
+                                                    data-id="@item.Id"
+                                                    data-status="@item.IsActive">
+                                                @(item.IsActive ? "Deactivate" : "Activate")
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning">No Access</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @*   <button class="btn btn-sm btn-warning">Edit</button> *@
+                                        @if (p?.CanEdit == true)
+                                        {
+                                            <button type="button"
+                                                    class="btn btn-sm action-btn btn-warning edit-btn-Announcement"
+                                                    data-id="@item.Id"
+                                                    data-title="@item.Title"
+                                                    data-order="@item.DisplayOrder"
+                                                    data-active="@item.IsActive"
+                                                    data-isnew="@item.IsNew"
+                                                    data-image="@item.ImageBase64">
+                                                Edit
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning">No Access</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (p?.CanDelete == true)
+                                        {
+                                            <button class="btn btn-sm action-btn btn-danger del-btn-Announcement" data-sliderid="@item.Id">Delete</button>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning">No Access</span>
+                                        }
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="10" class="text-center text-danger">
+                                    No record found
                                 </td>
-                        <td class="text-center">
-                            @*   <button class="btn btn-sm btn-warning">Edit</button> *@
-                            <button type="button"
-                                            class="btn btn-sm action-btn btn-warning edit-btn-Announcement"
-                                    data-id="@item.Id"
-                                    data-title="@item.Title"
-                                    data-order="@item.DisplayOrder"
-                                    data-active="@item.IsActive"
-                                    data-isnew="@item.IsNew"
-                                    data-image="@item.ImageBase64">
-                                Edit
-                            </button>
-
-                                    <button class="btn btn-sm action-btn btn-danger del-btn-Announcement" data-sliderid="@item.Id">Delete</button>
-                            <button type="button"
-                                            class="btn btn-sm action-btn toggle-status-btn-Announcement @(item.IsActive ? "btn-secondary" : "btn-success")"
-                                    data-id="@item.Id"
-                                    data-status="@item.IsActive">
-                                @(item.IsActive ? "Deactivate" : "Activate")
-                            </button>
-                                    <button type="button"
-                                            class="btn btn-sm action-btn toggle-IsNew-btn-Announcement @(item.IsNew ? "btn-secondary" : "btn-success")"
-                                            data-id="@item.Id"
-                                            data-isnew="@item.IsNew">
-                                        @(item.IsNew ? "NotNew" : "New")
-                                    </button>
-
-                        </td>
-                    </tr>
-                    i++;
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="6" class="text-center text-danger">
-                        No record found
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
     </div>
 </div>
 @* div id="AnnouncemenModalManual" class="manual-modal">
