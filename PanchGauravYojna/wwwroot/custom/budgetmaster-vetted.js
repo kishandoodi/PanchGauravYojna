@@ -24,7 +24,8 @@ document.addEventListener('click', function (e) {
             // Show modal
             let modalEl = document.getElementById('vettedModal');
             if (modalEl) {
-                let modal = new bootstrap.Modal(modalEl);
+                // let modal = new bootstrap.Modal(modalEl);
+                let modal = bootstrap.Modal.getOrCreateInstance(modalEl);
                 modal.show();
             }
 

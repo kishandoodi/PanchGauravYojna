@@ -402,7 +402,6 @@ namespace BL.BudgetMaster
 
             return _result;
         }
-
         public async Task<result> DeleteVettedList(int RawId, int garauvId, int DistrictId, int SubQuestionMasterId, int QuestionMasterId)
         {
             result _result = new result();
@@ -619,7 +618,7 @@ namespace BL.BudgetMaster
 
                 // SUCCESS
                 _result.status = true;
-                _result.message = "Step-2 questions loaded successfully.";
+                _result.message = "Vetted budget question loaded successfully.";
                 _result.data = list;
             }
             catch (Exception ex)
@@ -630,8 +629,49 @@ namespace BL.BudgetMaster
 
             return _result;
         }
+        public async Task<result> savevettedquestions(VettedQuestionsSaveModel obj, int financialYearId, long districtId, string gauravGuid, long userId, int rowId)
+        {
+            result _result = new result();
 
+            try
+            {
+                var param = new List<SqlParameter>
+                    {
+                    new SqlParameter("@Action", "SaveVettedAnswer"),
+                       new SqlParameter("@ActivityId", obj.ActivityId),
+                       new SqlParameter("@ActivityText", obj.activityText),
+                        new SqlParameter("@ActivityName", obj.ActivityName),
+                        new SqlParameter("@TotalProposed", obj.TotalProposed),
+                        new SqlParameter("@NodalAmount", obj.NodalAmount),
+                        new SqlParameter("@MPLADAmount", obj.MPLADAmount),
+                        new SqlParameter("@CSRAmount", obj.CSRAmount),
+                        new SqlParameter("@OtherAmount", obj.OtherAmount),
+                        new SqlParameter("@PanchGauravAmount", obj.PanchGauravAmount),
+                        new SqlParameter("@WorkPlan", obj.WorkPlan),
+                        new SqlParameter("@CompletionDate", obj.CompletionDate)
+                    };
 
+                DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+
+                    _result.status = true;
+                    _result.message = "Saved successfully";
+                }
+                else
+                {
+                    _result.status = false;
+                    _result.message = "Somthing Error";
+                }
+            }
+            catch (Exception ex)
+            {
+                _result.status = false;
+                _result.message = "Enter Valid Value In Budget ";
+            }
+
+            return _result;
+        }
 
     }
 

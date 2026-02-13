@@ -83,4 +83,40 @@ namespace MO.BudgetMaster
         public string Fieldtype { get; set; }
         public int QuestionType { get; set; }
     }
+    public class VettedQuestionsSaveModel
+    {
+        public string ActivityId { get; set; }
+        public string activityText { get; set; }
+        public string ActivityName { get; set; }
+        public string TotalProposed { get; set; }
+        public string NodalAmount { get; set; }
+        public string MPLADAmount { get; set; }
+        public string CSRAmount { get; set; }
+        public string OtherAmount { get; set; }
+        public string PanchGauravAmount { get; set; }
+        public string WorkPlan { get; set; }
+        public string CompletionDate { get; set; }
+        //public int QuestionMasterId { get; set; }
+        //public int SubQuestionMasterId { get; set; }
+        //public string AnswerValue { get; set; }
+        //public long GauravId { get; set; }
+        //public long CreatedBy { get; set; }
+        //public long rowId { get; set; }
+    }
+    public class SaveVettedRequest
+    {
+        public List<VettedQuestionsSaveModel> Answers { get; set; }
+        public VettedAmountModel ModelData { get; set; }
+    }
+    public class VettedAmountModel
+    {
+        public string NodalAmount { get; set; }
+        public string MPLADAmount { get; set; }
+        public string CSRAmount { get; set; }
+        public string OtherAmount { get; set; }
+        public string PanchGauravAmount { get; set; }
+        public string TotalProposed { get; set; }
+    }
+
+
 }
