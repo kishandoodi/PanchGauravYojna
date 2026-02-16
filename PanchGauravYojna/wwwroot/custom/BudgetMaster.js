@@ -13,7 +13,7 @@
     const modalEl = document.getElementById("verifyModalvetting");
     const verifyModal = new bootstrap.Modal(modalEl);
 
-   
+
 
 });
 function onDistrictChange() {
@@ -28,7 +28,7 @@ function onDistrictChange() {
         { garauvId: garauvId, districtId: districtId },
         function (response) {
             document.getElementById("vettingContainer").innerHTML = response;
-           
+
         }
     );
     loadPendingList(0, garauvId, districtId, 0, 0)
@@ -68,7 +68,7 @@ function fixGarauvDropdown() {
     }
 }
 function bindDistrict() {
-    common.BindDropdown("/Budget/BindDistrictDropDownAll","DistrictId","District",0);
+    common.BindDropdown("/Budget/BindDistrictDropDownAll", "DistrictId", "District", 0);
 }
 
 // ---- Bootstrap modal permanent cleanup ----
@@ -115,28 +115,190 @@ document.addEventListener("click", function (e) {
 
             const activity = row.children[1].innerText;
             const activityName = row.children[2].innerText;
-            const budget = row.children[3].innerText;
+            const total = row.children[3].innerText;
+            const nodal = row.children[4].innerText;
+            const MPLAD = row.children[5].innerText;
+            const CSR = row.children[6].innerText;
+            const other = row.children[7].innerText;
+            const panchgaurav = row.children[8].innerText;
+            const workplan = row.children[9].innerText;
+            const date = row.children[10].innerText;
 
+            //document.getElementById("readonlyData").innerHTML = `
+            //    <div class="mb-2"><strong>गतिविधि :</strong> ${activity}</div>
+            //    <div class="mb-2"><strong>गतिविधि नाम :</strong> ${activityName}</div>
+            //    <div class="mb-2"><strong>कूल प्रस्तावित व्यय :</strong> ${total}</div>
+            //    <div class="mb-2"><strong>नोडल विभाग का व्यय :</strong> ${nodal}</div>
+            //    <div class="mb-2"><strong>MPLAD, MLALAD से व्यय :</strong> ${MPLAD}</div>
+            //    <div class="mb-2"><strong>CSR मद से व्यय :</strong> ${CSR}</div>
+            //    <div class="mb-2"><strong>अन्य मद द्वारा  व्यय :</strong> ${other}</div>
+            //    <div class="mb-2"><strong>पंच-गौरव से बजट आवश्यकता :</strong> ${panchgaurav}</div>
+            //    <div class="mb-2"><strong>प्रस्तावित गतिविधि के कार्य क्रियान्वय की कार्य योजना :</strong> ${workplan}</div>
+            //    <div class="mb-2"><strong>कार्य पूर्ण होने की समय सीमा :</strong> ${date}</div>
+            //`;
             document.getElementById("readonlyData").innerHTML = `
-                <div class="mb-2"><strong>गतिविधि :</strong> ${activity}</div>
-                <div class="mb-2"><strong>गतिविधि नाम :</strong> ${activityName}</div>
-                <div class="mb-2"><strong>बजट :</strong> ${budget}</div>
-            `;
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">गतिविधि :</div>
+    <div class="col-md-8">${activity}</div>
+</div>
 
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">गतिविधि नाम :</div>
+    <div class="col-md-8">${activityName}</div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">कूल प्रस्तावित व्यय :</div>
+    <div class="col-md-8">${total}</div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">नोडल विभाग का व्यय :</div>
+    <div class="col-md-8">${nodal}</div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">MPLAD, MLALAD से व्यय :</div>
+    <div class="col-md-8">${MPLAD}</div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">CSR मद से व्यय :</div>
+    <div class="col-md-8">${CSR}</div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">अन्य मद द्वारा व्यय :</div>
+    <div class="col-md-8">${other}</div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">पंच-गौरव से बजट आवश्यकता :</div>
+    <div class="col-md-8">${panchgaurav}</div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">कार्य योजना :</div>
+    <div class="col-md-8">${workplan}</div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">समय सीमा :</div>
+    <div class="col-md-8">${date}</div>
+</div>
+`;
+
+            //document.getElementById("editableData").innerHTML = `
+            //    <div class="mb-2">
+            //        <strong>गतिविधि :</strong> ${activity}
+            //          <input type="hidden" id="editActivity" value="${activity}">
+            //    </div>
+            //    <div class="mb-2">
+            //        <strong>गतिविधि नाम :</strong>${activityName}
+            //        <input type="hidden"  id="editActivityName" value="${activityName}">
+            //    </div>
+            //    <div class="mb-2">
+            //        <strong>कूल प्रस्तावित व्यय :</strong>
+            //        <input class="form-control" id="total" value="${total}">
+            //    </div>
+            //    <div class="mb-2">
+            //        <strong>नोडल विभाग का व्यय :</strong>
+            //        <input class="form-control" id="nodal" value="${nodal}">
+            //    </div>
+            //    <div class="mb-2">
+            //        <strong>MPLAD, MLALAD से व्यय :</strong>
+            //        <input class="form-control" id="MPLAD" value="${MPLAD}">
+            //    </div>
+            //    <div class="mb-2">
+            //        <strong>CSR मद से व्यय :</strong>
+            //        <input class="form-control" id="CSR" value="${CSR}">
+            //    </div>
+            //    <div class="mb-2">
+            //        <strong>अन्य मद द्वारा  व्यय :</strong>
+            //        <input class="form-control" id="other" value="${other}">
+            //    </div>
+            //    <div class="mb-2">
+            //        <strong>पंच-गौरव से बजट आवश्यकता  :</strong>
+            //        <input class="form-control" id="panchgaurav" value="${panchgaurav}">
+            //    </div>
+            //    <div class="mb-2">
+            //        <strong>प्रस्तावित गतिविधि के कार्य क्रियान्वय की कार्य योजना :</strong>
+            //        <input class="form-control" id="workplan" value="${workplan}">
+            //    </div>
+            //    <div class="mb-2">
+            //        <strong>कार्य पूर्ण होने की समय सीमा :</strong>
+            //        <input class="form-control" id="date" value="${date}">
+            //    </div>
+
+            //`;
             document.getElementById("editableData").innerHTML = `
-                <div class="mb-2">
-                    <strong>गतिविधि :</strong> ${activity}
-                      <input type="hidden" id="editActivity" value="${activity}">
-                </div>
-                <div class="mb-2">
-                    <strong>गतिविधि नाम :</strong>${activityName}
-                    <input type="hidden"  id="editActivityName" value="${activityName}">
-                </div>
-                <div class="mb-2">
-                    <strong>बजट :</strong>
-                    <input class="form-control" id="editBudget" value="${budget}">
-                </div>
-            `;
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">गतिविधि :</div>
+    <div class="col-md-8">
+        ${activity}
+        <input type="hidden" id="editActivity" value="${activity}">
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">गतिविधि नाम :</div>
+    <div class="col-md-8">
+        ${activityName}
+        <input type="hidden" id="editActivityName" value="${activityName}">
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">कूल प्रस्तावित व्यय :</div>
+    <div class="col-md-8">
+        <input class="form-control" id="totalproposed" value="${total}">
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">नोडल विभाग का व्यय :</div>
+    <div class="col-md-8">
+        <input class="form-control" id="nodal" value="${nodal}">
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">MPLAD, MLALAD से व्यय :</div>
+    <div class="col-md-8">
+        <input class="form-control" id="MPLAD" value="${MPLAD}">
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">CSR मद से व्यय :</div>
+    <div class="col-md-8">
+        <input class="form-control" id="CSR" value="${CSR}">
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">अन्य मद द्वारा व्यय :</div>
+    <div class="col-md-8">
+        <input class="form-control" id="other" value="${other}">
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">पंच-गौरव से बजट आवश्यकता :</div>
+    <div class="col-md-8">
+        <input class="form-control" id="panchgaurav" value="${panchgaurav}">
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-4 fw-bold">कार्य योजना :</div>
+    <div class="col-md-8">
+        <input class="form-control" id="workplan" value="${workplan}">
+    </div>
+</div>
+
+
+`;
 
             const modal = new bootstrap.Modal(
                 document.getElementById("verifyModalvetting")
@@ -167,28 +329,26 @@ document.getElementById("saveVerify")
 
         // edited values
 
-        const activity =document.getElementById("editActivity").value;
+        const activity = document.getElementById("editActivity").value;
         const activityName = document.getElementById("editActivityName").value;
-
-        const budget =document.getElementById("editBudget").value;
+        const totalproposed = document.getElementById("totalproposed").value;
+        const nodal = document.getElementById("nodal").value;
+        const MPLAD = document.getElementById("MPLAD").value;
+        const CSR = document.getElementById("CSR").value;
+        const other = document.getElementById("other").value;
+        const panchgaurav = document.getElementById("panchgaurav").value;
+        const workplan = document.getElementById("workplan").value;
 
         ajax.doPostAjax(
             "/Budget/SaveVettingData",
             {
-                RowId: rawid,
-                GauravId: gauravid,
-                DistrictId: districtId,
-                SubQuestionMasterId: subQuestionId,
-                QuestionMasterId: questionId,
-                Activity: activity,
-                ActivityName: activityName,
-                Budget: budget,
-                Activity: activity,
-                ActivityName: activityName,
-                Budget: budget
+                RowId: rawid, GauravId: gauravid,DistrictId: districtId,SubQuestionMasterId: subQuestionId,
+                QuestionMasterId: questionId,Activity: activity,ActivityName: activityName,
+                Activity: activity, ActivityName: activityName, Budget: panchgaurav, Nodal: nodal, MPLAD: MPLAD,
+                CSR: CSR, other: other, panchgaurav: panchgaurav, workplan: workplan, TotalProposed:totalproposed
             },
             function (res) {
-               
+
                 if (res.status) {
 
                     toast.showToast('success', res.message, 'success');
@@ -211,7 +371,7 @@ document.getElementById("saveVerify")
                     toast.showToast('error', res.message, 'error');
                 }
 
-              
+
             }
         );
     });
@@ -236,7 +396,7 @@ function bindEditable(data) {
 // vetted list
 function loadPendingList(rawid, gauravid, districtId,
     subQuestionId, questionId) {
-
+    //$("#GauravIdHidden").val(gauravid);
     ajax.doGetAjaxVetting(
         "/Budget/GetPendingVettingList",
         {
@@ -265,44 +425,67 @@ document.addEventListener("click", function (e) {
     const tr = btn.closest("tr");
 
     //const activityName = tr.children[2].innerText.trim();
-    const budget = tr.children[4].innerText.trim();
+    const totalproposed = tr.children[3].innerText.trim();
+    const nodal = tr.children[4].innerText.trim();
+    const mplad = tr.children[5].innerText.trim();
+    const csr = tr.children[6].innerText.trim();
+    const other = tr.children[7].innerText.trim();
+    const panchgaurav = tr.children[8].innerText.trim();
+    const workplan = tr.children[9].innerText.trim();
 
     //tr.children[2].innerHTML =
     //`<input class="act-name table-input" value="${activityName}">`;
 
+    tr.children[3].innerHTML =
+        `<input class="totalproposed table-input" value="${totalproposed}">`;
     tr.children[4].innerHTML =
-        `<input class="budget table-input" value="${budget}">`;
+        `<input class="nodal table-input" value="${nodal}">`;
+    tr.children[5].innerHTML =
+        `<input class="mplad table-input" value="${mplad}">`;
+    tr.children[6].innerHTML =
+        `<input class="csr table-input" value="${csr}">`;
+    tr.children[7].innerHTML =
+        `<input class="other table-input" value="${other}">`;
+    tr.children[8].innerHTML =
+        `<input class="panchgaurav table-input" value="${panchgaurav}">`;
+    tr.children[9].innerHTML =
+        `<input class="workplan table-input" value="${workplan}">`;
     // Edit → Update
     // buttons toggle
     btn.classList.add("d-none");
     tr.querySelector(".update-btn")
         .classList.remove("d-none");
 });
-document.addEventListener("click", function (e) {
+//document.addEventListener("click", function (e) {
 
-    const btn = e.target.closest(".cancel-btn");
-    if (!btn) return;
+//    const btn = e.target.closest(".cancel-btn");
+//    if (!btn) return;
 
-    const tr = btn.closest("tr");
+//    const tr = btn.closest("tr");
 
-    //const actInput = tr.querySelector(".act-name");
-    const budgetInput = tr.querySelector(".budget");
+//    //const actInput = tr.querySelector(".act-name");
+//    const budgetInput = tr.querySelector(".budget");
 
-    //if (!actInput || !budgetInput) return;
-    if (!budgetInput) return;
-    // original values restore
-    //tr.children[2].innerHTML = actInput.defaultValue;
-    tr.children[4].innerHTML = budgetInput.defaultValue;
+//    //if (!actInput || !budgetInput) return;
+//    if (!budgetInput) return;
+//    // original values restore
+//    //tr.children[2].innerHTML = actInput.defaultValue;
+//    tr.children[4].innerHTML = budgetInput.defaultValue;
 
-    // buttons toggle
-    tr.querySelector(".update-btn")
-        .classList.add("d-none");
+//    // buttons toggle
+//    const updateBtn = tr.querySelector(".update-btn");
+//    if (updateBtn) {
+//        updateBtn.classList.add("d-none");
+//    }
 
-    tr.querySelector(".edit-btn")
-        .classList.remove("d-none");
 
-    //btn.classList.add("d-none"); // cancel hide
-});
+//    const editBtn = tr.querySelector(".edit-btn");
+//    if (editBtn) {
+//        editBtn.classList.remove("d-none");
+//    }
+
+//    //btn.classList.add("d-none"); // cancel hide
+//});
 document.addEventListener("click", function (e) {
 
     const btn = e.target.closest(".delete-btn");
@@ -328,13 +511,13 @@ document.addEventListener("click", function (e) {
             if (res.status) {
                 onsavegetpendinglist(gauravid, districtId);
 
-                loadPendingList(rawid,gauravid,districtId,subQuestionId,questionId);
-                
+                loadPendingList(rawid, gauravid, districtId, subQuestionId, questionId);
+
                 toast.showToast('success', res.message, 'success');
             } else {
                 toast.showToast('error', res.message, 'error');
             }
-            
+
         }
     );
 });
@@ -352,13 +535,19 @@ document.addEventListener("click", function (e) {
     const tr = btn.closest("tr");
 
     //const activityName =
-        //tr.querySelector(".act-name").value;
+    //tr.querySelector(".act-name").value;
 
-    const budget =
-        tr.querySelector(".budget").value;
+    const totalproposed =tr.querySelector(".totalproposed").value;
+    const nodal = tr.querySelector(".nodal").value;
+    const mplad = tr.querySelector(".mplad").value;
+    const csr = tr.querySelector(".csr").value;
+    const other = tr.querySelector(".other").value;
+    const panchgaurav = tr.querySelector(".panchgaurav").value;
+    const workplan = tr.querySelector(".workplan").value;
+
 
     //tr.children[2].innerText = activityName;
-   // tr.children[3].innerText = budget;
+    // tr.children[3].innerText = budget;
 
     ajax.doPostAjax(
         "/Budget/UpdateVettedList",
@@ -368,7 +557,13 @@ document.addEventListener("click", function (e) {
             DistrictId: districtId,
             SubQuestionMasterId: subQuestionId,
             QuestionMasterId: questionId,
-            Budget: budget
+            TotalProposed: totalproposed,
+            Nodal: nodal,
+            MPLAD: mplad,
+            CSR: csr,
+            other: other,
+            panchgaurav: panchgaurav,
+            workplan: workplan,
         },
         function (res) {
             if (res.status) {
@@ -390,8 +585,12 @@ document.addEventListener("click", function (e) {
     if (!btn) return;
 
     // prefer data-gauravid on the button or fallback to hidden input
-    const gauravId = btn.getAttribute('data-gauravid') || document.getElementById('GauravId')?.value;
+   // const gauravId = btn.getAttribute('data-gauravid') || document.getElementById('GauravId')?.value;
     //const gauravId = 1;
+    //var gaurid = $("#GauravIdHidden").val();
+
+    const gauravId = $("#GauravId").val();
+
     if (!gauravId) return;
 
     ajax.doPostAjaxHtml(
@@ -438,7 +637,7 @@ function loadDynamicForm() {
                 ${buildQuestionHtml(q)}
             </div>
         `;
-        
+
         container.innerHTML += card;
     });
 }

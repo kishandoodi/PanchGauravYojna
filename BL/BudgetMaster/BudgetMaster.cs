@@ -323,7 +323,13 @@ namespace BL.BudgetMaster
                         new SqlParameter("@GauravGuid", obj.GauravId),
                         new SqlParameter("@SubQuestionMasterId", obj.SubQuestionMasterId),
                         new SqlParameter("@QuestionMasterId", obj.QuestionMasterId),
-                        new SqlParameter("@FinancialYearId", obj.FinancialYear_Id)
+                        new SqlParameter("@TotalProposed", obj.TotalProposed),
+                        new SqlParameter("@NodalAmount", obj.Nodal),
+                        new SqlParameter("@MPLADAmount", obj.MPLAD),
+                        new SqlParameter("@CSRAmount", obj.CSR),
+                        new SqlParameter("@OtherAmount", obj.other),
+                        new SqlParameter("@PanchGauravAmount", obj.panchgaurav),
+                        new SqlParameter("@WorkPlan", obj.workplan)
                     };
 
                 DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());
@@ -374,11 +380,17 @@ namespace BL.BudgetMaster
                            RowId = row["RawId"] != DBNull.Value ? Convert.ToInt32(row["RawId"]) : 0,
                             Activity = row["Activity"]?.ToString() ?? "",
                             ActivityName = row["ActivityName"]?.ToString() ?? "",
-                            Budget = row["Budget"]?.ToString() ?? "",
+                            panchgaurav = row["panchgaurav"] != DBNull.Value ? Convert.ToInt32(row["panchgaurav"]) : 0,
                             SubQuestionMasterId = row["SubQuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["SubQuestionMasterId"]) : 0,
                             QuestionMasterId = row["QuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["QuestionMasterId"]) : 0,
                             GauravId = row["GauravId"] != DBNull.Value ? Convert.ToInt32(row["GauravId"]) : 0,
                             DistrictId = row["DistrictId"] != DBNull.Value ? Convert.ToInt32(row["DistrictId"]) : 0,
+                            TotalProposed = row["TotalProposed"] != DBNull.Value ? Convert.ToInt32(row["TotalProposed"]) : 0,
+                            Nodal = row["nodal"] != DBNull.Value ? Convert.ToInt32(row["nodal"]) : 0,
+                            MPLAD = row["MPLAD"] != DBNull.Value ? Convert.ToInt32(row["MPLAD"]) : 0,
+                            CSR = row["CSR"] != DBNull.Value ? Convert.ToInt32(row["CSR"]) : 0,
+                            other = row["other"] != DBNull.Value ? Convert.ToInt32(row["other"]) : 0,
+                            workplan = row["workplan"]?.ToString() ?? ""
                         };
 
                         return obj;
@@ -454,6 +466,13 @@ namespace BL.BudgetMaster
                         new SqlParameter("@SubQuestionMasterId", obj.SubQuestionMasterId),
                         new SqlParameter("@QuestionMasterId", obj.QuestionMasterId),
                         new SqlParameter("@Budget", obj.Budget),
+                        new SqlParameter("@TotalProposed", obj.TotalProposed),
+                        new SqlParameter("@NodalAmount", obj.Nodal),
+                        new SqlParameter("@MPLADAmount", obj.MPLAD),
+                        new SqlParameter("@CSRAmount", obj.CSR),
+                        new SqlParameter("@OtherAmount", obj.other),
+                        new SqlParameter("@PanchGauravAmount", obj.panchgaurav),
+                        new SqlParameter("@WorkPlan", obj.workplan)
                     };
 
                 DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());

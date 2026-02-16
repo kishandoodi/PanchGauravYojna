@@ -51,6 +51,13 @@ namespace MO.BudgetMaster
         public int? QuestionMasterId { get; set; }
         public int? SubQuestionMasterId { get; set; }
         public int? FinancialYear_Id { get; set; }
+        public int? Nodal { get; set; }
+        public int? TotalProposed { get; set; }
+        public int? MPLAD { get; set; }
+        public int? CSR { get; set; }
+        public int? other { get; set; }
+        public int? panchgaurav { get; set; }
+        public string? workplan { get; set; }
     }
     public class VettedQuestions
     {
