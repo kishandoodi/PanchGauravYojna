@@ -1,6 +1,6 @@
 ﻿@model List<MO.BudgetMaster.VettingSaveVM>
 
-<button id="openVettedPopup" class="btn btn-primary" data-gauravid="@(Model?.FirstOrDefault()?.GauravId)" data-districtid="@(Model?.FirstOrDefault()?.DistrictId)">
+<button id="openVettedPopup" class="btn btn-primary" data-gauravid="@(Model?.FirstOrDefault()?.GauravId)" >
     Vetted Entries
 </button>
 
@@ -9,12 +9,19 @@
 
 <table class="table table-bordered">
     <thead>
-        <tr>  <th colspan="5" class="text-center"> All Entries After Department Vetting </th></tr>
+        <tr>  <th colspan="11" class="text-center"> All Entries After Department Vetting </th></tr>
         <tr>
             <th>#</th>
             <th>गतिविधि</th>
             <th>गतिविधि नाम</th>
-            <th>स्वीकृत बजट</th>
+            <th>कूल प्रस्तावित व्यय</th>
+            <th>नोडल विभाग का व्यय</th>
+            <th>MPLAD, MLALAD से व्यय</th>
+            <th>CSR मद से व्यय</th>
+            <th>अन्य मद द्वारा  व्यय</th>
+            <th>पंच-गौरव से बजट आवश्यकता</th>
+            <th>प्रस्तावित गतिविधि के कार्य क्रियान्वय की कार्य योजना</th>
+         @*    <th>कार्य पूर्ण होने की समय सीमा</th> *@
             <th>कार्यवाही</th>
         </tr>
     </thead>
@@ -30,7 +37,14 @@
                     <td>@i</td>
                     <td>@row.Activity</td>
                     <td>@row.ActivityName</td>
-                    <td>@row.Budget</td>
+                    <td>@row.TotalProposed</td>
+                    <td>@row.Nodal</td>
+                    <td>@row.MPLAD</td>
+                    <td>@row.CSR</td>
+                    <td>@row.other</td>
+                    <td>@row.panchgaurav</td>
+                    <td>@row.workplan</td>
+                   @*  <td>@row.workplan</td> *@
                     <td>
                         <button class="btn btn-sm btn-primary edit-btn"
                                 data-rowid="@row.RowId"
@@ -56,18 +70,26 @@
                                 data-SubQuestionMasterId="@row.SubQuestionMasterId">
                             Delete
                         </button>
-                        <button class="btn btn-sm btn-secondary cancel-btn"
+                       @*  <button class="btn btn-sm btn-secondary cancel-btn"
                                 data-rowid="@row.RowId"
                                 data-DistrictId="@row.DistrictId"
                                 data-GauravId="@row.GauravId"
                                 data-QuestionMasterId="@row.QuestionMasterId"
                                 data-SubQuestionMasterId="@row.SubQuestionMasterId">
                             Cancel
-                        </button>
+                        </button> *@
                     </td>
                 </tr>
                 i++;
             }
+        }
+        else
+        {
+            <tr>
+                <td colspan="11" class="text-center text-danger">
+                    No data available for selected district
+                </td>
+            </tr>
         }
     </tbody>
 </table>

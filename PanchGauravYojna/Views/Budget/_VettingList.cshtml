@@ -15,19 +15,21 @@
 @* <h4>Pending List</h4> *@
 <table class="table table-bordered">
     <thead>
-        <tr>  <th colspan="5" class="text-center"> All Entries Of WorkPlan Budget Demand As Per Above Selection </th></tr>
+        <tr>  <th colspan="12" class="text-center"> All Entries Of WorkPlan Budget Demand As Per Above Selection </th></tr>
         <tr>
-          
+
             <th>#</th>
             <th>गतिविधि</th>
             <th>गतिविधि नाम</th>
-            <th>स्वीकृत बजट</th>
-         @*    <th>MP/MLA</th>
-            <th>CSR</th>
-            <th>अन्य</th>
-            <th>जन-सहयोग</th>
-            <th>समय</th> *@
-              @if (ViewBag.ShowVerifyButton ?? true)
+            <th>कूल प्रस्तावित व्यय</th>
+            <th>नोडल विभाग का व्यय</th>
+            <th>MPLAD, MLALAD से व्यय</th>
+            <th>CSR मद से व्यय</th>
+            <th>अन्य मद द्वारा  व्यय</th>
+            <th>पंच-गौरव से बजट आवश्यकता</th>
+            <th>प्रस्तावित गतिविधि के कार्य क्रियान्वय की कार्य योजना</th>
+            <th>कार्य पूर्ण होने की समय सीमा</th>
+            @if (ViewBag.ShowVerifyButton ?? true)
             {
                 <th>कार्यवाही</th>
             }
@@ -47,25 +49,27 @@
                     <td>@(row.Columns.ContainsKey(17) ? row.Columns[17] : "")</td>
                     <td>@(row.Columns.ContainsKey(1) ? row.Columns[1] : "")</td>
                     <td>@(row.Columns.ContainsKey(2) ? row.Columns[2] : "")</td>
-                  @*   <td>@(row.Columns.ContainsKey(3) ? row.Columns[3] : "")</td>
+                    <td>@(row.Columns.ContainsKey(3) ? row.Columns[3] : "")</td>
                     <td>@(row.Columns.ContainsKey(4) ? row.Columns[4] : "")</td>
                     <td>@(row.Columns.ContainsKey(5) ? row.Columns[5] : "")</td>
                     <td>@(row.Columns.ContainsKey(6) ? row.Columns[6] : "")</td>
-                    <td>@(row.Columns.ContainsKey(7) ? row.Columns[7] : "")</td> *@
-        @if (ViewBag.ShowVerifyButton ?? true)
+                    <td>@(row.Columns.ContainsKey(7) ? row.Columns[7] : "")</td>
+                    <td>@(row.Columns.ContainsKey(15) ? row.Columns[15] : "")</td>
+                    <td>@(row.Columns.ContainsKey(16) ? row.Columns[16] : "")</td>
+                    @if (ViewBag.ShowVerifyButton ?? true)
                     {
                         <td>
                             <button class="btn btn-primary btn-sm verify-btn-vetting"
-                                data-rowid="@row.RowId"
-                                data-gauravid="@row.GauravId"
-                                data-DistrictId="@row.DistrictId"
-                                data-SubQuestionMasterId="@row.SubQuestionMasterId"
-                                data-QuestionMasterId="@row.QuestionMasterId">
-                            Verify
-                        </button>
+                                    data-rowid="@row.RowId"
+                                    data-gauravid="@row.GauravId"
+                                    data-DistrictId="@row.DistrictId"
+                                    data-SubQuestionMasterId="@row.SubQuestionMasterId"
+                                    data-QuestionMasterId="@row.QuestionMasterId">
+                                Verify
+                            </button>
 
 
-                    </td>
+                        </td>
                     }
                 </tr>
 
@@ -75,7 +79,7 @@
         else
         {
             <tr>
-                <td colspan="10" class="text-center text-danger">
+                <td colspan="12" class="text-center text-danger">
                     No data available for selected district
                 </td>
             </tr>

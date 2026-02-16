@@ -89,52 +89,51 @@
 <div id="vettedModalContainer"><!-- vetted quetion form popup --></div>
 
 <!-- pending list budget verfiy popup -->
- <div class="modal fade" id="verifyModalvetting" tabindex="-1">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
+<div class="modal fade" id="verifyModalvetting" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
 
-                @*   <div class="modal-header">
-                <h5 class="modal-title">Verify Work Plan</h5>
-                <button type="button" class="btn-close"
-                        data-bs-dismiss="modal"></button>
-            </div> *@
+            <div class="modal-body">
 
-                <div class="modal-body">
                 <input type="hidden" id="mRawId">
                 <input type="hidden" id="mGauravId">
                 <input type="hidden" id="mDistrictId">
                 <input type="hidden" id="mSubQuestionMasterId">
                 <input type="hidden" id="mQuestionMasterId">
+
+                <div class="container-fluid">
                     <div class="row">
 
-                        <!-- LEFT (Readonly) -->
-                        <div class="col-md-6">
-                            <h6>Work Plan Submitted By District</h6>
+                        <!-- LEFT -->
+                        <div class="col-md-6 border-end pe-3">
+                            <h6 class="mb-3">Work Plan Submitted By District</h6>
                             <div id="readonlyData"></div>
                         </div>
 
-                        <!-- RIGHT (Editable) -->
-                        <div class="col-md-6">
-                            <h6>Vetted By Department</h6>
+                        <!-- RIGHT -->
+                        <div class="col-md-6 ps-3">
+                            <h6 class="mb-3">Vetted By Department</h6>
                             <div id="editableData"></div>
                         </div>
 
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button class="btn btn-success" id="saveVerify">
-                        Save
-                    </button>
-                    <button class="btn btn-secondary"
-                            data-bs-dismiss="modal">
-                        Cancel
-                    </button>
-                </div>
-
             </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-success" id="saveVerify">
+                    Save
+                </button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+            </div>
+
         </div>
     </div>
+</div>
+
 
 
 @section Scripts {
