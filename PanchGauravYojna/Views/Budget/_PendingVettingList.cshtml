@@ -6,6 +6,8 @@
 
 <input type="hidden" id="GauravId"
        value="@(Model?.FirstOrDefault()?.GauravId)">
+<input type="hidden" id="DistrictId"
+       value="@(Model?.FirstOrDefault()?.DistrictId)">
 
 <table class="table table-bordered">
     <thead>
@@ -46,7 +48,7 @@
                     <td>@row.workplan</td>
                    @*  <td>@row.workplan</td> *@
                     <td>
-                        <button class="btn btn-sm btn-primary edit-btn"
+                        <button class="btn btn-sm btn-primary edit-btn-vetted"
                                 data-rowid="@row.RowId"
                             data-DistrictId="@row.DistrictId"
                             data-GauravId="@row.GauravId"
@@ -54,14 +56,14 @@
                             data-SubQuestionMasterId="@row.SubQuestionMasterId">
                             Edit
                         </button>
-                        <button class="btn btn-sm btn-primary update-btn d-none"
+                      @*   <button class="btn btn-sm btn-primary update-btn d-none"
                                 data-rowid="@row.RowId"
                                 data-DistrictId="@row.DistrictId"
                                 data-GauravId="@row.GauravId"
                                 data-QuestionMasterId="@row.QuestionMasterId"
                                 data-SubQuestionMasterId="@row.SubQuestionMasterId">
                             Update
-                        </button>
+                        </button> *@
                         <button class="btn btn-sm btn-danger delete-btn"
                                 data-rowid="@row.RowId"
                                 data-DistrictId="@row.DistrictId"
@@ -70,14 +72,14 @@
                                 data-SubQuestionMasterId="@row.SubQuestionMasterId">
                             Delete
                         </button>
-                        <button class="btn btn-sm btn-secondary cancel-btn"
+                     @*    <button class="btn btn-sm btn-secondary cancel-btn"
                                 data-rowid="@row.RowId"
                                 data-DistrictId="@row.DistrictId"
                                 data-GauravId="@row.GauravId"
                                 data-QuestionMasterId="@row.QuestionMasterId"
                                 data-SubQuestionMasterId="@row.SubQuestionMasterId">
                             Cancel
-                        </button>
+                        </button> *@
                     </td>
                 </tr>
                 i++;
@@ -93,5 +95,3 @@
         }
     </tbody>
 </table>
-
-

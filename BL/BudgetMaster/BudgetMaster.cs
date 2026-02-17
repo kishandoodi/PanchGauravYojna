@@ -329,7 +329,8 @@ namespace BL.BudgetMaster
                         new SqlParameter("@CSRAmount", obj.CSR),
                         new SqlParameter("@OtherAmount", obj.other),
                         new SqlParameter("@PanchGauravAmount", obj.panchgaurav),
-                        new SqlParameter("@WorkPlan", obj.workplan)
+                        new SqlParameter("@WorkPlan", obj.workplan),
+                        new SqlParameter("@FinancialYearId", obj.FinancialYear_Id)
                     };
 
                 DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());
@@ -648,7 +649,7 @@ namespace BL.BudgetMaster
 
             return _result;
         }
-        public async Task<result> savevettedquestions(VettedQuestionsSaveModel obj, int financialYearId, long districtId, string gauravGuid, long userId, int rowId)
+        public async Task<result> savevettedquestions(VettedQuestionsSaveModel obj, int financialYearId, int DistrictId, int GauravId, long userId)
         {
             result _result = new result();
 
@@ -667,7 +668,11 @@ namespace BL.BudgetMaster
                         new SqlParameter("@OtherAmount", obj.OtherAmount),
                         new SqlParameter("@PanchGauravAmount", obj.PanchGauravAmount),
                         new SqlParameter("@WorkPlan", obj.WorkPlan),
-                        new SqlParameter("@CompletionDate", obj.CompletionDate)
+                        new SqlParameter("@FinancialYearId", financialYearId),
+                        new SqlParameter("@DistrictId", DistrictId),
+                        new SqlParameter("@GauravGuid", GauravId),
+                        new SqlParameter("@UserId", userId)
+                     
                     };
 
                 DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());

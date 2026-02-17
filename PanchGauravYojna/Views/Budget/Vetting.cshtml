@@ -200,18 +200,18 @@
         calculatePanchGaurav
     );
     // for verify form calculations
-    function getVal(id) {
+    function getValvetted(id) {
             var el = document.getElementById(id);
             return el && el.value ? parseFloat(el.value) : 0;
         }
 
-        function calculatePanchGaurav() {
+        function calculatePanchGauravvetted() {
 
-            var totalProposed = getVal('TotalProposed');
-            var nodal = getVal('NodalAmount');
-            var mplad = getVal('MPLADAmount');
-            var csr = getVal('CSRAmount');
-            var other = getVal('OtherAmount');
+            var totalProposed = getValvetted('totalproposed');
+            var nodal = getValvetted('nodal');
+            var mplad = getValvetted('MPLAD');
+            var csr = getValvetted('CSR');
+            var other = getValvetted('other');
 
             var totalExpense = nodal + mplad + csr + other;
             var panchGaurav = totalProposed - totalExpense;
@@ -220,7 +220,7 @@
             //     panchGaurav = 0;
             // }
 
-            var pg = document.getElementById('PanchGauravAmount');
+            var pg = document.getElementById('panchgaurav');
             if (pg) {
                 pg.value = panchGaurav;
             }
@@ -229,8 +229,42 @@
 
       $(document).on(
         "input change",
-        "#TotalProposed,#NodalAmount,#MPLADAmount,#CSRAmount,#OtherAmount",
-        calculatePanchGaurav
+        "#totalproposed,#nodal,#MPLAD,#CSR,#other",
+        calculatePanchGauravvetted
     );
+
+      function getValvettededit(id) {
+            var el = document.getElementById(id);
+            return el && el.value ? parseFloat(el.value) : 0;
+        }
+        // fro edit vetted data
+          function getValFromRow(row, cls) {
+        var el = row.querySelector("." + cls);
+        return el && el.value ? parseFloat(el.value) : 0;
+    }
+
+    function calculateRowValues(e) {
+        var row = e.target.closest("tr");
+
+        var totalproposed = getValFromRow(row, "totalproposed");
+        var nodal = getValFromRow(row, "nodal");
+        var mplad = getValFromRow(row, "mplad");
+        var csr = getValFromRow(row, "csr");
+        var other = getValFromRow(row, "other");
+
+        var totalExpense = nodal + mplad + csr + other;
+        var panchgaurav = totalproposed - totalExpense;
+
+        var pgInput = row.querySelector(".panchgaurav");
+        if (pgInput) {
+            pgInput.value = panchgaurav;
+        }
+    }
+    $(document).on(
+        "input change",
+        ".totalproposed, .nodal, .mplad, .csr, .other",
+        calculateRowValues
+    );
+
 
 </script>
