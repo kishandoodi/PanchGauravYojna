@@ -286,7 +286,7 @@ document.addEventListener("click", function (e) {
 <div class="row mb-2">
     <div class="col-md-4 fw-bold">पंच-गौरव से बजट आवश्यकता :</div>
     <div class="col-md-8">
-        <input class="form-control" id="panchgaurav" value="${panchgaurav}">
+        <input class="form-control" id="panchgaurav" value="${panchgaurav}" readonly>
     </div>
 </div>
 
@@ -456,36 +456,44 @@ document.addEventListener("click", function (e) {
     tr.querySelector(".update-btn")
         .classList.remove("d-none");
 });
-//document.addEventListener("click", function (e) {
+document.addEventListener("click", function (e) {
 
-//    const btn = e.target.closest(".cancel-btn");
-//    if (!btn) return;
+    const btn = e.target.closest(".cancel-btn");
+    if (!btn) return;
 
-//    const tr = btn.closest("tr");
+    const tr = btn.closest("tr");
 
-//    //const actInput = tr.querySelector(".act-name");
-//    const budgetInput = tr.querySelector(".budget");
+    // find the input elements inserted by Edit mode
+    const totalInput = tr.querySelector(".totalproposed");
+    if (!totalInput) return; // nothing to cancel
 
-//    //if (!actInput || !budgetInput) return;
-//    if (!budgetInput) return;
-//    // original values restore
-//    //tr.children[2].innerHTML = actInput.defaultValue;
-//    tr.children[4].innerHTML = budgetInput.defaultValue;
+    const nodalInput = tr.querySelector(".nodal");
+    const mpladInput = tr.querySelector(".mplad");
+    const csrInput = tr.querySelector(".csr");
+    const otherInput = tr.querySelector(".other");
+    const panchInput = tr.querySelector(".panchgaurav");
+    const workplanInput = tr.querySelector(".workplan");
 
-//    // buttons toggle
-//    const updateBtn = tr.querySelector(".update-btn");
-//    if (updateBtn) {
-//        updateBtn.classList.add("d-none");
-//    }
+    // restore original text from the inputs' defaultValue
+    tr.children[3].innerText = totalInput.defaultValue;
+    tr.children[4].innerText = nodalInput ? nodalInput.defaultValue : "";
+    tr.children[5].innerText = mpladInput ? mpladInput.defaultValue : "";
+    tr.children[6].innerText = csrInput ? csrInput.defaultValue : "";
+    tr.children[7].innerText = otherInput ? otherInput.defaultValue : "";
+    tr.children[8].innerText = panchInput ? panchInput.defaultValue : "";
+    tr.children[9].innerText = workplanInput ? workplanInput.defaultValue : "";
 
+    // buttons toggle
+    const updateBtn = tr.querySelector(".update-btn");
+    if (updateBtn) {
+        updateBtn.classList.add("d-none");
+    }
 
-//    const editBtn = tr.querySelector(".edit-btn");
-//    if (editBtn) {
-//        editBtn.classList.remove("d-none");
-//    }
-
-//    //btn.classList.add("d-none"); // cancel hide
-//});
+    const editBtn = tr.querySelector(".edit-btn");
+    if (editBtn) {
+        editBtn.classList.remove("d-none");
+    }
+});
 document.addEventListener("click", function (e) {
 
     const btn = e.target.closest(".delete-btn");

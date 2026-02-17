@@ -29,7 +29,7 @@
 </div>
 
 <script>
-    window.questions = @Html.Raw(Json.Serialize(Model.mainquestion));
-    window.activityList = @Html.Raw(Json.Serialize(ViewBag.ActivityTypes));
+    window.questions = @Html.Raw(Json.Serialize(Model.mainquestion))
+    window.activityList = @Html.Raw(Json.Serialize(ViewBag.ActivityTypes))
     window.gauravGuid = '@Model.GauravGuid';
 </script>

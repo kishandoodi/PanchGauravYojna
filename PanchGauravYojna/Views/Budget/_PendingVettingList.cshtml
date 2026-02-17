@@ -1,7 +1,7 @@
 ﻿@model List<MO.BudgetMaster.VettingSaveVM>
 
 <button id="openVettedPopup" class="btn btn-primary" data-gauravid="@(Model?.FirstOrDefault()?.GauravId)" >
-    Vetted Entries
+   Add New Entry For Vetted By Department
 </button>
 
 <input type="hidden" id="GauravId"
@@ -70,14 +70,14 @@
                                 data-SubQuestionMasterId="@row.SubQuestionMasterId">
                             Delete
                         </button>
-                       @*  <button class="btn btn-sm btn-secondary cancel-btn"
+                        <button class="btn btn-sm btn-secondary cancel-btn"
                                 data-rowid="@row.RowId"
                                 data-DistrictId="@row.DistrictId"
                                 data-GauravId="@row.GauravId"
                                 data-QuestionMasterId="@row.QuestionMasterId"
                                 data-SubQuestionMasterId="@row.SubQuestionMasterId">
                             Cancel
-                        </button> *@
+                        </button>
                     </td>
                 </tr>
                 i++;
