@@ -765,8 +765,8 @@ function buildQuestionHtml(q) {
 }
 function savevettedquestions() {
 
-    var guid = $('#hiddenGauravGuid').val();
-    var rowId = $('#hiddenrowId').val();
+    var garauvId = $('#GauravId').val();
+    var districtId = $('#DistrictId').val();
 
     var model = {
         ActivityId: $('#ActivityId').val(),
@@ -782,21 +782,140 @@ function savevettedquestions() {
         CompletionDate: $('#CompletionDate').val()
     };
 
-    console.log(model);
 
     $.ajax({
-        url: `/Budget/savevettedquestions?guid=${guid}&rowId=${rowId}`,
+        url: `/Budget/savevettedquestions?GauravId=${garauvId}&DistrictId=${districtId}`,
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(model),
 
         success: function (data) {
-            alert("Saved Successfully!");
+            if (data.status) {
+
+                var modalEL = document.getElementById('vettedModal'); // correct id
+                var modal = bootstrap.Modal.getInstance(modalEL);
+
+                if (modal) {
+                    modal.hide();
+                }
+
+                loadPendingList(0, garauvId, districtId, 0, 0)
+
+                toast.showToast('success', data.message, 'success');
+            } else {
+                toast.showToast('error', data.message, 'error');
+            }
         },
-        error: function () {
-            alert("Error Saving!");
-        }
+        
     });
 }
+
+// NEW: Open modal edit handler for separate button (.open-modal-btn)
+// Keeps all existing logic unchanged.
+document.addEventListener("click", function (e) {
+    const btn = e.target.closest(".edit-btn-vetted");
+    if (!btn) return;
+
+    const rawid = btn.getAttribute("data-rowid");
+    const gauravid = btn.getAttribute("data-GauravId");
+    const DistrictId = btn.getAttribute("data-DistrictId");
+    const SubQuestionMasterId = btn.getAttribute("data-SubQuestionMasterId");
+    const QuestionMasterId = btn.getAttribute("data-QuestionMasterId");
+
+    // set modal hidden inputs if present
+    const setIfExists = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.value = value ?? "";
+    };
+    setIfExists("mRawId", rawid);
+    setIfExists("mGauravId", gauravid);
+    setIfExists("mDistrictId", DistrictId);
+    setIfExists("mSubQuestionMasterId", SubQuestionMasterId);
+    setIfExists("mQuestionMasterId", QuestionMasterId);
+
+    // read row values (for editable panel)
+    const tr = btn.closest("tr");
+    if (!tr) return;
+
+    const activityRow = tr.children[1]?.innerText.trim() ?? "";
+    const activityNameRow = tr.children[2]?.innerText.trim() ?? "";
+    const totalRow = tr.children[3]?.innerText.trim() ?? "";
+    const nodalRow = tr.children[4]?.innerText.trim() ?? "";
+    const MPLADRow = tr.children[5]?.innerText.trim() ?? "";
+    const CSRRow = tr.children[6]?.innerText.trim() ?? "";
+    const otherRow = tr.children[7]?.innerText.trim() ?? "";
+    const panchgauravRow = tr.children[8]?.innerText.trim() ?? "";
+    const workplanRow = tr.children[9]?.innerText.trim() ?? "";
+    const dateRow = (tr.children.length > 10) ? tr.children[10]?.innerText.trim() ?? "" : "";
+
+    // fetch server row for readonly panel (keeps server authoritative)
+    ajax.doPostAjaxHtml(
+        "/Budget/GetPendingVettingList",
+        {
+            RawId: rawid,
+            garauvId: gauravid,
+            DistrictId: DistrictId,
+            SubQuestionMasterId: SubQuestionMasterId,
+            QuestionMasterId: QuestionMasterId
+        },
+        function (response) {
+            const tmp = document.createElement("div");
+            tmp.innerHTML = response;
+            const serverRow = tmp.querySelector("tbody tr");
+
+            const activityServer = serverRow ? (serverRow.children[1]?.innerText ?? activityRow) : activityRow;
+            const activityNameServer = serverRow ? (serverRow.children[2]?.innerText ?? activityNameRow) : activityNameRow;
+            const totalServer = serverRow ? (serverRow.children[3]?.innerText ?? totalRow) : totalRow;
+            const nodalServer = serverRow ? (serverRow.children[4]?.innerText ?? nodalRow) : nodalRow;
+            const MPLADServer = serverRow ? (serverRow.children[5]?.innerText ?? MPLADRow) : MPLADRow;
+            const CSRServer = serverRow ? (serverRow.children[6]?.innerText ?? CSRRow) : CSRRow;
+            const otherServer = serverRow ? (serverRow.children[7]?.innerText ?? otherRow) : otherRow;
+            const panchgauravServer = serverRow ? (serverRow.children[8]?.innerText ?? panchgauravRow) : panchgauravRow;
+            const workplanServer = serverRow ? (serverRow.children[9]?.innerText ?? workplanRow) : workplanRow;
+            const dateServer = serverRow && serverRow.children.length > 10 ? (serverRow.children[10]?.innerText ?? dateRow) : dateRow;
+
+            // fill readonly panel with server values
+            const readonlyEl = document.getElementById("readonlyData");
+            if (readonlyEl) {
+                readonlyEl.innerHTML = `
+<div class="row mb-2"><div class="col-md-4 fw-bold">गतिविधि :</div><div class="col-md-8">${activityServer}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">गतिविधि नाम :</div><div class="col-md-8">${activityNameServer}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">कूल प्रस्तावित व्यय :</div><div class="col-md-8">${totalServer}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">नोडल विभाग का व्यय :</div><div class="col-md-8">${nodalServer}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">MPLAD, MLALAD से व्यय :</div><div class="col-md-8">${MPLADServer}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">CSR मद से व्यय :</div><div class="col-md-8">${CSRServer}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">अन्य मद द्वारा व्यय :</div><div class="col-md-8">${otherServer}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">पंच-गौरव से बजट आवश्यकता :</div><div class="col-md-8">${panchgauravServer}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">कार्य योजना :</div><div class="col-md-8">${workplanServer}</div></div>
+${dateServer ? `<div class="row mb-2"><div class="col-md-4 fw-bold">समय सीमा :</div><div class="col-md-8">${dateServer}</div></div>` : ''}
+                `;
+            }
+
+            // fill editable panel from table row values (not server)
+            const editableEl = document.getElementById("editableData");
+            if (editableEl) {
+                const esc = s => (s===null||s===undefined) ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+                editableEl.innerHTML = `
+<div class="row mb-2"><div class="col-md-4 fw-bold">गतिविधि :</div><div class="col-md-8">${activityRow}<input type="hidden" id="editActivity" value="${esc(activityRow)}"></div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">गतिविधि नाम :</div><div class="col-md-8">${activityNameRow}<input type="hidden" id="editActivityName" value="${esc(activityNameRow)}"></div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">कूल प्रस्तावित व्यय :</div><div class="col-md-8"><input class="form-control" id="totalproposed" value="${esc(totalRow)}"></div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">नोडल विभाग का व्यय :</div><div class="col-md-8"><input class="form-control" id="nodal" value="${esc(nodalRow)}"></div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">MPLAD, MLALAD से व्यय :</div><div class="col-md-8"><input class="form-control" id="MPLAD" value="${esc(MPLADRow)}"></div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">CSR मद से व्यय :</div><div class="col-md-8"><input class="form-control" id="CSR" value="${esc(CSRRow)}"></div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">अन्य मद द्वारा व्यय :</div><div class="col-md-8"><input class="form-control" id="other" value="${esc(otherRow)}"></div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">पंच-गौरव से बजट आवश्यकता :</div><div class="col-md-8"><input class="form-control" id="panchgaurav" value="${esc(panchgauravRow)}" readonly></div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">कार्य योजना :</div><div class="col-md-8"><input class="form-control" id="workplan" value="${esc(workplanRow)}"></div></div>
+                `;
+            }
+
+            // open the modal used by verify flow
+            const modalEl = document.getElementById("verifyModalvetting");
+            if (modalEl) {
+                const modal = new bootstrap.Modal(modalEl);
+                modal.show();
+            }
+        }
+    );
+});
 
 

@@ -17,7 +17,7 @@ namespace BL.BudgetMaster
         Task<result> DeleteVettedList(int RawId, int garauvId, int DistrictId, int SubQuestionMasterId, int QuestionMasterId);
         Task<result> UpdateVettedList(VettingSaveVM obj);
         Task<result> GetVettedQuestions(string GauravId);
-        Task<result> savevettedquestions(VettedQuestionsSaveModel obj, int financialYearId, long districtId, string gauravGuid, long userId, int rowId);
+        Task<result> savevettedquestions(VettedQuestionsSaveModel obj, int financialYearId, int DistrictId, int GauravId, long userId);
 
     }
 }
