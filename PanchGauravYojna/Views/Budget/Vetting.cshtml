@@ -140,8 +140,8 @@
     
     <script nonce="@nonce"
             src="~/custom/budgetmaster.js" asp-append-version="true"></script>
-    <script nonce="@nonce"
-            src="~/custom/budgetmaster-vetted.js" asp-append-version="true"></script>
+   @*  <script nonce="@nonce"
+            src="~/custom/budgetmaster-vetted.js" asp-append-version="true"></script> *@
 }
 
 
@@ -199,6 +199,38 @@
         "#TotalProposed,#NodalAmount,#MPLADAmount,#CSRAmount,#OtherAmount",
         calculatePanchGaurav
     );
+    // for verify form calculations
+    function getVal(id) {
+            var el = document.getElementById(id);
+            return el && el.value ? parseFloat(el.value) : 0;
+        }
 
+        function calculatePanchGaurav() {
+
+            var totalProposed = getVal('TotalProposed');
+            var nodal = getVal('NodalAmount');
+            var mplad = getVal('MPLADAmount');
+            var csr = getVal('CSRAmount');
+            var other = getVal('OtherAmount');
+
+            var totalExpense = nodal + mplad + csr + other;
+            var panchGaurav = totalProposed - totalExpense;
+
+            // if (panchGaurav < 0) {
+            //     panchGaurav = 0;
+            // }
+
+            var pg = document.getElementById('PanchGauravAmount');
+            if (pg) {
+                pg.value = panchGaurav;
+            }
+        }
+
+
+      $(document).on(
+        "input change",
+        "#TotalProposed,#NodalAmount,#MPLADAmount,#CSRAmount,#OtherAmount",
+        calculatePanchGaurav
+    );
 
 </script>
