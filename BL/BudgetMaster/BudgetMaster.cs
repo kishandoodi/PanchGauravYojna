@@ -107,14 +107,14 @@ namespace BL.BudgetMaster
             }
 
         }
-        public async Task<result> GetVettingList(int garauvId, int districtId, int FyId)
+        public async Task<result> GetPendingList(int garauvId, int districtId, int FyId)
         {
             result _result = new result();
             try
             {
                 var param = new List<SqlParameter>
         {
-                    new SqlParameter("@Action", "GetVettingList"),
+                    new SqlParameter("@Action", "GetPendingList"),
             new SqlParameter("@DistrictId", districtId),
             new SqlParameter("@GauravGuid", garauvId),
             new SqlParameter("@FinancialYearId", FyId)
@@ -222,8 +222,7 @@ namespace BL.BudgetMaster
             new SqlParameter("@DistrictId", districtId),
             new SqlParameter("@GauravGuid", garauvId),
             new SqlParameter("@FinancialYearId", FyId),
-            //new SqlParameter("@SubQuestionMasterId", SubQuestionMasterId),
-            //new SqlParameter("@QuestionMasterId", QuestionMasterId)
+      
 
         };
 
@@ -415,7 +414,7 @@ namespace BL.BudgetMaster
 
             return _result;
         }
-        public async Task<result> DeleteVettedList(int RawId, int garauvId, int DistrictId, int SubQuestionMasterId, int QuestionMasterId)
+        public async Task<result> DeleteVettedList(int RawId, int garauvId, int DistrictId,int FyId, int SubQuestionMasterId, int QuestionMasterId)
         {
             result _result = new result();
 
@@ -473,7 +472,8 @@ namespace BL.BudgetMaster
                         new SqlParameter("@CSRAmount", obj.CSR),
                         new SqlParameter("@OtherAmount", obj.other),
                         new SqlParameter("@PanchGauravAmount", obj.panchgaurav),
-                        new SqlParameter("@WorkPlan", obj.workplan)
+                        new SqlParameter("@WorkPlan", obj.workplan),
+                        new SqlParameter("@FinancialYearId", obj.FinancialYear_Id)
                     };
 
                 DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());

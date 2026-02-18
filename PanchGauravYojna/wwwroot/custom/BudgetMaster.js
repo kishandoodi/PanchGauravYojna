@@ -20,11 +20,13 @@ function onDistrictChange() {
 
     var garauvId = document.getElementById("GarauvId").value;
     var districtId = document.getElementById("DistrictId").value;
+    $("#GauravIdVetted").val(garauvId);
+    $("#DistrictIdVetted").val(districtId);
     if (!garauvId) return;
     if (!districtId) return;
 
     ajax.doPostAjaxHtml(
-        "/Budget/GetVettingList",
+        "/Budget/GetPendingList",
         { garauvId: garauvId, districtId: districtId },
         function (response) {
             document.getElementById("vettingContainer").innerHTML = response;
@@ -42,7 +44,7 @@ function onsavegetpendinglist(gauravid, districtId) {
     if (!districtId) return;
 
     ajax.doPostAjaxHtml(
-        "/Budget/GetVettingList",
+        "/Budget/GetPendingList",
         { garauvId: gauravid, districtId: districtId },
         function (response) {
             document.getElementById("vettingContainer").innerHTML = response;
@@ -519,8 +521,8 @@ document.addEventListener("click", function (e) {
             if (res.status) {
                 onsavegetpendinglist(gauravid, districtId);
 
-                loadPendingList(rawid, gauravid, districtId, subQuestionId, questionId);
-
+               // loadPendingList(rawid, gauravid, districtId, subQuestionId, questionId);
+                loadPendingList(0, gauravid, districtId, 0, 0)
                 toast.showToast('success', res.message, 'success');
             } else {
                 toast.showToast('error', res.message, 'error');
@@ -597,7 +599,10 @@ document.addEventListener("click", function (e) {
     //const gauravId = 1;
     //var gaurid = $("#GauravIdHidden").val();
 
-    const gauravId = $("#GauravId").val();
+    const gauravId = $("#GauravIdVetted").val();
+
+    //var gauravId = $("#GauravIdVetted").val();
+    //var districtId = $("#DistrictIdVetted").val();
 
     if (!gauravId) return;
 
@@ -765,7 +770,7 @@ function buildQuestionHtml(q) {
 }
 function savevettedquestions() {
 
-    var garauvId = $('#GauravId').val();
+    var garauvId = $('#GarauvId').val();
     var districtId = $('#DistrictId').val();
 
     var model = {
