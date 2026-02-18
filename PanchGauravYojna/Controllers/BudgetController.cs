@@ -49,11 +49,11 @@ namespace PanchGauravYojna.Controllers
             return Json(await _iBudgetMaster.BindDistrictDropDownVetting());
         }
         [HttpPost]
-        public async Task<IActionResult> GetVettingList(int garauvId, int districtId)
+        public async Task<IActionResult> GetPendingList(int garauvId, int districtId)
         {
             int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
 
-            var result = await _iBudgetMaster.GetVettingList(garauvId, districtId, FyId);
+            var result = await _iBudgetMaster.GetPendingList(garauvId, districtId, FyId);
 
             return PartialView("_VettingList", result.data);
         }
@@ -81,6 +81,8 @@ namespace PanchGauravYojna.Controllers
         }
         public async Task<IActionResult> GetPendingVettingList(VettingSaveVM obj)
         {
+            int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
+            obj.FinancialYear_Id = FyId;
             var result = await _iBudgetMaster.GetPendingVettingList(obj);
 
             if (result.status)
@@ -91,12 +93,15 @@ namespace PanchGauravYojna.Controllers
         }
         public async Task<IActionResult> DeleteVettedList(int RawId, int garauvId, int DistrictId, int SubQuestionMasterId,int QuestionMasterId)
         {
-            var result = await _iBudgetMaster.DeleteVettedList(RawId, garauvId, DistrictId, SubQuestionMasterId, QuestionMasterId);
+            int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
+            var result = await _iBudgetMaster.DeleteVettedList(RawId, garauvId, DistrictId, FyId, SubQuestionMasterId, QuestionMasterId);
 
             return Json(result);
         }
         public async Task<IActionResult> UpdateVettedList(VettingSaveVM obj)
         {
+            int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
+            obj.FinancialYear_Id = FyId;
             var result = await _iBudgetMaster.UpdateVettedList(obj);
 
             return Json(result);
@@ -134,11 +139,11 @@ namespace PanchGauravYojna.Controllers
         [HttpPost]
         public async Task<IActionResult> savevettedquestions([FromBody] VettedQuestionsSaveModel obj, int DistrictId, int GauravId)
         {
-            int districtId = Convert.ToInt32(User.FindFirst("DistrictId")?.Value);
+            //int districtId = Convert.ToInt32(User.FindFirst("DistrictId")?.Value);
             int userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
             int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
-            int gauravGuid = GauravId;
-            var result = await _iBudgetMaster.savevettedquestions(obj, FyId, districtId, GauravId, userId);
+            //int gauravGuid = GauravId;
+            var result = await _iBudgetMaster.savevettedquestions(obj, FyId, DistrictId, GauravId, userId);
 
             return Json(result);
         }

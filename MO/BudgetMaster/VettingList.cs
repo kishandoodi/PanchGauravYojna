@@ -11,7 +11,7 @@ namespace MO.BudgetMaster
         public int Id { get; set; }
         public string Gatividhi { get; set; }
         public string GatividhiName { get; set; }
-        public string Budget { get; set; }
+        public decimal? Budget { get; set; }
         public int QuestionMasterId { get; set; }
         public int SubQuestionMasterId { get; set; }
         public string AnswerValue { get; set; }
@@ -45,18 +45,18 @@ namespace MO.BudgetMaster
         public int? RowId { get; set; }
         public string Activity { get; set; }
         public string ActivityName { get; set; }
-        public string Budget { get; set; }
+        public decimal? Budget { get; set; }
         public int? GauravId { get; set; }
         public int? DistrictId { get; set; }
         public int? QuestionMasterId { get; set; }
         public int? SubQuestionMasterId { get; set; }
         public int? FinancialYear_Id { get; set; }
-        public int? Nodal { get; set; }
-        public int? TotalProposed { get; set; }
-        public int? MPLAD { get; set; }
-        public int? CSR { get; set; }
-        public int? other { get; set; }
-        public int? panchgaurav { get; set; }
+        public decimal? Nodal { get; set; }
+        public decimal? TotalProposed { get; set; }
+        public decimal? MPLAD { get; set; }
+        public decimal? CSR { get; set; }
+        public decimal? other { get; set; }
+        public decimal? panchgaurav { get; set; }
         public string? workplan { get; set; }
     }
     public class VettedQuestions
@@ -95,12 +95,12 @@ namespace MO.BudgetMaster
         public string ActivityId { get; set; }
         public string activityText { get; set; }
         public string ActivityName { get; set; }
-        public string TotalProposed { get; set; }
-        public string NodalAmount { get; set; }
-        public string MPLADAmount { get; set; }
-        public string CSRAmount { get; set; }
-        public string OtherAmount { get; set; }
-        public string PanchGauravAmount { get; set; }
+        public decimal? TotalProposed { get; set; }
+        public decimal? NodalAmount { get; set; }
+        public decimal? MPLADAmount { get; set; }
+        public decimal? CSRAmount { get; set; }
+        public decimal? OtherAmount { get; set; }
+        public decimal? PanchGauravAmount { get; set; }
         public string WorkPlan { get; set; }
         public string CompletionDate { get; set; }
         //public int QuestionMasterId { get; set; }
@@ -117,12 +117,12 @@ namespace MO.BudgetMaster
     }
     public class VettedAmountModel
     {
-        public string NodalAmount { get; set; }
-        public string MPLADAmount { get; set; }
-        public string CSRAmount { get; set; }
-        public string OtherAmount { get; set; }
-        public string PanchGauravAmount { get; set; }
-        public string TotalProposed { get; set; }
+        public decimal? NodalAmount { get; set; }
+        public decimal? MPLADAmount { get; set; }
+        public decimal? CSRAmount { get; set; }
+        public decimal? OtherAmount { get; set; }
+        public decimal? PanchGauravAmount { get; set; }
+        public decimal? TotalProposed { get; set; }
     }
 
 
