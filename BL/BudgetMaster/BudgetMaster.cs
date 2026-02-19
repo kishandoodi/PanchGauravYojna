@@ -210,7 +210,7 @@ namespace BL.BudgetMaster
                 .GetName()
                 ?? enumValue.ToString();
         }
-        public async Task<result> GetPendingVettingList(int RawId, int garauvId, int districtId, int FyId, int SubQuestionMasterId, int QuestionMasterId)
+        public async Task<result> GetPendingVettingList(int RawId, int garauvId, int districtId, int FyId)
         {
             result _result = new result();
             try
@@ -320,8 +320,8 @@ namespace BL.BudgetMaster
                         new SqlParameter("@Activity", obj.Activity),
                         new SqlParameter("@DistrictId", obj.DistrictId),
                         new SqlParameter("@GauravGuid", obj.GauravId),
-                        new SqlParameter("@SubQuestionMasterId", obj.SubQuestionMasterId),
-                        new SqlParameter("@QuestionMasterId", obj.QuestionMasterId),
+                        //new SqlParameter("@SubQuestionMasterId", obj.SubQuestionMasterId),
+                        //new SqlParameter("@QuestionMasterId", obj.QuestionMasterId),
                         new SqlParameter("@TotalProposed", obj.TotalProposed),
                         new SqlParameter("@NodalAmount", obj.Nodal),
                         new SqlParameter("@MPLADAmount", obj.MPLAD),
@@ -365,8 +365,8 @@ namespace BL.BudgetMaster
                       new SqlParameter("@RawId", obj.RowId),
                     new SqlParameter("@DistrictId", obj.DistrictId),
                         new SqlParameter("@GauravGuid", obj.GauravId),
-                        new SqlParameter("@SubQuestionMasterId", obj.SubQuestionMasterId),
-                        new SqlParameter("@QuestionMasterId", obj.QuestionMasterId)
+                        new SqlParameter("@FinancialYearId", obj.FinancialYear_Id)
+                    
                     };
 
                 DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());
@@ -380,17 +380,18 @@ namespace BL.BudgetMaster
                            RowId = row["RawId"] != DBNull.Value ? Convert.ToInt32(row["RawId"]) : 0,
                             Activity = row["Activity"]?.ToString() ?? "",
                             ActivityName = row["ActivityName"]?.ToString() ?? "",
-                            panchgaurav = row["panchgaurav"] != DBNull.Value ? Convert.ToInt32(row["panchgaurav"]) : 0,
-                            SubQuestionMasterId = row["SubQuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["SubQuestionMasterId"]) : 0,
-                            QuestionMasterId = row["QuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["QuestionMasterId"]) : 0,
+                            panchgaurav = row.Field<decimal?>("panchgaurav") ?? 0m,
+                            //SubQuestionMasterId = row["SubQuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["SubQuestionMasterId"]) : 0,
+                            //QuestionMasterId = row["QuestionMasterId"] != DBNull.Value ? Convert.ToInt32(row["QuestionMasterId"]) : 0,
                             GauravId = row["GauravId"] != DBNull.Value ? Convert.ToInt32(row["GauravId"]) : 0,
                             DistrictId = row["DistrictId"] != DBNull.Value ? Convert.ToInt32(row["DistrictId"]) : 0,
-                            TotalProposed = row["TotalProposed"] != DBNull.Value ? Convert.ToInt32(row["TotalProposed"]) : 0,
-                            Nodal = row["nodal"] != DBNull.Value ? Convert.ToInt32(row["nodal"]) : 0,
-                            MPLAD = row["MPLAD"] != DBNull.Value ? Convert.ToInt32(row["MPLAD"]) : 0,
-                            CSR = row["CSR"] != DBNull.Value ? Convert.ToInt32(row["CSR"]) : 0,
-                            other = row["other"] != DBNull.Value ? Convert.ToInt32(row["other"]) : 0,
-                            workplan = row["workplan"]?.ToString() ?? ""
+                            TotalProposed = row.Field<decimal?>("TotalProposed") ?? 0m,
+                            Nodal = row.Field<decimal?>("Nodal") ?? 0m,
+                            MPLAD = row.Field<decimal?>("MPLAD") ?? 0m,
+                            CSR = row.Field<decimal?>("CSR") ?? 0m,
+                            other = row.Field<decimal?>("other") ?? 0m,
+                            workplan = row["workplan"]?.ToString() ?? "",
+                            VettedByDepartment = row["VettedByDepartment"] != DBNull.Value ? Convert.ToInt32(row["VettedByDepartment"]) : 0
                         };
 
                         return obj;
@@ -414,7 +415,7 @@ namespace BL.BudgetMaster
 
             return _result;
         }
-        public async Task<result> DeleteVettedList(int RawId, int garauvId, int DistrictId,int FyId, int SubQuestionMasterId, int QuestionMasterId)
+        public async Task<result> DeleteVettedList(int RawId, int garauvId, int DistrictId,int FyId)
         {
             result _result = new result();
 
@@ -426,8 +427,9 @@ namespace BL.BudgetMaster
                        new SqlParameter("@RawId", RawId),
                         new SqlParameter("@DistrictId", DistrictId),
                         new SqlParameter("@GauravGuid", garauvId),
-                        new SqlParameter("@SubQuestionMasterId", SubQuestionMasterId),
-                        new SqlParameter("@QuestionMasterId", QuestionMasterId),
+                        new SqlParameter("@FinancialYearId", FyId)
+
+                  
                     };
 
                 DataSet ds = await _iSql.ExecuteProcedure("SP_Manage_Budget", param.ToArray());
@@ -463,8 +465,8 @@ namespace BL.BudgetMaster
                        new SqlParameter("@RawId", obj.RowId),
                         new SqlParameter("@DistrictId", obj.DistrictId),
                         new SqlParameter("@GauravGuid", obj.GauravId),
-                        new SqlParameter("@SubQuestionMasterId", obj.SubQuestionMasterId),
-                        new SqlParameter("@QuestionMasterId", obj.QuestionMasterId),
+                        //new SqlParameter("@SubQuestionMasterId", obj.SubQuestionMasterId),
+                        //new SqlParameter("@QuestionMasterId", obj.QuestionMasterId),
                         new SqlParameter("@Budget", obj.Budget),
                         new SqlParameter("@TotalProposed", obj.TotalProposed),
                         new SqlParameter("@NodalAmount", obj.Nodal),
@@ -493,82 +495,6 @@ namespace BL.BudgetMaster
             {
                 _result.status = false;
                 _result.message = "Somthing Error";
-            }
-
-            return _result;
-        }
-        public async Task<result> GetStep2Questions(string gauravGuid)
-        {
-            result _result = new result();
-            List<QuestionModel_step2> list = new List<QuestionModel_step2>();
-
-            try
-            {
-                var param = new List<SqlParameter>
-                {
-                    new SqlParameter("@GauravGuid", gauravGuid)
-                };
-
-                DataSet ds = await _iSql.ExecuteProcedure("SP_GetQuestions_step2", param.ToArray());
-
-                if (ds.Tables.Count < 2 || ds.Tables[0].Rows.Count == 0)
-                {
-                    _result.status = false;
-                    _result.message = "No questions found.";
-                    return _result;
-                }
-
-                // --------------------------
-                // 1️⃣ MAP QUESTIONS
-                // --------------------------
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    list.Add(new QuestionModel_step2
-                    {
-                        QuestionMasterId = Convert.ToInt64(dr["QuestionMasterId"]),
-                        DisplayNumber = dr["DisplayNumber"].ToString(),
-                        QuestionText = dr["QuestionText"].ToString(),
-                        SubQuestions = new List<SubQuestionModel_Step2>()
-                    });
-                }
-
-                // --------------------------
-                // 2️⃣ MAP SUB QUESTIONS
-                // --------------------------
-                if (ds.Tables.Count > 1)
-                {
-                    foreach (DataRow dr in ds.Tables[1].Rows)
-                    {
-                        var sub = new SubQuestionModel_Step2
-                        {
-                            SubQuestionMasterId = Convert.ToInt64(dr["SubQuestionMasterId"]),
-                            DisplayNumber = dr["DisplayNumber"]?.ToString(),
-                            OrderNumber = Convert.ToInt32(dr["OrderNumber"]),
-                            QuestionText = dr["QuestionText"]?.ToString(),
-                            Fieldtype = dr["Fieldtype"]?.ToString(),
-                            QuestionType = Convert.ToInt32(dr["QuestionType"])
-                        };
-
-                        // ❗ सभी questions में same QuestionType की sub-questions लगाएँ
-                        foreach (var q in list)
-                        {
-                            if (q.QuestionType == sub.QuestionType || q.SubQuestions.Count >= 0)
-                            {
-                                q.SubQuestions.Add(sub);
-                            }
-                        }
-                    }
-                }
-
-                // SUCCESS
-                _result.status = true;
-                _result.message = "Step-2 questions loaded successfully.";
-                _result.data = list;
-            }
-            catch (Exception ex)
-            {
-                _result.status = false;
-                _result.message = "Error: " + ex.Message;
             }
 
             return _result;

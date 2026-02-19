@@ -1,8 +1,8 @@
 ﻿@model List<MO.BudgetMaster.VettingSaveVM>
 
-<button id="openVettedPopup" class="btn btn-primary" data-gauravid="@(Model?.FirstOrDefault()?.GauravId)" >
+@* <button id="openVettedPopup" class="btn btn-primary" data-gauravid="@(Model?.FirstOrDefault()?.GauravId)" >
    Add New Entry For Vetted By Department
-</button>
+</button> *@
 
 <input type="hidden" id="GauravIdVetted"
        value="@(Model?.FirstOrDefault()?.GauravId)">
@@ -54,34 +54,16 @@
                                 data-rowid="@row.RowId"
                             data-DistrictId="@row.DistrictId"
                             data-GauravId="@row.GauravId"
-                            data-QuestionMasterId="@row.QuestionMasterId"
-                            data-SubQuestionMasterId="@row.SubQuestionMasterId">
+                                data-VettedByDepartment="@row.VettedByDepartment">
                             Edit
                         </button>
-                      @*   <button class="btn btn-sm btn-primary update-btn d-none"
-                                data-rowid="@row.RowId"
-                                data-DistrictId="@row.DistrictId"
-                                data-GauravId="@row.GauravId"
-                                data-QuestionMasterId="@row.QuestionMasterId"
-                                data-SubQuestionMasterId="@row.SubQuestionMasterId">
-                            Update
-                        </button> *@
                         <button class="btn btn-sm btn-danger delete-btn"
                                 data-rowid="@row.RowId"
                                 data-DistrictId="@row.DistrictId"
                                 data-GauravId="@row.GauravId"
-                                data-QuestionMasterId="@row.QuestionMasterId"
-                                data-SubQuestionMasterId="@row.SubQuestionMasterId">
+                                data-VettedByDepartment="@row.VettedByDepartment">
                             Delete
                         </button>
-                     @*    <button class="btn btn-sm btn-secondary cancel-btn"
-                                data-rowid="@row.RowId"
-                                data-DistrictId="@row.DistrictId"
-                                data-GauravId="@row.GauravId"
-                                data-QuestionMasterId="@row.QuestionMasterId"
-                                data-SubQuestionMasterId="@row.SubQuestionMasterId">
-                            Cancel
-                        </button> *@
                     </td>
                 </tr>
                 i++;
