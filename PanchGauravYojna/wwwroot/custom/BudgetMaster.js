@@ -126,18 +126,7 @@ document.addEventListener("click", function (e) {
             const workplan = row.children[9].innerText;
             const date = row.children[10].innerText;
 
-            //document.getElementById("readonlyData").innerHTML = `
-            //    <div class="mb-2"><strong>गतिविधि :</strong> ${activity}</div>
-            //    <div class="mb-2"><strong>गतिविधि नाम :</strong> ${activityName}</div>
-            //    <div class="mb-2"><strong>कूल प्रस्तावित व्यय :</strong> ${total}</div>
-            //    <div class="mb-2"><strong>नोडल विभाग का व्यय :</strong> ${nodal}</div>
-            //    <div class="mb-2"><strong>MPLAD, MLALAD से व्यय :</strong> ${MPLAD}</div>
-            //    <div class="mb-2"><strong>CSR मद से व्यय :</strong> ${CSR}</div>
-            //    <div class="mb-2"><strong>अन्य मद द्वारा  व्यय :</strong> ${other}</div>
-            //    <div class="mb-2"><strong>पंच-गौरव से बजट आवश्यकता :</strong> ${panchgaurav}</div>
-            //    <div class="mb-2"><strong>प्रस्तावित गतिविधि के कार्य क्रियान्वय की कार्य योजना :</strong> ${workplan}</div>
-            //    <div class="mb-2"><strong>कार्य पूर्ण होने की समय सीमा :</strong> ${date}</div>
-            //`;
+            
             document.getElementById("readonlyData").innerHTML = `
 <div class="row mb-2">
     <div class="col-md-4 fw-bold">गतिविधि :</div>
@@ -190,49 +179,7 @@ document.addEventListener("click", function (e) {
 </div>
 `;
 
-            //document.getElementById("editableData").innerHTML = `
-            //    <div class="mb-2">
-            //        <strong>गतिविधि :</strong> ${activity}
-            //          <input type="hidden" id="editActivity" value="${activity}">
-            //    </div>
-            //    <div class="mb-2">
-            //        <strong>गतिविधि नाम :</strong>${activityName}
-            //        <input type="hidden"  id="editActivityName" value="${activityName}">
-            //    </div>
-            //    <div class="mb-2">
-            //        <strong>कूल प्रस्तावित व्यय :</strong>
-            //        <input class="form-control" id="total" value="${total}">
-            //    </div>
-            //    <div class="mb-2">
-            //        <strong>नोडल विभाग का व्यय :</strong>
-            //        <input class="form-control" id="nodal" value="${nodal}">
-            //    </div>
-            //    <div class="mb-2">
-            //        <strong>MPLAD, MLALAD से व्यय :</strong>
-            //        <input class="form-control" id="MPLAD" value="${MPLAD}">
-            //    </div>
-            //    <div class="mb-2">
-            //        <strong>CSR मद से व्यय :</strong>
-            //        <input class="form-control" id="CSR" value="${CSR}">
-            //    </div>
-            //    <div class="mb-2">
-            //        <strong>अन्य मद द्वारा  व्यय :</strong>
-            //        <input class="form-control" id="other" value="${other}">
-            //    </div>
-            //    <div class="mb-2">
-            //        <strong>पंच-गौरव से बजट आवश्यकता  :</strong>
-            //        <input class="form-control" id="panchgaurav" value="${panchgaurav}">
-            //    </div>
-            //    <div class="mb-2">
-            //        <strong>प्रस्तावित गतिविधि के कार्य क्रियान्वय की कार्य योजना :</strong>
-            //        <input class="form-control" id="workplan" value="${workplan}">
-            //    </div>
-            //    <div class="mb-2">
-            //        <strong>कार्य पूर्ण होने की समय सीमा :</strong>
-            //        <input class="form-control" id="date" value="${date}">
-            //    </div>
-
-            //`;
+    
             document.getElementById("editableData").innerHTML = `
 <div class="row mb-2">
     <div class="col-md-4 fw-bold">गतिविधि :</div>
@@ -323,11 +270,11 @@ document.getElementById("saveVerify")
         const districtId =
             document.getElementById("mDistrictId").value;
 
-        const subQuestionId =
-            document.getElementById("mSubQuestionMasterId").value;
+        //const subQuestionId =
+        //    document.getElementById("mSubQuestionMasterId").value;
 
-        const questionId =
-            document.getElementById("mQuestionMasterId").value;
+        //const questionId =
+        //    document.getElementById("mQuestionMasterId").value;
 
         // edited values
 
@@ -344,8 +291,10 @@ document.getElementById("saveVerify")
         ajax.doPostAjax(
             "/Budget/SaveVettingData",
             {
-                RowId: rawid, GauravId: gauravid,DistrictId: districtId,SubQuestionMasterId: subQuestionId,
-                QuestionMasterId: questionId,Activity: activity,ActivityName: activityName,
+                RowId: rawid, GauravId: gauravid, DistrictId: districtId,
+                //SubQuestionMasterId: subQuestionId,
+                //QuestionMasterId: questionId,
+                Activity: activity, ActivityName: activityName,
                 Activity: activity, ActivityName: activityName, Budget: panchgaurav, Nodal: nodal, MPLAD: MPLAD,
                 CSR: CSR, other: other, panchgaurav: panchgaurav, workplan: workplan, TotalProposed:totalproposed
             },
@@ -362,11 +311,7 @@ document.getElementById("saveVerify")
                     // 2 second baad reload
                     setTimeout(function () {
                         //location.reload();
-                        loadPendingList(rawid,
-                            gauravid,
-                            districtId,
-                            subQuestionId,
-                            questionId);
+                        loadPendingList(rawid,gauravid, districtId);
                     }, 2000);
 
                 } else {
@@ -396,17 +341,14 @@ function bindEditable(data) {
     `;
 }
 // vetted list
-function loadPendingList(rawid, gauravid, districtId,
-    subQuestionId, questionId) {
+function loadPendingList(rawid, gauravid, districtId) {
     //$("#GauravIdHidden").val(gauravid);
     ajax.doGetAjaxVetting(
         "/Budget/GetPendingVettingList",
         {
             RowId: rawid,
             GauravId: gauravid,
-            DistrictId: districtId,
-            SubQuestionMasterId: subQuestionId,
-            QuestionMasterId: questionId
+            DistrictId: districtId
         },
         function (response) {
 
@@ -454,48 +396,48 @@ document.addEventListener("click", function (e) {
         `<input class="workplan table-input" value="${workplan}">`;
     // Edit → Update
     // buttons toggle
-    btn.classList.add("d-none");
-    tr.querySelector(".update-btn")
-        .classList.remove("d-none");
+    //btn.classList.add("d-none");
+    //tr.querySelector(".update-btn")
+    //    .classList.remove("d-none");
 });
-document.addEventListener("click", function (e) {
+//document.addEventListener("click", function (e) {
 
-    const btn = e.target.closest(".cancel-btn");
-    if (!btn) return;
+//    const btn = e.target.closest(".cancel-btn");
+//    if (!btn) return;
 
-    const tr = btn.closest("tr");
+//    const tr = btn.closest("tr");
 
-    // find the input elements inserted by Edit mode
-    const totalInput = tr.querySelector(".totalproposed");
-    if (!totalInput) return; // nothing to cancel
+//    // find the input elements inserted by Edit mode
+//    const totalInput = tr.querySelector(".totalproposed");
+//    if (!totalInput) return; // nothing to cancel
 
-    const nodalInput = tr.querySelector(".nodal");
-    const mpladInput = tr.querySelector(".mplad");
-    const csrInput = tr.querySelector(".csr");
-    const otherInput = tr.querySelector(".other");
-    const panchInput = tr.querySelector(".panchgaurav");
-    const workplanInput = tr.querySelector(".workplan");
+//    const nodalInput = tr.querySelector(".nodal");
+//    const mpladInput = tr.querySelector(".mplad");
+//    const csrInput = tr.querySelector(".csr");
+//    const otherInput = tr.querySelector(".other");
+//    const panchInput = tr.querySelector(".panchgaurav");
+//    const workplanInput = tr.querySelector(".workplan");
 
-    // restore original text from the inputs' defaultValue
-    tr.children[3].innerText = totalInput.defaultValue;
-    tr.children[4].innerText = nodalInput ? nodalInput.defaultValue : "";
-    tr.children[5].innerText = mpladInput ? mpladInput.defaultValue : "";
-    tr.children[6].innerText = csrInput ? csrInput.defaultValue : "";
-    tr.children[7].innerText = otherInput ? otherInput.defaultValue : "";
-    tr.children[8].innerText = panchInput ? panchInput.defaultValue : "";
-    tr.children[9].innerText = workplanInput ? workplanInput.defaultValue : "";
+//    // restore original text from the inputs' defaultValue
+//    tr.children[3].innerText = totalInput.defaultValue;
+//    tr.children[4].innerText = nodalInput ? nodalInput.defaultValue : "";
+//    tr.children[5].innerText = mpladInput ? mpladInput.defaultValue : "";
+//    tr.children[6].innerText = csrInput ? csrInput.defaultValue : "";
+//    tr.children[7].innerText = otherInput ? otherInput.defaultValue : "";
+//    tr.children[8].innerText = panchInput ? panchInput.defaultValue : "";
+//    tr.children[9].innerText = workplanInput ? workplanInput.defaultValue : "";
 
-    // buttons toggle
-    const updateBtn = tr.querySelector(".update-btn");
-    if (updateBtn) {
-        updateBtn.classList.add("d-none");
-    }
+//    // buttons toggle
+//    const updateBtn = tr.querySelector(".update-btn");
+//    if (updateBtn) {
+//        updateBtn.classList.add("d-none");
+//    }
 
-    const editBtn = tr.querySelector(".edit-btn");
-    if (editBtn) {
-        editBtn.classList.remove("d-none");
-    }
-});
+//    const editBtn = tr.querySelector(".edit-btn");
+//    if (editBtn) {
+//        editBtn.classList.remove("d-none");
+//    }
+//});
 document.addEventListener("click", function (e) {
 
     const btn = e.target.closest(".delete-btn");
@@ -504,8 +446,8 @@ document.addEventListener("click", function (e) {
     const rawid = btn.getAttribute("data-rowid");
     const gauravid = btn.getAttribute("data-GauravId");
     const districtId = btn.getAttribute("data-DistrictId");
-    const subQuestionId = btn.getAttribute("data-SubQuestionMasterId");
-    const questionId = btn.getAttribute("data-QuestionMasterId");
+    //const subQuestionId = btn.getAttribute("data-SubQuestionMasterId");
+    //const questionId = btn.getAttribute("data-QuestionMasterId");
 
 
     ajax.doPostAjax(
@@ -514,8 +456,8 @@ document.addEventListener("click", function (e) {
             RawId: rawid,
             garauvId: gauravid,
             DistrictId: districtId,
-            SubQuestionMasterId: subQuestionId,
-            QuestionMasterId: questionId
+            //SubQuestionMasterId: subQuestionId,
+            //QuestionMasterId: questionId
         },
         function (res) {
             if (res.status) {
@@ -523,7 +465,7 @@ document.addEventListener("click", function (e) {
 
                // loadPendingList(rawid, gauravid, districtId, subQuestionId, questionId);
                 loadPendingList(0, gauravid, districtId, 0, 0)
-                toast.showToast('success', res.message, 'success');
+               toast.showToast('success', res.message, 'success');
             } else {
                 toast.showToast('error', res.message, 'error');
             }
@@ -531,64 +473,64 @@ document.addEventListener("click", function (e) {
         }
     );
 });
-document.addEventListener("click", function (e) {
+//document.addEventListener("click", function (e) {
 
-    const btn = e.target.closest(".update-btn");
-    if (!btn) return;
+//    const btn = e.target.closest(".update-btn");
+//    if (!btn) return;
 
-    const rawid = btn.getAttribute("data-rowid");
-    const gauravid = btn.getAttribute("data-GauravId");
-    const districtId = btn.getAttribute("data-DistrictId");
-    const subQuestionId = btn.getAttribute("data-SubQuestionMasterId");
-    const questionId = btn.getAttribute("data-QuestionMasterId");
-    //
-    const tr = btn.closest("tr");
+//    const rawid = btn.getAttribute("data-rowid");
+//    const gauravid = btn.getAttribute("data-GauravId");
+//    const districtId = btn.getAttribute("data-DistrictId");
+//    //const subQuestionId = btn.getAttribute("data-SubQuestionMasterId");
+//    //const questionId = btn.getAttribute("data-QuestionMasterId");
+//    //
+//    const tr = btn.closest("tr");
 
-    //const activityName =
-    //tr.querySelector(".act-name").value;
+//    //const activityName =
+//    //tr.querySelector(".act-name").value;
 
-    const totalproposed =tr.querySelector(".totalproposed").value;
-    const nodal = tr.querySelector(".nodal").value;
-    const mplad = tr.querySelector(".mplad").value;
-    const csr = tr.querySelector(".csr").value;
-    const other = tr.querySelector(".other").value;
-    const panchgaurav = tr.querySelector(".panchgaurav").value;
-    const workplan = tr.querySelector(".workplan").value;
+//    const totalproposed =tr.querySelector(".totalproposed").value;
+//    const nodal = tr.querySelector(".nodal").value;
+//    const mplad = tr.querySelector(".mplad").value;
+//    const csr = tr.querySelector(".csr").value;
+//    const other = tr.querySelector(".other").value;
+//    const panchgaurav = tr.querySelector(".panchgaurav").value;
+//    const workplan = tr.querySelector(".workplan").value;
 
 
-    //tr.children[2].innerText = activityName;
-    // tr.children[3].innerText = budget;
+//    //tr.children[2].innerText = activityName;
+//    // tr.children[3].innerText = budget;
 
-    ajax.doPostAjax(
-        "/Budget/UpdateVettedList",
-        {
-            RowId: rawid,
-            GauravId: gauravid,
-            DistrictId: districtId,
-            SubQuestionMasterId: subQuestionId,
-            QuestionMasterId: questionId,
-            TotalProposed: totalproposed,
-            Nodal: nodal,
-            MPLAD: mplad,
-            CSR: csr,
-            other: other,
-            panchgaurav: panchgaurav,
-            workplan: workplan,
-        },
-        function (res) {
-            if (res.status) {
-                onsavegetpendinglist(gauravid, districtId);
+//    ajax.doPostAjax(
+//        "/Budget/UpdateVettedList",
+//        {
+//            RowId: rawid,
+//            GauravId: gauravid,
+//            DistrictId: districtId,
+//            //SubQuestionMasterId: subQuestionId,
+//            //QuestionMasterId: questionId,
+//            TotalProposed: totalproposed,
+//            Nodal: nodal,
+//            MPLAD: mplad,
+//            CSR: csr,
+//            other: other,
+//            panchgaurav: panchgaurav,
+//            workplan: workplan,
+//        },
+//        function (res) {
+//            if (res.status) {
+//                onsavegetpendinglist(gauravid, districtId);
 
-                loadPendingList(rawid, gauravid, districtId, subQuestionId, questionId);
+//                loadPendingList(rawid, gauravid, districtId);
 
-                toast.showToast('success', res.message, 'success');
-            } else {
-                toast.showToast('error', res.message, 'error');
-            }
+//                toast.showToast('success', res.message, 'success');
+//            } else {
+//                toast.showToast('error', res.message, 'error');
+//            }
 
-        }
-    );
-});
+//        }
+//    );
+//});
 document.addEventListener("click", function (e) {
 
     const btn = e.target.closest("#openVettedPopup");
@@ -599,8 +541,8 @@ document.addEventListener("click", function (e) {
     //const gauravId = 1;
     //var gaurid = $("#GauravIdHidden").val();
 
-    const gauravId = $("#GauravIdVetted").val();
-
+   // const gauravId = $("#GauravIdVetted").val();
+    const gauravId = btn.getAttribute('data-gauravid') 
     //var gauravId = $("#GauravIdVetted").val();
     //var districtId = $("#DistrictIdVetted").val();
 
@@ -772,50 +714,84 @@ function savevettedquestions() {
 
     var garauvId = $('#GarauvId').val();
     var districtId = $('#DistrictId').val();
+   
 
     var model = {
         ActivityId: $('#ActivityId').val(),
         activityText: $('#ActivityId option:selected').text(),
         ActivityName: $('#ActivityName').val(),
-        TotalProposed: $('#TotalProposed').val(),
-        NodalAmount: $('#NodalAmount').val(),
-        MPLADAmount: $('#MPLADAmount').val(),
-        CSRAmount: $('#CSRAmount').val(),
-        OtherAmount: $('#OtherAmount').val(),
-        PanchGauravAmount: $('#PanchGauravAmount').val(),
+        TotalProposed: Number($("#TotalProposed").val()) || null,
+        NodalAmount: Number($("#NodalAmount").val()) || null,
+        MPLADAmount: Number($("#MPLADAmount").val()) || null,
+        CSRAmount: Number($("#CSRAmount").val()) || null,
+        OtherAmount: Number($("#OtherAmount").val()) || null,
+        PanchGauravAmount: Number($("#PanchGauravAmount").val()) || null,
         WorkPlan: $('#WorkPlan').val(),
         CompletionDate: $('#CompletionDate').val()
     };
 
+
+    //$.ajax({
+    //    url: `/Budget/savevettedquestions?GauravId=${garauvId}&DistrictId=${districtId}`,
+    //    type: "POST",
+    //    contentType: "application/json",
+    //    data: JSON.stringify(model),
+
+    //    success: function (data) {
+    //        if (data.status) {
+
+    //            var modalEL = document.getElementById('vettedModal'); // correct id
+    //            var modal = bootstrap.Modal.getInstance(modalEL);
+
+    //            if (modal) {
+    //                modal.hide();
+    //            }
+
+    //            loadPendingList(0, garauvId, districtId, 0, 0)
+
+    //            toast.showToast('success', data.message, 'success');
+    //        } else {
+    //            toast.showToast('error', data.message, 'error');
+    //        }
+    //    },
+
+    //});
 
     $.ajax({
         url: `/Budget/savevettedquestions?GauravId=${garauvId}&DistrictId=${districtId}`,
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(model),
-
         success: function (data) {
+
             if (data.status) {
-
-                var modalEL = document.getElementById('vettedModal'); // correct id
+                var modalEL = document.getElementById('vettedModal');
                 var modal = bootstrap.Modal.getInstance(modalEL);
-
                 if (modal) {
-                    modal.hide();
-                }
+                                modal.hide();
+                            }
 
-                loadPendingList(0, garauvId, districtId, 0, 0)
-
+                            loadPendingList(0, garauvId, districtId, 0, 0)
                 toast.showToast('success', data.message, 'success');
-            } else {
-                toast.showToast('error', data.message, 'error');
             }
         },
-        
+        error: function (xhr) {
+
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+
+                xhr.responseJSON.errors.forEach(function (msg) {
+                    toast.showToast('error', msg, 'error');
+                });
+
+            } else {
+                toast.showToast('error', "Something went wrong", 'error');
+            }
+        }
     });
+
 }
 
-// NEW: Open modal edit handler for separate button (.open-modal-btn)
+// NEW: Open modal edit handler for separate button (.edit-btn-vetted)
 // Keeps all existing logic unchanged.
 document.addEventListener("click", function (e) {
     const btn = e.target.closest(".edit-btn-vetted");
@@ -824,8 +800,7 @@ document.addEventListener("click", function (e) {
     const rawid = btn.getAttribute("data-rowid");
     const gauravid = btn.getAttribute("data-GauravId");
     const DistrictId = btn.getAttribute("data-DistrictId");
-    const SubQuestionMasterId = btn.getAttribute("data-SubQuestionMasterId");
-    const QuestionMasterId = btn.getAttribute("data-QuestionMasterId");
+    const VettedByDepartment = btn.getAttribute("data-VettedByDepartment");
 
     // set modal hidden inputs if present
     const setIfExists = (id, value) => {
@@ -835,8 +810,6 @@ document.addEventListener("click", function (e) {
     setIfExists("mRawId", rawid);
     setIfExists("mGauravId", gauravid);
     setIfExists("mDistrictId", DistrictId);
-    setIfExists("mSubQuestionMasterId", SubQuestionMasterId);
-    setIfExists("mQuestionMasterId", QuestionMasterId);
 
     // read row values (for editable panel)
     const tr = btn.closest("tr");
@@ -859,9 +832,7 @@ document.addEventListener("click", function (e) {
         {
             RawId: rawid,
             garauvId: gauravid,
-            DistrictId: DistrictId,
-            SubQuestionMasterId: SubQuestionMasterId,
-            QuestionMasterId: QuestionMasterId
+            DistrictId: DistrictId
         },
         function (response) {
             const tmp = document.createElement("div");
@@ -879,24 +850,37 @@ document.addEventListener("click", function (e) {
             const workplanServer = serverRow ? (serverRow.children[9]?.innerText ?? workplanRow) : workplanRow;
             const dateServer = serverRow && serverRow.children.length > 10 ? (serverRow.children[10]?.innerText ?? dateRow) : dateRow;
 
-            // fill readonly panel with server values
+            // If VettedByDepartment == "1" show NA in readonly panel, otherwise show server values.
+            const showNA = String(VettedByDepartment) === "1";
+            const rActivity = showNA ? "NA" : activityServer;
+            const rActivityName = showNA ? "NA" : activityNameServer;
+            const rTotal = showNA ? "NA" : totalServer;
+            const rNodal = showNA ? "NA" : nodalServer;
+            const rMPLAD = showNA ? "NA" : MPLADServer;
+            const rCSR = showNA ? "NA" : CSRServer;
+            const rOther = showNA ? "NA" : otherServer;
+            const rPanch = showNA ? "NA" : panchgauravServer;
+            const rWorkplan = showNA ? "NA" : workplanServer;
+            const rDate = showNA ? "NA" : dateServer;
+
+            // fill readonly panel with either NA or server values
             const readonlyEl = document.getElementById("readonlyData");
             if (readonlyEl) {
                 readonlyEl.innerHTML = `
-<div class="row mb-2"><div class="col-md-4 fw-bold">गतिविधि :</div><div class="col-md-8">${activityServer}</div></div>
-<div class="row mb-2"><div class="col-md-4 fw-bold">गतिविधि नाम :</div><div class="col-md-8">${activityNameServer}</div></div>
-<div class="row mb-2"><div class="col-md-4 fw-bold">कूल प्रस्तावित व्यय :</div><div class="col-md-8">${totalServer}</div></div>
-<div class="row mb-2"><div class="col-md-4 fw-bold">नोडल विभाग का व्यय :</div><div class="col-md-8">${nodalServer}</div></div>
-<div class="row mb-2"><div class="col-md-4 fw-bold">MPLAD, MLALAD से व्यय :</div><div class="col-md-8">${MPLADServer}</div></div>
-<div class="row mb-2"><div class="col-md-4 fw-bold">CSR मद से व्यय :</div><div class="col-md-8">${CSRServer}</div></div>
-<div class="row mb-2"><div class="col-md-4 fw-bold">अन्य मद द्वारा व्यय :</div><div class="col-md-8">${otherServer}</div></div>
-<div class="row mb-2"><div class="col-md-4 fw-bold">पंच-गौरव से बजट आवश्यकता :</div><div class="col-md-8">${panchgauravServer}</div></div>
-<div class="row mb-2"><div class="col-md-4 fw-bold">कार्य योजना :</div><div class="col-md-8">${workplanServer}</div></div>
-${dateServer ? `<div class="row mb-2"><div class="col-md-4 fw-bold">समय सीमा :</div><div class="col-md-8">${dateServer}</div></div>` : ''}
+<div class="row mb-2"><div class="col-md-4 fw-bold">गतिविधि :</div><div class="col-md-8">${rActivity}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">गतिविधि नाम :</div><div class="col-md-8">${rActivityName}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">कूल प्रस्तावित व्यय :</div><div class="col-md-8">${rTotal}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">नोडल विभाग का व्यय :</div><div class="col-md-8">${rNodal}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">MPLAD, MLALAD से व्यय :</div><div class="col-md-8">${rMPLAD}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">CSR मद से व्यय :</div><div class="col-md-8">${rCSR}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">अन्य मद द्वारा व्यय :</div><div class="col-md-8">${rOther}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">पंच-गौरव से बजट आवश्यकता :</div><div class="col-md-8">${rPanch}</div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">कार्य योजना :</div><div class="col-md-8">${rWorkplan}</div></div>
+${rDate ? `<div class="row mb-2"><div class="col-md-4 fw-bold">समय सीमा :</div><div class="col-md-8">${rDate}</div></div>` : ''}
                 `;
             }
 
-            // fill editable panel from table row values (not server)
+            // fill editable panel from table row values (not server) - unchanged
             const editableEl = document.getElementById("editableData");
             if (editableEl) {
                 const esc = s => (s===null||s===undefined) ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -908,7 +892,7 @@ ${dateServer ? `<div class="row mb-2"><div class="col-md-4 fw-bold">समय �
 <div class="row mb-2"><div class="col-md-4 fw-bold">MPLAD, MLALAD से व्यय :</div><div class="col-md-8"><input class="form-control" id="MPLAD" value="${esc(MPLADRow)}"></div></div>
 <div class="row mb-2"><div class="col-md-4 fw-bold">CSR मद से व्यय :</div><div class="col-md-8"><input class="form-control" id="CSR" value="${esc(CSRRow)}"></div></div>
 <div class="row mb-2"><div class="col-md-4 fw-bold">अन्य मद द्वारा व्यय :</div><div class="col-md-8"><input class="form-control" id="other" value="${esc(otherRow)}"></div></div>
-<div class="row mb-2"><div class="col-md-4 fw-bold">पंच-गौरव से बजट आवश्यकता :</div><div class="col-md-8"><input class="form-control" id="panchgaurav" value="${esc(panchgauravRow)}" readonly></div></div>
+<div class="row mb-2"><div class="col-md-4 fw-bold">पन्च-गौरव से बजट आवश्यकता :</div><div class="col-md-8"><input class="form-control" id="panchgaurav" value="${esc(panchgauravRow)}" readonly></div></div>
 <div class="row mb-2"><div class="col-md-4 fw-bold">कार्य योजना :</div><div class="col-md-8"><input class="form-control" id="workplan" value="${esc(workplanRow)}"></div></div>
                 `;
             }

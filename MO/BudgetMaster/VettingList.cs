@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,8 +49,6 @@ namespace MO.BudgetMaster
         public decimal? Budget { get; set; }
         public int? GauravId { get; set; }
         public int? DistrictId { get; set; }
-        public int? QuestionMasterId { get; set; }
-        public int? SubQuestionMasterId { get; set; }
         public int? FinancialYear_Id { get; set; }
         public decimal? Nodal { get; set; }
         public decimal? TotalProposed { get; set; }
@@ -58,6 +57,7 @@ namespace MO.BudgetMaster
         public decimal? other { get; set; }
         public decimal? panchgaurav { get; set; }
         public string? workplan { get; set; }
+        public int? VettedByDepartment { get; set; }
     }
     public class VettedQuestions
     {
@@ -92,23 +92,36 @@ namespace MO.BudgetMaster
     }
     public class VettedQuestionsSaveModel
     {
+        [Required(ErrorMessage = "Activity is required")]
         public string ActivityId { get; set; }
-        public string activityText { get; set; }
+
+        [Required(ErrorMessage = "Activity Name is required")]
         public string ActivityName { get; set; }
+        public string activityText { get; set; }
+
+        [Required(ErrorMessage = "Total Proposed is required")]
         public decimal? TotalProposed { get; set; }
+
+        [Required(ErrorMessage = "Nodal Amount is required")]
         public decimal? NodalAmount { get; set; }
+
+        [Required(ErrorMessage = "MPLAD Amount is required")]
         public decimal? MPLADAmount { get; set; }
+
+        [Required(ErrorMessage = "CSR Amount is required")]
         public decimal? CSRAmount { get; set; }
+
+        [Required(ErrorMessage = "Other Amount is required")]
         public decimal? OtherAmount { get; set; }
+
+        [Required(ErrorMessage = "Panch Gaurav Amount is required")]
         public decimal? PanchGauravAmount { get; set; }
-        public string WorkPlan { get; set; }
-        public string CompletionDate { get; set; }
-        //public int QuestionMasterId { get; set; }
-        //public int SubQuestionMasterId { get; set; }
-        //public string AnswerValue { get; set; }
-        //public long GauravId { get; set; }
-        //public long CreatedBy { get; set; }
-        //public long rowId { get; set; }
+
+        [Required(ErrorMessage = "Work Plan is required")]
+        public string ?WorkPlan { get; set; }
+
+        [Required(ErrorMessage = "Completion Date is required")]
+        public string ?CompletionDate { get; set; }
     }
     public class SaveVettedRequest
     {

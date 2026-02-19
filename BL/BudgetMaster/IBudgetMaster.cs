@@ -11,10 +11,10 @@ namespace BL.BudgetMaster
         Task<result> BindGauravDropDownVetting(string userId);
         Task<result> BindDistrictDropDownVetting();
         Task<result> GetPendingList(int garauvId, int districtId, int FyId);
-        Task<result> GetPendingVettingList(int RawId, int garauvId, int districtId, int FyId, int SubQuestionMasterId, int QuestionMasterId);
+        Task<result> GetPendingVettingList(int RawId, int garauvId, int districtId, int FyId);
         Task<result> SaveVettingData(VettingSaveVM obj);
         Task<result> GetPendingVettingList(VettingSaveVM obj);
-        Task<result> DeleteVettedList(int RawId, int garauvId, int DistrictId,int FyId, int SubQuestionMasterId, int QuestionMasterId);
+        Task<result> DeleteVettedList(int RawId, int garauvId, int DistrictId,int FyId);
         Task<result> UpdateVettedList(VettingSaveVM obj);
         Task<result> GetVettedQuestions(string GauravId);
         Task<result> savevettedquestions(VettedQuestionsSaveModel obj, int financialYearId, int DistrictId, int GauravId, long userId);

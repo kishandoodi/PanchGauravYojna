@@ -58,13 +58,14 @@ namespace PanchGauravYojna.Controllers
             return PartialView("_VettingList", result.data);
         }
         [HttpPost]
-        public async Task<IActionResult> GetPendingVettingList(int RawId, int garauvId, int DistrictId, int SubQuestionMasterId, int QuestionMasterId)
+        //on verfiy button click get the pending  list readonly and editable list 
+        public async Task<IActionResult> GetPendingVettingList(int RawId, int garauvId, int DistrictId)
         {
             int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
 
             //int districtId = Convert.ToInt32(User.FindFirst("DistrictId")?.Value);
             ViewBag.ShowVerifyButton = false;
-            var result = await _iBudgetMaster.GetPendingVettingList(RawId, garauvId, DistrictId, FyId, SubQuestionMasterId, QuestionMasterId);
+            var result = await _iBudgetMaster.GetPendingVettingList(RawId, garauvId, DistrictId, FyId);
 
             return PartialView("_VettingList", result.data);
         }
@@ -91,10 +92,10 @@ namespace PanchGauravYojna.Controllers
 
             return PartialView("_PendingVettingList", null);
         }
-        public async Task<IActionResult> DeleteVettedList(int RawId, int garauvId, int DistrictId, int SubQuestionMasterId,int QuestionMasterId)
+        public async Task<IActionResult> DeleteVettedList(int RawId, int garauvId, int DistrictId)
         {
             int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
-            var result = await _iBudgetMaster.DeleteVettedList(RawId, garauvId, DistrictId, FyId, SubQuestionMasterId, QuestionMasterId);
+            var result = await _iBudgetMaster.DeleteVettedList(RawId, garauvId, DistrictId, FyId);
 
             return Json(result);
         }
@@ -137,16 +138,32 @@ namespace PanchGauravYojna.Controllers
                 ?? enumValue.ToString();
         }
         [HttpPost]
-        public async Task<IActionResult> savevettedquestions([FromBody] VettedQuestionsSaveModel obj, int DistrictId, int GauravId)
+        public async Task<IActionResult> savevettedquestions( [FromBody] VettedQuestionsSaveModel obj, int DistrictId,int GauravId)
         {
-            //int districtId = Convert.ToInt32(User.FindFirst("DistrictId")?.Value);
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(new
+                {
+                    status = false,
+                    message = "Validation Failed",
+                    errors = errors
+                });
+            }
+
             int userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
             int FyId = Convert.ToInt32(User.FindFirst("FinancialYear")?.Value);
-            //int gauravGuid = GauravId;
-            var result = await _iBudgetMaster.savevettedquestions(obj, FyId, DistrictId, GauravId, userId);
+
+            var result = await _iBudgetMaster
+                .savevettedquestions(obj, FyId, DistrictId, GauravId, userId);
 
             return Json(result);
         }
+
 
     }
 }
