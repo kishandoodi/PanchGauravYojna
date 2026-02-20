@@ -33,8 +33,11 @@ namespace MO.Common
         ConstructionWork = 5,
 
         [Display(Name = "पंच-गौरव के अंतर्गत अन्य गतिविधि")]
-        OtherActivity = 6
-
+        OtherActivity = 6,
+        [Display(Name = "मशीनरी और साज सामान/औजार एवं संयंत्र")]
+        MachineryEquipment = 7,
+        [Display(Name = "प्रशिक्षण, भ्रमण एवं सम्मेलन व्यय")]
+        TrainingConferenceExpenses = 8,
 
     }
 
