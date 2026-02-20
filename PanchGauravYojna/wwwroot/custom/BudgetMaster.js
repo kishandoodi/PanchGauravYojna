@@ -535,17 +535,32 @@ document.addEventListener("click", function (e) {
 
     const btn = e.target.closest("#openVettedPopup");
     if (!btn) return;
+    const selG = document.getElementById("GarauvId")?.value;
+    const selD = document.getElementById("DistrictId")?.value;
 
-    // prefer data-gauravid on the button or fallback to hidden input
-   // const gauravId = btn.getAttribute('data-gauravid') || document.getElementById('GauravId')?.value;
-    //const gauravId = 1;
-    //var gaurid = $("#GauravIdHidden").val();
+    const invalidG = !selG || selG === "" || selG === "-1";
+    const invalidD = !selD || selD === "" || selD === "-1";
 
-   // const gauravId = $("#GauravIdVetted").val();
+    if (invalidG || invalidD) {
+        // User must select both — prevent existing handler from opening modal
+        if (invalidG) {
+            toast.showToast('error', 'Please select Gaurav before adding a vetted entry.', 'error');
+        } else {
+            toast.showToast('error', 'Please select District before adding a vetted entry.', 'error');
+        }
+
+        // Stop other click handlers (including the existing #openVettedPopup handler)
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        return;
+    }
+
+    // Both selected — bind values to the button so existing logic can use data-gauravid / data-districtid
+    btn.setAttribute('data-gauravid', selG);
+    btn.setAttribute('data-districtid', selD);
+
     const gauravId = btn.getAttribute('data-gauravid') 
-    //var gauravId = $("#GauravIdVetted").val();
-    //var districtId = $("#DistrictIdVetted").val();
-
+  
     if (!gauravId) return;
 
     ajax.doPostAjaxHtml(
